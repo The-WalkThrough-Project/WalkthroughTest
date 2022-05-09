@@ -1,4 +1,4 @@
-# walkthrough
+# The Walkthrough Project
 
 A new Flutter project.
 
