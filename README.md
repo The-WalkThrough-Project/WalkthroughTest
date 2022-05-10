@@ -5,13 +5,13 @@ O grupo é formado por:
 Guilherme Alvarenga de Azevedo,
 Pedro Militão Mello Reis,
 Rafael Morais de Carvalho e
-Thúlio Carvalho Dias.
+Thúlio Carvalho Dias.\n
 
 Professor: Raulivan Rodrigo da Silva.
 Orientadora: Thabatta Moreira Alves de Araújo.
 Coorientador: Willyam Michel Ferreira.
 
-## Getting Started
+## Começando
 
 Este projeto é a base para a aplicação Flutter que desenvolveremos ao longo do ano de 2022.
 
