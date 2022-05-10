@@ -14,4 +14,4 @@ além de ter uma incorporação junto a um sistema de Arduino programado para ab
 O grupo é formado por:
 Guilherme Alvarenga de Azevedo, Pedro Militão Mello Reis, Rafael Morais de Carvalho e Thúlio Carvalho Dias.
 
-Seremos acompanhados pelo professor da disciplina (PDM): Raulivan Rodrigo da Silva. Teremos como orientadora do TCC a professora (TEI): Thabatta Moreira Alves de Araújo e como coorientador o professor: Willyam Michel Ferreira.
+Seremos acompanhados pelo professor da disciplina (PDM): Raulivan Rodrigo da Silva e teremos, como orientadora do TCC, a professora (TEI): Thabatta Moreira Alves de Araújo e como coorientador o professor: Willyam Michel Ferreira.
