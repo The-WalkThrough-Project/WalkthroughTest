@@ -9,7 +9,7 @@ Este projeto é a base para a aplicação Flutter que desenvolveremos ao longo d
 A aplicação consiste em um facilitador da integração entre professores e alunos dentro do ambiente escolar, 
 além de ter uma incorporação junto a um sistema de Arduino programado para abrir as portas de laboratórios de aula. 
 
-# A Equipe Walkthrough 
+### A Equipe Walkthrough 
 
 O grupo é formado por:
 Guilherme Alvarenga de Azevedo, Pedro Militão Mello Reis, Rafael Morais de Carvalho e Thúlio Carvalho Dias.
