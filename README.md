@@ -3,7 +3,6 @@
 Projeto Flutter criado para TCC do 3ºAno de Informática do CEFET-MG.
 
 O grupo é formado por:
-
 Guilherme Alvarenga de Azevedo,
 
 Pedro Militão Mello Reis,
