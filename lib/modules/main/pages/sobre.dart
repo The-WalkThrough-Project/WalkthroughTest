@@ -15,7 +15,7 @@ class _SobrePageState extends State<SobrePage> {
         title: const Text("Sobre a Equipe"),
       ),
       body: const Center(
-        child: Text("O Grupo da WalkThrough é Composto por:\nGuilherme Alvarenga de Azevedo,\nPedro Militão Mello reis,\nRafael Morais de Carvalho e\nThúlio Carvalho Dias.", textAlign: TextAlign.center, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.blue),)
+        child: Text("O Grupo da WalkThrough é Composto por:\nGuilherme Alvarenga de Azevedo,\nPedro Militão Mello reis,\nRafael Morais de Carvalho e\nThúlio Carvalho Dias.", textAlign: TextAlign.center, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.deepPurple),)
       ),
     );
   }
