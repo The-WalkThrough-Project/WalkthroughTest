@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../modules/main/pages/index.dart';
+import 'package:walkthrough/modules/login/pages/index.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -8,11 +7,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'WalkThrough',
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
       ),
-      home: const HomePage(),
+      home: const LoginPage(),
     );
   }
 }
