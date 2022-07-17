@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:walkthrough/modules/acesso/pages/index.dart';
-import 'package:walkthrough/modules/acesso/pages/selecionarDispositivo.dart';
+import 'package:walkthrough/modules/agenda/pages/index.dart';
+import 'package:walkthrough/modules/home/pages/sobre.dart';
+
+import '../../acesso/pages/index.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -20,28 +22,59 @@ class _HomePageState extends State<HomePage> {
         child: ElevatedButton(
           onPressed: onPressed, 
           child: Text(texto,
-          style: 
-            const TextStyle(
-              fontSize: 18
-            ),
+            style: 
+              const TextStyle(
+                fontSize: 18
+              ),
           ),
           style: ElevatedButton.styleFrom(
             fixedSize: const Size(300, 90),
-          ),
-        ),
+            shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                        side: const BorderSide(color: Colors.deepPurple),
+                      ),
+                    ),
+          )
       );
     }
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text(
+          'Bem vindo',
+        ),
+        actions: <Widget>[
+            TextButton.icon(
+              icon: const Icon(
+                Icons.question_mark,
+                color: Colors.white,
+              ),
+              label: Text(""),
+              style: TextButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
+              onPressed: () {
+                Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const SobrePage(),)
+                );
+              },
+            ),
+          ],
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            botao("Agenda", onPressed: () {}),
+            botao("Agenda", onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => const AgendaPage()));
+            },
+            ),
             botao("Acesso", onPressed: () {
               Navigator.push(
               context, 
-              MaterialPageRoute(builder: (context) => DiscoveryPage())
+              MaterialPageRoute(builder: (context) => BluetoothApp())
               );
             }),
           ],

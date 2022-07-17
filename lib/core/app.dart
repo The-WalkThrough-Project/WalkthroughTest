@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:walkthrough/modules/login/pages/index.dart';
+import 'package:walkthrough/modules/main/pages/index.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -11,8 +11,9 @@ class MyApp extends StatelessWidget {
       title: 'WalkThrough',
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
+        fontFamily: 'Roboto'
       ),
-      home: const LoginPage(),
+      home: const LoginPage(title: "WalkThrough",),
     );
   }
 }

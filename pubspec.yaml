@@ -1,5 +1,5 @@
 name: walkthrough
-description: A new Flutter project.
+description: Projeto TCC WalkThrough.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -35,7 +35,8 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   flutter_bluetooth_serial: ^0.3.2
-  scoped_model: ^1.0.1
+  table_calendar: ^3.0.6
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
@@ -59,10 +60,11 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
-  # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/images/guilherme.png
+    - assets/images/thulio.png
+    - assets/images/pedro.png
+    - assets/images/rafael.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
