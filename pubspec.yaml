@@ -37,6 +37,14 @@ dependencies:
   flutter_bluetooth_serial: ^0.3.2
   table_calendar: ^3.0.6
   intl: ^0.17.0
+  sqflite: ^2.0.3+1
+  path_provider: ^2.0.11
+  http: ^0.13.5
+  firebase_core: ^1.23.0
+  cloud_firestore: ^3.4.8
+  firebase_storage: ^10.3.8
+  firebase_auth: ^3.9.0
+  motion_toast: ^2.4.3
 
 dev_dependencies:
   flutter_test:
@@ -65,6 +73,8 @@ flutter:
     - assets/images/thulio.png
     - assets/images/pedro.png
     - assets/images/rafael.png
+    - assets/images/WT.png
+    - assets/images/WT2.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

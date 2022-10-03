@@ -493,10 +493,13 @@ class _BluetoothAppState extends State<BluetoothApp> {
     await Future.delayed(const Duration(milliseconds: 100));
     _scaffoldKey.currentState?.showSnackBar(
       SnackBar(
+        duration: Duration(milliseconds: 800),
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Colors.deepPurple,
         content: Text(
           message,
+          textAlign: TextAlign.center,
         ),
-        duration: duration,
       ),
     );
   }
