@@ -6,26 +6,28 @@ import 'package:walkthrough/shared/providers/auth_provider.dart';
 import 'package:walkthrough/shared/providers/firebaseAuth_provider.dart';
 
 class HomeController extends StatelessWidget {
-  const HomeController({required Key key}) : super(key: key);
+  const HomeController({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final FireBaseAuthProvider? auth = Provider.of(context)?.auth;
+    final FireBaseAuthProvider auth = FireBaseAuthProvider();
 
-    return StreamBuilder(
-      stream: auth?.onAuthStatedChanged,
-      builder: (context, AsyncSnapshot<User?> snapshot) {
-        if (snapshot.connectionState == ConnectionState.active) {
-          final bool signedIn = snapshot.hasData;
-          return signedIn ? HomePage() : LoginPage();
-        }
-        return Container(
-          color: Colors.deepPurple,
-          child: const Center(
-            child: CircularProgressIndicator(),
-          ),
+    return StreamBuilder(      
+      stream: auth.onAuthStatedChanged,
+      builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.active) {
+            final bool signedIn = snapshot.hasData;
+            return signedIn ? const HomePage() : const LoginPage();
+          }
+          return Container(
+            color: Colors.white,
+            child: const Center(
+              child: CircularProgressIndicator(
+                color: Colors.deepPurple,
+              ),
+            ),
         );
-      },
+        }
     );
   }
 }

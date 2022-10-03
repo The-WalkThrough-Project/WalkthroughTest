@@ -7,7 +7,7 @@ class Provider extends InheritedWidget {
   const Provider({
     Key? key,
     required Widget child,
-    this.auth,
+    required this.auth,
   }) : super(key: key, child: child);
 
   @override

@@ -19,13 +19,13 @@ class UserProfController extends ChangeNotifier {
 
   Future<DocumentSnapshot<Object?>?> getDados(BuildContext context) async {
     try {
-      final Future<String>? userId = Provider.of(context)?.auth?.getCurrentUID();
+      final Future<String?> userId =  _firebaseAuthProvider.getCurrentUID();
       DocumentSnapshot<Object?>? dados =
-          await _firebaseFirestoreProvider.getDadosUsuario(userId as String?);
+          await _firebaseFirestoreProvider.getDadosUsuario(userId as String);
       return dados;
     } catch (e) {
       print(e.toString());
-      throw Exception(e.toString());
+      return null;
     }
   }
 

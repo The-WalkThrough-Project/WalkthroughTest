@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:walkthrough/modules/checagemLogin/checagem_login.dart';
 import 'package:walkthrough/modules/loginProf/pages/index.dart';
 
 class MyApp extends StatelessWidget {
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.deepPurple,
         fontFamily: 'Roboto'
       ),
-      home: LoginPage(),
+      home: HomeController(),
     );
   }
 }

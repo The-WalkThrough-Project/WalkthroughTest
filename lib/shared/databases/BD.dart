@@ -38,7 +38,7 @@ class BancoHorarios {
   static Future _createDB(Database db, int version) async {
     print("Criando Tabelas...");
     await db.execute(
-        "CREATE TABLE horariosFixos(id TEXT NOT NULL PRIMARY KEY AUTOINCREMENT, nomeProfessor VARCHAR(50), nomeDisciplina VARCHAR(50), horario TEXT, diaSemana VARCHAR(20), lab VARCHAR(5));");
+        "CREATE TABLE horariosFixos(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, uid TEXT, nomeProfessor VARCHAR(50), nomeDisciplina VARCHAR(50), horario TEXT, diaSemana VARCHAR(20), lab VARCHAR(5));");
     /*await db.execute(
         "CREATE TABLE horariosAgendados(id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT, nomeProfessor VARCHAR(50), horarioInicio TEXT, horarioFim TEXT, data TEXT, lab VARCHAR(5));");
 
@@ -71,6 +71,7 @@ class BancoHorarios {
 
     final maps = await db.query("horariosFixos", columns: [
       "id",
+      "uid",
       "nomeProfessor",
       "nomeDisciplina",
       "horario",

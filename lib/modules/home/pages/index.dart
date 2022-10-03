@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:walkthrough/modules/agenda/pages/index.dart';
 import 'package:walkthrough/modules/home/pages/perfil.dart';
 import 'package:walkthrough/modules/home/pages/sobre.dart';
+import 'package:walkthrough/modules/loginProf/controllers/controller.dart';
 import 'package:walkthrough/shared/providers/auth_provider.dart';
 import 'package:walkthrough/shared/providers/firebaseAuth_provider.dart';
 
@@ -22,8 +23,11 @@ class _HomePageState extends State<HomePage> {
     
   @override
   Widget build(BuildContext context) {
-    final FireBaseAuthProvider? auth = Provider.of(context)?.auth;
-    final Future<String?>? idLogado = Provider.of(context)?.auth?.getCurrentUID();
+    final _controller = UserProfController();
+    final FireBaseAuthProvider auth = FireBaseAuthProvider();
+    // final Future<String?>? idLogado = FireBaseAuthProvider().getCurrentUID();
+    final dados = _controller.getDados(context);
+
     Widget botao(String texto, {void Function()? onPressed}){
       return Padding(
         padding: const EdgeInsets.all(8.0),
@@ -45,70 +49,72 @@ class _HomePageState extends State<HomePage> {
           )
       );
     }
-    return Provider(
-      auth: auth,
-      child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: const Text(
-            'Bem vindo',
-          ),
-          actions: <Widget>[
-            TextButton.icon(
-                icon: const Icon(
-                  Icons.question_mark,
-                  color: Colors.white,
-                ),
-                label: Text(""),
-                style: TextButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
+    return StreamBuilder(
+      stream: auth.onAuthStatedChanged,
+      builder: (context, snapshot) {
+        return Scaffold(
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            title: Text(
+              snapshot.hasData ? 'Bem vindo ' : 'Início',
+            ),
+            actions: <Widget>[
+              TextButton.icon(
+                  icon: const Icon(
+                    Icons.question_mark,
+                    color: Colors.white,
                   ),
-                ),
-                onPressed: () {
-                  Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const SobrePage(),)
-                  );
-                },
-              ),
-            TextButton.icon(
-                icon: const Icon(
-                  Icons.person,
-                  color: Colors.white,
-                ),
-                label: Text(""),
-                style: TextButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
+                  label: Text(""),
+                  style: TextButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
                   ),
+                  onPressed: () {
+                    Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const SobrePage(),)
+                    );
+                  },
                 ),
-                onPressed: () {
-                  Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const PerfilPage(),)
-                  );
-                },
-              ),
-            ],
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              botao("Agenda", onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => const AgendaPage()));
-              },
-              ),
-              botao("Acesso", onPressed: () {
-                Navigator.push(
-                context, 
-                MaterialPageRoute(builder: (context) => BluetoothApp())
-                );
-              }),
-            ],
+              TextButton.icon(
+                  icon: const Icon(
+                    Icons.person,
+                    color: Colors.white,
+                  ),
+                  label: Text(""),
+                  style: TextButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const PerfilPage(),)
+                    );
+                  },
+                ),
+              ],
           ),
-        ),
-      ),
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                botao("Agenda", onPressed: () {
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => const AgendaPage()));
+                },
+                ),
+                botao("Acesso", onPressed: () {
+                  Navigator.push(
+                  context, 
+                  MaterialPageRoute(builder: (context) => BluetoothApp())
+                  );
+                }),
+              ],
+            ),
+          ),
+        );
+      }
     );
   }
 }

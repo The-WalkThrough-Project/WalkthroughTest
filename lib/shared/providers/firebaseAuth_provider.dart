@@ -3,12 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class FireBaseAuthProvider{
   final FirebaseAuth _firebaseauth = FirebaseAuth.instance;
-  
 
   Stream<User?> get onAuthStatedChanged => _firebaseauth.authStateChanges();
 
-  Future<String> getCurrentUID() async {
-    return _firebaseauth.currentUser!.uid;
+  Future<String?> getCurrentUID() async {
+    return _firebaseauth.currentUser?.uid;
   }
 
   Future<Map> efetuarLogin(String email, String senha) async {

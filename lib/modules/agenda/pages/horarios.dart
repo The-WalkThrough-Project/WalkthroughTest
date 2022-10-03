@@ -1,11 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:walkthrough/modules/agenda/controllers/controller.dart';
 import 'package:walkthrough/modules/agenda/models/horario_fixo_model.dart';
 import 'package:walkthrough/modules/agenda/pages/formTest.dart';
 import 'package:walkthrough/shared/components/tabela_horario_dia/tabelaHorario.dart';
 import 'package:walkthrough/shared/databases/BD.dart';
-
 class HorariosPage extends StatefulWidget {
-
   const HorariosPage({Key? key}) : super(key: key);
 
   @override
@@ -14,12 +14,13 @@ class HorariosPage extends StatefulWidget {
 
 class _HorariosPageState extends State<HorariosPage> {
   String dropdownValue = 'Lab 304';
-  late List<HorarioFixo> horarios = [];
+  late List<HorarioFixo>? horarios = [];
+  late List<HorarioFixo>? horariosOff = [];
   bool isLoading = false;
+  final _controller = HorarioController();
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     refreshHorarios();
   }
@@ -36,8 +37,14 @@ class _HorariosPageState extends State<HorariosPage> {
       isLoading = true;
     });
 
-    horarios = await BancoHorarios.instance.readTodosHorariosFixosLab(dropdownValue.substring(4));
+    horarios = await _controller.getHorariosF(dropdownValue.substring(4));
+    horariosOff = await BancoHorarios.instance.readTodosHorariosFixosLab(dropdownValue.substring(4));
+    setState(() {
+      horarios = horarios;
+      horariosOff = horariosOff;
+    });
     print(horarios.toString());
+    print(horariosOff.toString());
 
     setState(() {
       isLoading = false;
@@ -47,7 +54,7 @@ class _HorariosPageState extends State<HorariosPage> {
   Widget titulo(String titulo) {
     return Text(
       titulo,
-      style: TextStyle(
+      style: const TextStyle(
           color: Colors.deepPurple, fontWeight: FontWeight.bold, fontSize: 20),
       textAlign: TextAlign.center,
     );
@@ -55,59 +62,98 @@ class _HorariosPageState extends State<HorariosPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: ListView(
-        children: [
-          Padding(
-              padding: const EdgeInsets.fromLTRB(0, 5, 15, 0),
-              child: DropdownButton<String>(
-                value: dropdownValue,
-                icon: const Icon(
-                  Icons.expand_more_rounded,
-                  color: Colors.deepPurple,
-                ),
-                elevation: 16,
-                style: const TextStyle(color: Colors.deepPurple),
-                dropdownColor: Colors.white,
-                underline: Container(
-                  color: Colors.transparent,
-                ),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    dropdownValue = newValue!;
-                    refreshHorarios();
-                  });
-                },
-                items: <String>[
-                  'Lab 304',
-                  'Lab 602',
-                  'Lab 604',
-                  'Lab 606',
-                  'Lab 608',
-                  'Lab 609',
-                ].map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
-            ),
-          ElevatedButton(onPressed: () async{
-             var result = await Navigator.push(context, MaterialPageRoute(builder: ((context) => FormTeste(lab: dropdownValue.substring(4)))));
-             result == true ? refreshHorarios() : null;
-          }, child: Text("CADASTRAR")),
-          
-          
-          TabelaHorarios(diaSemana: "segunda", horarios: horarios, lab: dropdownValue.substring(4),),
-          TabelaHorarios(diaSemana: "terca", horarios: horarios, lab: dropdownValue.substring(4),),
-          TabelaHorarios(diaSemana: "quarta", horarios: horarios, lab: dropdownValue.substring(4),),
-          TabelaHorarios(diaSemana: "quinta", horarios: horarios, lab: dropdownValue.substring(4),),
-          TabelaHorarios(diaSemana: "sexta", horarios: horarios, lab: dropdownValue.substring(4),),
-        ]
-      ),
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance.collection("horáriosFixos").where('lab', isEqualTo: dropdownValue.substring(4)).snapshots(),
+      builder: (context, AsyncSnapshot snapshot) {
+        return Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: ListView(children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 5, 15, 0),
+                      child: DropdownButton<String>(
+                        value: dropdownValue,
+                        icon: const Icon(
+                          Icons.expand_more_rounded,
+                          color: Colors.deepPurple,
+                        ),
+                        elevation: 16,
+                        style: const TextStyle(color: Colors.deepPurple),
+                        dropdownColor: Colors.white,
+                        underline: Container(
+                          color: Colors.transparent,
+                        ),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            dropdownValue = newValue!;
+                            refreshHorarios();
+                          });
+                        },
+                        items: <String>[
+                          'Lab 304',
+                          'Lab 602',
+                          'Lab 604',
+                          'Lab 606',
+                          'Lab 608',
+                          'Lab 609',
+                        ].map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    ElevatedButton(
+                        onPressed: () async {
+                          var result = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: ((context) =>
+                                      FormTeste(lab: dropdownValue.substring(4)))));
+                          result == true ? refreshHorarios() : null;
+                        },
+                        child: Text("CADASTRAR")),
+                        snapshot.hasData && isLoading == false 
+                        //horarios != null && horarios!.isNotEmpty && isLoading == false 
+                        ? Column(children: [
+                            TabelaHorarios(
+                              diaSemana: "Segunda-Feira",
+                              horarios: snapshot.data.docs ?? [],
+                              lab: dropdownValue.substring(4),
+                            ),
+                            TabelaHorarios(
+                              diaSemana: "Terça-Feira",
+                              horarios: snapshot.data.docs ?? [],
+                              lab: dropdownValue.substring(4),
+                            ),
+                            TabelaHorarios(
+                              diaSemana: "Quarta-Feira",
+                              horarios: snapshot.data.docs ?? [],
+                              lab: dropdownValue.substring(4),
+                            ),
+                            TabelaHorarios(
+                              diaSemana: "Quinta-Feira",
+                              horarios: snapshot.data.docs ?? [],
+                              lab: dropdownValue.substring(4),
+                            ),
+                            TabelaHorarios(
+                              diaSemana: "Sexta-Feira",
+                              horarios: snapshot.data.docs ?? [],
+                              lab: dropdownValue.substring(4),
+                            ),
+                          ])
+                        : Container(
+                            child: const Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.deepPurple,
+                              ),
+                            ),
+                          )
+                  ]));
+      }
     );
+  }
+}
     /* Container(
             padding: EdgeInsets.all(4),
             decoration: BoxDecoration(
@@ -959,8 +1005,6 @@ class _HorariosPageState extends State<HorariosPage> {
         CelulaHorario(content1: "4N", content2: "21:45\n22:35",),
       ],
     );*/
-  }
-}
 
 /*child: Padding(
         padding: const EdgeInsets.only(bottom: 20.0),

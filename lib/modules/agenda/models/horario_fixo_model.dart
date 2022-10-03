@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-
 class HorarioFixo {
     
     final int? id;
+    final String? uid;
     final String? nomeProfessor;
     final String? nomeDisciplina;
     final String? lab;
@@ -12,6 +12,7 @@ class HorarioFixo {
 
   HorarioFixo({
     this.id,
+    this.uid,
     this.nomeProfessor,
     this.nomeDisciplina,
     this.lab,
@@ -19,8 +20,10 @@ class HorarioFixo {
     this.horario,
   });
 
+
   HorarioFixo copyWith({
     int? id,
+    String? uid,
     String? nomeProfessor,
     String? nomeDisciplina,
     String? lab,
@@ -29,6 +32,7 @@ class HorarioFixo {
   }) {
     return HorarioFixo(
       id: id ?? this.id,
+      uid: uid ?? this.uid,
       nomeProfessor: nomeProfessor ?? this.nomeProfessor,
       nomeDisciplina: nomeDisciplina ?? this.nomeDisciplina,
       lab: lab ?? this.lab,
@@ -42,6 +46,9 @@ class HorarioFixo {
   
     if(id != null){
       result.addAll({'id': id});
+    }
+    if(uid != null){
+      result.addAll({'uid': uid});
     }
     if(nomeProfessor != null){
       result.addAll({'nomeProfessor': nomeProfessor});
@@ -65,6 +72,7 @@ class HorarioFixo {
   factory HorarioFixo.fromMap(Map<String, dynamic> map) {
     return HorarioFixo(
       id: map['id']?.toInt(),
+      uid: map['uid'],
       nomeProfessor: map['nomeProfessor'],
       nomeDisciplina: map['nomeDisciplina'],
       lab: map['lab'],
@@ -79,7 +87,7 @@ class HorarioFixo {
 
   @override
   String toString() {
-    return 'HorarioFixo(id: $id, nomeProfessor: $nomeProfessor, nomeDisciplina: $nomeDisciplina, lab: $lab, diaSemana: $diaSemana, horario: $horario)';
+    return 'HorarioFixo(id: $id, uid: $uid, nomeProfessor: $nomeProfessor, nomeDisciplina: $nomeDisciplina, lab: $lab, diaSemana: $diaSemana, horario: $horario)';
   }
 
   @override
@@ -88,6 +96,7 @@ class HorarioFixo {
   
     return other is HorarioFixo &&
       other.id == id &&
+      other.uid == uid &&
       other.nomeProfessor == nomeProfessor &&
       other.nomeDisciplina == nomeDisciplina &&
       other.lab == lab &&
@@ -98,6 +107,7 @@ class HorarioFixo {
   @override
   int get hashCode {
     return id.hashCode ^
+      uid.hashCode ^
       nomeProfessor.hashCode ^
       nomeDisciplina.hashCode ^
       lab.hashCode ^

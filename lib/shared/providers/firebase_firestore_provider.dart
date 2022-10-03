@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:walkthrough/modules/agenda/repositories/datasources/datasource_ds_fixo.dart';
 
 class FireBaseFirestoreProvider {
   FirebaseFirestore _firebasefirestore = FirebaseFirestore.instance;
@@ -15,4 +16,5 @@ class FireBaseFirestoreProvider {
       throw Exception(e.toString());
     }
   }
+  
 }

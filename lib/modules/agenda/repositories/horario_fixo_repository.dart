@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:walkthrough/modules/agenda/models/horario_fixo_model.dart';
 import 'package:walkthrough/modules/agenda/repositories/datasources/datasource_ds_fixo.dart';
+import 'package:walkthrough/modules/agenda/repositories/datasources/firebase_datasourceHF.dart';
 
 class HorarioFixoRepository{
 
-  final DataSourceBaseF? _db = null;
+  final DataSourceBaseF? _db = FirebaseDataSource();
 
   Future<void> incluir(HorarioFixo horarioFixo) async{
     //Validações
@@ -40,6 +42,22 @@ class HorarioFixoRepository{
       retorno.add(horarioFixo);
     }
     
+    return retorno;
+  }
+
+  Future<List<HorarioFixo>?> selecionarTodosPLab(String lab) async {
+    final maps = await _db!.selecionarTodosPLab(lab);
+    var retorno = <HorarioFixo>[];
+    if(maps == null){
+      return null;
+    }
+    maps.get().then((value) {
+      for (var map in value.docs) {
+        final horarioFixo = HorarioFixo.fromMap(map.data());
+        retorno.add(horarioFixo);
+      }
+    });
+      
     return retorno;
   }
 }
