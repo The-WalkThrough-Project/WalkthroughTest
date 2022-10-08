@@ -10,6 +10,10 @@ class FireBaseAuthProvider{
     return _firebaseauth.currentUser?.uid;
   }
 
+  Future<User?> getCurrentUser() async {
+    return _firebaseauth.currentUser;
+  }
+
   Future<Map> efetuarLogin(String email, String senha) async {
     try {
       final userCredential = await _firebaseauth.signInWithEmailAndPassword(email: email, password: senha); 
@@ -44,12 +48,16 @@ class FireBaseAuthProvider{
     }
   }
 
-  Future<void> atualizarEmail(User user, String emailNovo) async{
+  Future<void> atualizarEmail(User? user, String? emailNovo) async{
     try {
-      await user.updateEmail(emailNovo);
+      await user?.updateEmail(emailNovo ?? '');
     } catch (e) {
       print(e.toString());
-      throw Exception(e.toString());
+      if(e.toString().contains('invalid-email')){
+        throw Exception("Informe um email válido!");
+      }else if(e.toString().contains('email-already-in-use')){
+        throw Exception("Este email já está em uso!");
+      }else throw Exception(e.toString());
     }
   }
 

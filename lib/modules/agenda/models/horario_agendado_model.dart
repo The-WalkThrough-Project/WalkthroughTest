@@ -1,37 +1,37 @@
 import 'dart:convert';
 
+import 'package:date_format/date_format.dart';
+import 'package:intl/locale.dart';
+
 class HorarioAgendado {
 
-  final int? id;
-  final String? nomeProfessor;
-  final String? horarioInicio;
-  final String? horarioFim;
-  final String? data;
-  final String? lab;
+  final String nomeProfessor;
+  final String horarioInicial;
+  final String horarioFinal;
+  final String data;
+  final String lab;
 
   HorarioAgendado({
-    this.id,
-    this.nomeProfessor,
-    this.horarioInicio,
-    this.horarioFim,
-    this.data,
-    this.lab,
+    required this.nomeProfessor,
+    required this.horarioInicial,
+    required this.horarioFinal,
+    required this.data,
+    required this.lab,
   });
 
 
+
   HorarioAgendado copyWith({
-    int? id,
     String? nomeProfessor,
-    String? horarioInicio,
-    String? horarioFim,
+    String? horarioInicial,
+    String? horarioFinal,
     String? data,
     String? lab,
   }) {
     return HorarioAgendado(
-      id: id ?? this.id,
       nomeProfessor: nomeProfessor ?? this.nomeProfessor,
-      horarioInicio: horarioInicio ?? this.horarioInicio,
-      horarioFim: horarioFim ?? this.horarioFim,
+      horarioInicial: horarioInicial ?? this.horarioInicial,
+      horarioFinal: horarioFinal ?? this.horarioFinal,
       data: data ?? this.data,
       lab: lab ?? this.lab,
     );
@@ -40,36 +40,22 @@ class HorarioAgendado {
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
   
-    if(id != null){
-      result.addAll({'id': id});
-    }
-    if(nomeProfessor != null){
-      result.addAll({'nomeProfessor': nomeProfessor});
-    }
-    if(horarioInicio != null){
-      result.addAll({'horarioInicio': horarioInicio});
-    }
-    if(horarioFim != null){
-      result.addAll({'horarioFim': horarioFim});
-    }
-    if(data != null){
-      result.addAll({'data': data});
-    }
-    if(lab != null){
-      result.addAll({'lab': lab});
-    }
+    result.addAll({'nomeProfessor': nomeProfessor});
+    result.addAll({'horarioInicial': horarioInicial});
+    result.addAll({'horarioFinal': horarioFinal});
+    result.addAll({'data': data});
+    result.addAll({'lab': lab});
   
     return result;
   }
 
   factory HorarioAgendado.fromMap(Map<String, dynamic> map) {
     return HorarioAgendado(
-      id: map['id']?.toInt(),
-      nomeProfessor: map['nomeProfessor'],
-      horarioInicio: map['horarioInicio'],
-      horarioFim: map['horarioFim'],
-      data: map['data'],
-      lab: map['lab'],
+      nomeProfessor: map['nomeProfessor'] ?? '',
+      horarioInicial: map['horarioInicial'] ?? '',
+      horarioFinal: map['horarioFinal'] ?? '',
+      data: map['data'] ?? '',
+      lab: map['lab'] ?? '',
     );
   }
 
@@ -79,7 +65,7 @@ class HorarioAgendado {
 
   @override
   String toString() {
-    return 'HorarioAgendado(id: $id, nomeProfessor: $nomeProfessor, horarioInicio: $horarioInicio, horarioFim: $horarioFim, data: $data, lab: $lab)';
+    return 'HorarioAgendado(nomeProfessor: $nomeProfessor, horarioInicial: $horarioInicial, horarioFinal: $horarioFinal, data: $data, lab: $lab)';
   }
 
   @override
@@ -87,38 +73,33 @@ class HorarioAgendado {
     if (identical(this, other)) return true;
   
     return other is HorarioAgendado &&
-      other.id == id &&
       other.nomeProfessor == nomeProfessor &&
-      other.horarioInicio == horarioInicio &&
-      other.horarioFim == horarioFim &&
+      other.horarioInicial == horarioInicial &&
+      other.horarioFinal == horarioFinal &&
       other.data == data &&
       other.lab == lab;
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^
-      nomeProfessor.hashCode ^
-      horarioInicio.hashCode ^
-      horarioFim.hashCode ^
+    return nomeProfessor.hashCode ^
+      horarioInicial.hashCode ^
+      horarioFinal.hashCode ^
       data.hashCode ^
       lab.hashCode;
   }
 
   bool isValid(){
-    if(nomeProfessor == null || nomeProfessor!.isEmpty){
+    if(nomeProfessor.isEmpty){
       throw Exception("Nome do professor não informado.");
     }
-    if(horarioInicio == null || horarioInicio!.isEmpty){
+    if(horarioInicial.isEmpty){
       throw Exception("Horário de início não informado.");
     }
-    if(horarioFim == null || horarioFim!.isEmpty){
+    if(horarioFinal.isEmpty){
       throw Exception("Horário de fim não informado.");
     }
-    if(data == null || data!.isEmpty){
-      throw Exception("Data não informada.");
-    }
-    if(lab == null || lab!.isEmpty){
+    if(lab.isEmpty){
       throw Exception("Laboratório não informado.");
     }
     return true;

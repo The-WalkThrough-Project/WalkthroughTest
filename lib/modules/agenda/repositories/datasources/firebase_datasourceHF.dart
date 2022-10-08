@@ -7,31 +7,55 @@ class FirebaseDataSource extends DataSourceBaseF {
   final FirebaseFirestore _firebasefirestore = FirebaseFirestore.instance;
   final _bancoSQL = BancoHorarios.instance;
 
-
   @override
   Future<void> alterar(Map<String, dynamic> horarioFixo) async {
-    final doc = _firebasefirestore
+    QuerySnapshot qs = await _firebasefirestore
         .collection("horáriosFixos")
         .where("diaSemana", isEqualTo: horarioFixo['diaSemana'])
         .where('lab', isEqualTo: horarioFixo['lab'])
-        .where('horario', isEqualTo: horarioFixo['horario']).limit(1);
+        .where('horario', isEqualTo: horarioFixo['horario'])
+        .get();
+
+    await _firebasefirestore
+        .collection("horáriosFixos")
+        .doc(qs.docs.last.id)
+        .update(horarioFixo);
   }
 
   @override
-  Future<void> excluir(Map<String, dynamic> horarioFixo) async {}
+  Future<void> excluir(Map<String, dynamic> horarioFixo) async {
+    QuerySnapshot qs = await _firebasefirestore
+        .collection("horáriosFixos")
+        .where("diaSemana", isEqualTo: horarioFixo['diaSemana'])
+        .where('lab', isEqualTo: horarioFixo['lab'])
+        .where('horario', isEqualTo: horarioFixo['horario'])
+        .get();
+
+    await _firebasefirestore
+        .collection("horáriosFixos")
+        .doc(qs.docs.last.id)
+        .delete();
+  }
 
   @override
   Future<void> incluir(Map<String, dynamic> horarioFixo) async {
-    String? horarioUid;
+    QuerySnapshot qs = await _firebasefirestore
+        .collection("horáriosFixos")
+        .where('diaSemana', isEqualTo: horarioFixo['diaSemana'])
+        .where('lab', isEqualTo: horarioFixo['lab'])
+        .where('horario', isEqualTo: horarioFixo['horario']).get();
+
+    qs.docs.length > 0 ? _firebasefirestore
+        .collection("horáriosFixos")
+        .doc(qs.docs.last.id)
+        .update(horarioFixo) :
     _firebasefirestore.collection("horáriosFixos").add({
       'diaSemana': horarioFixo['diaSemana'],
       'lab': horarioFixo['lab'],
       'horario': horarioFixo['horario'],
       'nomeDisciplina': horarioFixo['nomeDisciplina'],
       'nomeProfessor': horarioFixo['nomeProfessor'],
-    }).then((value) => horarioUid = value.id);
-    horarioFixo.update('uid', (value) => horarioUid);
-    await _bancoSQL.insertHorarioFixo(HorarioFixo.fromMap(horarioFixo));
+    });
   }
 
   @override
@@ -40,9 +64,9 @@ class FirebaseDataSource extends DataSourceBaseF {
 
   @override
   Future<List<Map<String, dynamic>>?> selecionarTodos() async {}
-  
+
   @override
-  Future<Query<Map<String, dynamic>>?> selecionarTodosPLab(String lab) async {
-    return _firebasefirestore.collection("horáriosFixos").where('lab', isEqualTo: lab);
+  Future<Query<Map<String, dynamic>>> selecionarTodosPLab(String lab) async {
+    return await _firebasefirestore.collection("horáriosFixos").where('lab', isEqualTo: lab);
   }
 }

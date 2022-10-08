@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:walkthrough/modules/checagemLogin/pages/checagem_novoLogin.dart';
 import 'package:walkthrough/modules/home/pages/index.dart';
 import 'package:walkthrough/modules/loginProf/models/prof_model.dart';
 import 'package:walkthrough/modules/loginProf/repositories/profUser_repository.dart';
-import 'package:walkthrough/shared/providers/auth_provider.dart';
 import 'package:walkthrough/shared/providers/firebaseAuth_provider.dart';
 import 'package:walkthrough/shared/providers/firebase_firestore_provider.dart';
 
@@ -17,15 +17,16 @@ class UserProfController extends ChangeNotifier {
   final _firebaseAuthProvider = FireBaseAuthProvider();
   final _firebaseFirestoreProvider = FireBaseFirestoreProvider();
 
-  Future<DocumentSnapshot<Object?>?> getDados(BuildContext context) async {
+  Future<UserProf> getDados(BuildContext context) async {
     try {
-      final Future<String?> userId =  _firebaseAuthProvider.getCurrentUID();
-      DocumentSnapshot<Object?>? dados =
-          await _firebaseFirestoreProvider.getDadosUsuario(userId as String);
-      return dados;
+      final String? userId = await _firebaseAuthProvider.getCurrentUID();
+      UserProf user =
+          await _firebaseFirestoreProvider.getDadosUsuario(userId);
+        print(user.toString());
+      return user;
     } catch (e) {
       print(e.toString());
-      return null;
+      return UserProf();
     }
   }
 
@@ -37,9 +38,8 @@ class UserProfController extends ChangeNotifier {
       final email = login.text.trim();
       final usuario = UserProf(
         email: email,
-        senha: senha.text,
       );
-      usuario.isValid();
+      usuario.isValid(senha.text);
       print(email + ' ' + senha.text);
 
       await _firebaseAuthProvider.efetuarLogin(email, senha.text);
@@ -65,8 +65,8 @@ class UserProfController extends ChangeNotifier {
 
   void redirecionaLogado(BuildContext context) {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => HomePage()));
-    ScaffoldMessenger.of(context).showSnackBar(
+        context, MaterialPageRoute(builder: (context) => LoginPageController()));
+    /*ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         duration: Duration(milliseconds: 1500),
         behavior: SnackBarBehavior.floating,
@@ -76,7 +76,7 @@ class UserProfController extends ChangeNotifier {
           textAlign: TextAlign.center,
         ),
       ),
-    );
+    );*/
   }
 
   Future<void> logOut() async {

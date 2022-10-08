@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:walkthrough/modules/agenda/pages/calendarios.dart';
 import 'package:walkthrough/modules/agenda/pages/horarios.dart';
+import 'package:walkthrough/modules/home/pages/index.dart';
 
 class AgendaPage extends StatefulWidget {
   const AgendaPage({Key? key}) : super(key: key);
@@ -33,7 +34,7 @@ class _AgendaPageState extends State<AgendaPage> {
             ],
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: <Widget>[
             CalendariosPage(),
             HorariosPage()

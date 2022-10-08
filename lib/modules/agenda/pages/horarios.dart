@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:walkthrough/modules/agenda/controllers/controller.dart';
+import 'package:walkthrough/modules/agenda/controllers/controllerHorarioF.dart';
 import 'package:walkthrough/modules/agenda/models/horario_fixo_model.dart';
 import 'package:walkthrough/modules/agenda/pages/formTest.dart';
 import 'package:walkthrough/shared/components/tabela_horario_dia/tabelaHorario.dart';

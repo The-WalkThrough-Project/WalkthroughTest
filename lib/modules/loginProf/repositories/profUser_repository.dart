@@ -16,21 +16,12 @@ class ProfUserRepository{
     return FirebaseAuth.instance;
   }
 
-  /*Future<void> getDocumentos(){
-    getConexao().collection('usuários').doc(getConexaoAuth().authStateChanges().)
-  }*/
-
-  Future<void> incluir(UserProf professor) async{
-    professor.isValid();
-    _db!.incluir(professor.toMap());
-  }
-
   Future<void> excluir(UserProf professor) async{
     _db!.excluir(professor.toMap());
   }
 
   Future<void> alterar(UserProf professor) async{
-    professor.isValid();
+    professor.isValidUser();
     _db!.alterar(professor.toMap());
   }
 

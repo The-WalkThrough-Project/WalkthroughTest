@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 abstract class DataSourceBaseA{
 
   Future<void> incluir(Map<String, dynamic> horarioFixo);
@@ -6,8 +8,8 @@ abstract class DataSourceBaseA{
 
   Future<void> alterar(Map<String, dynamic> horarioFixo);
 
-  Future<Map<String, dynamic>> selecionar(String data, String horarioInicio, String lab);
+  Future<Map<String, dynamic>?> selecionar(String data, String horarioInicio, String lab);
 
-  Future<List<Map<String, dynamic>>> selecionarTodos();
+  Future<List<Map<String, dynamic>>?> selecionarTodos();
   
 }

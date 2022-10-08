@@ -1,7 +1,5 @@
 abstract class DataSourceBaseProf{
 
-  Future<void> incluir(Map<String, dynamic> professor);
-
   Future<void> excluir(Map<String, dynamic> professor);
 
   Future<void> alterar(Map<String, dynamic> professor);

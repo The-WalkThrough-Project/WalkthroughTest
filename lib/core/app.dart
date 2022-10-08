@@ -1,9 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:walkthrough/modules/checagemLogin/checagem_login.dart';
-import 'package:walkthrough/modules/loginProf/pages/index.dart';
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:provider/provider.dart';
+import 'package:walkthrough/shared/providers/notifications/firebase_messaging_service.dart';
+import 'package:walkthrough/shared/providers/notifications/notification_service.dart';
+import 'package:walkthrough/shared/providers/routes.dart';
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  @override
+  void initState() {
+    super.initState();
+    initializeFirebaseMessaging();
+    checkNotifications();
+  }
+
+  checkNotifications() async {
+    await Provider.of<NotificationService>(context, listen: false).checkForNotifications();
+  }
+
+  initializeFirebaseMessaging() async {
+    await Provider.of<FirebaseMessagingService>(context, listen: false).initialize();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,8 +39,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.deepPurple,
         fontFamily: 'Roboto'
       ),
-      home: HomeController(),
+      routes: Routes.list,
+      initialRoute: Routes.initial,
+      navigatorKey: Routes.navigatorKey,
     );
   }
 }
-

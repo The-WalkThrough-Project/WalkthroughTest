@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:intl/intl.dart';
-import 'package:walkthrough/modules/agenda/controllers/controller.dart';
+import 'package:walkthrough/modules/agenda/controllers/controllerHorarioF.dart';
+import 'package:walkthrough/shared/components/campo_form/campo_form.dart';
 import 'package:walkthrough/shared/databases/BD.dart';
 import 'dart:ui';
 
@@ -34,52 +35,16 @@ class _FormTesteState extends State<FormTeste> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text("Cadastro de Horários Fixos", style: TextStyle(fontSize: 18),),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Form(
             child: ListView(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: TextFormField(
-                style: TextStyle(color: Colors.deepPurple),
-                  decoration: InputDecoration(
-                    floatingLabelStyle: TextStyle(color: Colors.deepPurple),
-                    labelText: "Nome do professor",
-                    labelStyle:
-                        const TextStyle(color: Color.fromARGB(255, 166, 140, 211)),
-                    enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                            color: Color.fromARGB(255, 144, 117, 189)),
-                        borderRadius: BorderRadius.circular(10.0)),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                            color: Colors.deepPurple),
-                        borderRadius: BorderRadius.circular(10.0)),
-                  ),
-                  controller: _controller.nomeProfessor),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: TextFormField(
-                style: TextStyle(color: Colors.deepPurple),
-                  decoration: InputDecoration(
-                    floatingLabelStyle: TextStyle(color: Colors.deepPurple),
-                    labelText: "Nome da disciplina",
-                    labelStyle:
-                        const TextStyle(color: Color.fromARGB(255, 166, 140, 211)),
-                    enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                            color: Color.fromARGB(255, 144, 117, 189)),
-                        borderRadius: BorderRadius.circular(10.0)),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                            color: Colors.deepPurple),
-                        borderRadius: BorderRadius.circular(10.0)),
-                  ),
-                  controller: _controller.nomeDisciplina),
-            ),
+            CampoForm(label: "Nome do professor", controller: _controller.nomeProfessor),
+            CampoForm(label: "Nome da disciplina", controller: _controller.nomeDisciplina),
             Row(
               children: [
                 const Expanded(
@@ -88,7 +53,7 @@ class _FormTesteState extends State<FormTeste> {
                   style: TextStyle(
                       color: Colors.deepPurple,
                       fontWeight: FontWeight.bold,
-                      fontSize: 16),
+                      fontSize: 16), textAlign: TextAlign.end,
                 )),
                 Expanded(
                   flex: 2,
@@ -136,7 +101,7 @@ class _FormTesteState extends State<FormTeste> {
                         style: TextStyle(
                             color: Colors.deepPurple,
                             fontWeight: FontWeight.bold,
-                            fontSize: 16))),
+                            fontSize: 16), textAlign: TextAlign.end,)),
                 Expanded(
                   flex: 2,
                   child: DropdownButton<String>(
@@ -182,7 +147,7 @@ class _FormTesteState extends State<FormTeste> {
                   style: TextStyle(
                       color: Colors.deepPurple,
                       fontWeight: FontWeight.bold,
-                      fontSize: 16),
+                      fontSize: 16), textAlign: TextAlign.end,
                 )),
                 Expanded(
                   flex: 2,
