@@ -6,12 +6,14 @@ class UserProf {
   String? nome;
   String? codigo;
   String? email;
+  String? tipoUsuario;
 
   UserProf({
     this.id,
     this.nome,
     this.codigo,
     this.email,
+    this.tipoUsuario,
   });
 
   UserProf copyWith({
@@ -19,12 +21,14 @@ class UserProf {
     String? nome,
     String? codigo,
     String? email,
+    String? tipoUsuario,
   }) {
     return UserProf(
       id: id ?? this.id,
       nome: nome ?? this.nome,
       codigo: codigo ?? this.codigo,
       email: email ?? this.email,
+      tipoUsuario: tipoUsuario ?? this.tipoUsuario,
     );
   }
 
@@ -43,6 +47,9 @@ class UserProf {
     if(email != null){
       result.addAll({'email': email});
     }
+    if(tipoUsuario != null){
+      result.addAll({'tipoUsuario': tipoUsuario});
+    }
   
     return result;
   }
@@ -53,7 +60,7 @@ class UserProf {
 
   @override
   String toString() {
-    return 'UserProf(id: $id, nome: $nome, codigo: $codigo, email: $email)';
+    return 'UserProf(id: $id, nome: $nome, codigo: $codigo, email: $email, tipoUsuario: $tipoUsuario)';
   }
 
   @override
@@ -64,7 +71,8 @@ class UserProf {
       other.id == id &&
       other.nome == nome &&
       other.codigo == codigo &&
-      other.email == email;
+      other.email == email &&
+      other.tipoUsuario == tipoUsuario;
   }
 
   @override
@@ -72,7 +80,8 @@ class UserProf {
     return id.hashCode ^
       nome.hashCode ^
       codigo.hashCode ^
-      email.hashCode;
+      email.hashCode ^
+      tipoUsuario.hashCode;
   }
 
   bool isValid(String? senha){
@@ -107,6 +116,7 @@ class UserProf {
       nome: map?['nome'],
       codigo: map?['codigo'],
       email: map?['email'],
+      tipoUsuario: map?['tipoUsuario'],
     );
   }
 }

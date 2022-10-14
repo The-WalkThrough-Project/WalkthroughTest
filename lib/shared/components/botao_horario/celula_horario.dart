@@ -43,13 +43,15 @@ class _CelulaHorarioState extends State<CelulaHorario> {
                 fontSize: widget.content2 != null
                     ? widget.content2!.contains(":")
                         ? 10
+                        : widget.content1!.contains('/') ?
+                        8 
                         : 12
                     : 12,
                 color: Colors.deepPurple,
                 fontWeight: FontWeight.bold),
           ),
           widget.content2 == null
-              ? Padding(padding: EdgeInsets.all(0))
+              ? const Padding(padding: const EdgeInsets.all(0))
               : Text(
                   widget.content2 ?? "",
                   textAlign: TextAlign.center,

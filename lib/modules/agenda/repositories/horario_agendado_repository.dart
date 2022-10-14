@@ -1,22 +1,35 @@
 import 'package:date_format/date_format.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:walkthrough/modules/agenda/models/horario_agendado_model.dart';
 import 'package:walkthrough/modules/agenda/repositories/datasources/datasource_ds_agendado.dart';
 import 'package:walkthrough/modules/agenda/repositories/datasources/firebase_datasourceHA.dart';
+import 'package:walkthrough/modules/agenda/repositories/datasources/sql_datasourceHA.dart';
 
 class HorarioAgendadoRepository{
 
   final DataSourceBaseA? _db = FirebaseDataSourceHA();
+  final DataSourceBaseA? _db2 = SQLDataSourceHA();
 
   Future<void> incluir(HorarioAgendado horarioAgendado) async{
     //Validações
     horarioAgendado.isValid();
     //Persistência
+    int? id = await _db2?.incluir(horarioAgendado.toMap());
+    horarioAgendado.id = id;
     _db!.incluir(horarioAgendado.toMap());
   }
 
-  Future<void> excluir(HorarioAgendado horarioAgendado) async{
-    _db!.excluir(horarioAgendado.toMap());
+  Future<void> incluirOff(HorarioAgendado horarioAgendado) async{
+    //Validações
+    horarioAgendado.isValid();
+    //Persistência
+    await _db2?.incluir(horarioAgendado.toMap());
+  }
+
+  Future<void> excluir(HorarioAgendado? horarioAgendado) async{
+    _db2!.excluir(horarioAgendado?.toMap());
+    _db!.excluir(horarioAgendado?.toMap());
   }
 
   Future<void> alterar(HorarioAgendado horarioAgendado) async{
@@ -24,43 +37,66 @@ class HorarioAgendadoRepository{
     _db!.alterar(horarioAgendado.toMap());
   }
 
-  Future<HorarioAgendado?> selecionar(String data, String horarioInicio, String lab) async{
-    final map = await _db!.selecionar(data, horarioInicio, lab);
+  Future<HorarioAgendado?> selecionar(int id) async{
+    final map = await _db!.selecionar(id);
     if(map == null){
       return null;
     }
     return HorarioAgendado.fromMap(map);
   }
 
-  /*Future<Map<DateTime, List<HorarioAgendado>>?> selecionarTodos(DateTime diaSelecionado) async{
-    final maps = await _db!.selecionarTodos();
+  Future<List<HorarioAgendado>?> selecionarTodosTemp() async{
+    List<Map<String, dynamic>?>? maps = [];
+    try {
+      maps = await _db!.selecionarTodosTemp();
+    } on Exception catch (e) {
+      print(e.toString());
+      maps = await _db2!.selecionarTodosTemp();
+    }
     print('maps: ' + maps.toString());
     var lista = <HorarioAgendado>[];
-    Map<DateTime, List<HorarioAgendado>> retorno = {};
     if(maps == null){
       return null;
     }
     for (var map in maps) {
+      if(map == null){
+        return null;
+      }
       var horarioAgendado = HorarioAgendado.fromMap(map);
-      (horarioAgendado.data + '.000Z') == diaSelecionado.toString() ? lista.add(horarioAgendado) : null;
+      if (horarioAgendado.isTemp == 1) {
+        lista.add(horarioAgendado);
+      } else {
+        null;
+      }
     }
-    retorno.addAll({diaSelecionado: lista});
-    print('retorno map: ' + retorno.toString());
     
-    return retorno;
-  }*/
+    return lista;
+  }
 
-  Future<Map<String, List<HorarioAgendado>>?> selecionarTodos() async{
-    final maps = await _db!.selecionarTodos();
+  Future<ValueNotifier<Map<String, List<HorarioAgendado>>?>> selecionarTodos() async{
+    List<Map<String, dynamic>?>? maps = [];
+    try {
+      maps = await _db!.selecionarTodos();
+    } on Exception catch (e) {
+      print(e.toString());
+      maps = await _db2!.selecionarTodos();
+    }
     print('maps: ' + maps.toString());
     var lista = <HorarioAgendado>[];
     Map<String, List<HorarioAgendado>> retorno = {};
     if(maps == null){
-      return null;
+      return ValueNotifier(null);
     }
     for (var map in maps) {
+      if(map == null){
+        return ValueNotifier(null);
+      }
       var horarioAgendado = HorarioAgendado.fromMap(map);
-      lista.add(horarioAgendado);
+      if (horarioAgendado.isTemp == 0) {
+        lista.add(horarioAgendado);
+      } else {
+        null;
+      }
     }
 
     print(lista.toString());
@@ -77,7 +113,7 @@ class HorarioAgendadoRepository{
     }
     
     print('retorno map: ' + retorno.toString());
-    
-    return retorno;
+    ValueNotifier<Map<String, List<HorarioAgendado>>> retorno1 = ValueNotifier(retorno);
+    return retorno1;
   }
 }

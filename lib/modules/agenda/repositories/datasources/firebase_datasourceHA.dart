@@ -6,66 +6,92 @@ import 'package:walkthrough/shared/databases/BD.dart';
 
 class FirebaseDataSourceHA extends DataSourceBaseA {
   final FirebaseFirestore _firebasefirestore = FirebaseFirestore.instance;
-  final _bancoSQL = BancoHorarios.instance;
 
   @override
-  Future<void> alterar(Map<String, dynamic> horarioFixo) async {
+  Future<void> alterar(Map<String, dynamic>? horarioAgendado) async {
     QuerySnapshot qs = await _firebasefirestore
-        .collection("horáriosFixos")
-        .where("diaSemana", isEqualTo: horarioFixo['diaSemana'])
-        .where('lab', isEqualTo: horarioFixo['lab'])
-        .where('horario', isEqualTo: horarioFixo['horario'])
+        .collection("horáriosAgendados")
+        .where("nomeProfessor", isEqualTo: horarioAgendado?['nomeProfessor'])
+        .where('lab', isEqualTo: horarioAgendado?['lab'])
+        .where('data', isEqualTo: horarioAgendado?['data'])
         .get();
 
+    if (horarioAgendado == null) {
+      return null;
+    }
+
     await _firebasefirestore
-        .collection("horáriosFixos")
+        .collection("horáriosAgendados")
         .doc(qs.docs.last.id)
-        .update(horarioFixo);
+        .update(horarioAgendado);
   }
 
   @override
-  Future<void> excluir(Map<String, dynamic> horarioFixo) async {
+  Future<void> excluir(Map<String, dynamic>? horarioAgendado) async {
     QuerySnapshot qs = await _firebasefirestore
-        .collection("horáriosFixos")
-        .where("diaSemana", isEqualTo: horarioFixo['diaSemana'])
-        .where('lab', isEqualTo: horarioFixo['lab'])
-        .where('horario', isEqualTo: horarioFixo['horario'])
+        .collection("horáriosAgendados")
+        .where("nomeProfessor", isEqualTo: horarioAgendado?['nomeProfessor'])
+        .where('lab', isEqualTo: horarioAgendado?['lab'])
+        .where('data', isEqualTo: horarioAgendado?['data'])
         .get();
 
     await _firebasefirestore
-        .collection("horáriosFixos")
+        .collection("horáriosAgendados")
         .doc(qs.docs.last.id)
         .delete();
   }
 
   @override
-  Future<void> incluir(Map<String, dynamic> horarioAgendado) async {
-    String string = horarioAgendado['data'];
+  Future<int> incluir(Map<String, dynamic>? horarioAgendado) async {
+    String string = horarioAgendado?['data'];
     string = string.substring(0, 10);
     _firebasefirestore.collection("horáriosAgendados").add({
+            'id': horarioAgendado?['id'],
             'data': string,
-            'lab': horarioAgendado['lab'],
-            'horarioInicial': horarioAgendado['horarioInicial'],
-            'horarioFinal': horarioAgendado['horarioFinal'],
-            'nomeProfessor': horarioAgendado['nomeProfessor'],
+            'lab': horarioAgendado?['lab'],
+            'horarioInicial': horarioAgendado?['horarioInicial'],
+            'horarioFinal': horarioAgendado?['horarioFinal'],
+            'nomeProfessor': horarioAgendado?['nomeProfessor'],
+            'isTemp': horarioAgendado?['isTemp']
           });
+    return horarioAgendado?['id'];
   }
 
   @override
-  Future<Map<String, dynamic>?> selecionar(
-      String lab, String diaSemana, String horario) async {}
+  Future<Map<String, dynamic>?> selecionar(int id) async {}
 
   @override
-  Future<List<Map<String, dynamic>>?> selecionarTodos() async {
+  Future<List<Map<String, dynamic>?>?> selecionarTodos() async {
     var qs = await _firebasefirestore
         .collection('horáriosAgendados')
         .get();
-        return qs.docs.map((e) => HorarioAgendado(
+        return qs.docs.map((e) => 
+        HorarioAgendado(
+          id: e.data()['id'],
           nomeProfessor: e.data()['nomeProfessor'], 
           horarioInicial: e.data()['horarioInicial'], 
           horarioFinal: e.data()['horarioFinal'], 
           data: e.data()['data'], 
-          lab: e.data()['lab']).toMap()
+          lab: e.data()['lab'],
+          isTemp: e.data()['isTemp']
+          ).toMap()
+        ).toList();
+  }
+  
+  @override
+  Future<List<Map<String, dynamic>?>?> selecionarTodosTemp() async {
+    var qs = await _firebasefirestore
+        .collection('horáriosAgendados')
+        .get();
+        return qs.docs.map((e) => HorarioAgendado(
+          id: e.data()['id'],
+          nomeProfessor: e.data()['nomeProfessor'], 
+          horarioInicial: e.data()['horarioInicial'], 
+          horarioFinal: e.data()['horarioFinal'], 
+          data: e.data()['data'], 
+          lab: e.data()['lab'],
+          isTemp: e.data()['isTemp']
+          ).toMap()
         ).toList();
   }
 }

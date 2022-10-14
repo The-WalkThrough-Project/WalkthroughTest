@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   getDados1() async {
-    final user = await _controller.getDados(context);
+    final user = await _controller.getDados();
     print(user);
     mounted ?
     setState(() {
@@ -154,7 +154,6 @@ class _HomePageState extends State<HomePage> {
                   botao(
                     "Agenda",
                     onPressed: () {
-                      showNotification();
                       Navigator.push(
                           context,
                           MaterialPageRoute(

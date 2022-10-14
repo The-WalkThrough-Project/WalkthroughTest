@@ -1,8 +1,11 @@
+import 'package:confirm_dialog/confirm_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:intl/intl.dart';
+import 'package:motion_toast/motion_toast.dart';
+import 'package:motion_toast/resources/arrays.dart';
 import 'package:walkthrough/modules/agenda/controllers/controllerHorarioF.dart';
 import 'package:walkthrough/shared/components/campo_form/campo_form.dart';
 import 'package:walkthrough/shared/databases/BD.dart';
@@ -30,21 +33,30 @@ class _FormTesteState extends State<FormTeste> {
     valorHorario = '07:00 - 08:40 : 1M2M';
     valorLab = widget.lab;
     _controller.lab.text = widget.lab;
+    _controller.diaSemana.text = valorDia;
+    _controller.horario.text = valorHorario.substring(16);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Cadastro de Horários Fixos", style: TextStyle(fontSize: 18),),
+        title: const Text(
+          "Cadastro de Horários Fixos",
+          style: TextStyle(fontSize: 18),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Form(
             child: ListView(
           children: [
-            CampoForm(label: "Nome do professor", controller: _controller.nomeProfessor),
-            CampoForm(label: "Nome da disciplina", controller: _controller.nomeDisciplina),
+            CampoForm(
+                label: "Nome do professor",
+                controller: _controller.nomeProfessor),
+            CampoForm(
+                label: "Nome da disciplina",
+                controller: _controller.nomeDisciplina),
             Row(
               children: [
                 const Expanded(
@@ -53,7 +65,8 @@ class _FormTesteState extends State<FormTeste> {
                   style: TextStyle(
                       color: Colors.deepPurple,
                       fontWeight: FontWeight.bold,
-                      fontSize: 16), textAlign: TextAlign.end,
+                      fontSize: 16),
+                  textAlign: TextAlign.end,
                 )),
                 Expanded(
                   flex: 2,
@@ -67,7 +80,7 @@ class _FormTesteState extends State<FormTeste> {
                       '15:50 - 17:30 : 3T4T',
                       '16:40 - 18:20 : 4T5T',
                       '19:00 - 20:40 : 1N2N',
-                      '20:55 - 22:35 : 2N3N',
+                      '20:55 - 22:35 : 3N4N',
                     ].map<DropdownMenuItem<String>>((String valor1) {
                       return DropdownMenuItem<String>(
                         value: valor1,
@@ -97,11 +110,14 @@ class _FormTesteState extends State<FormTeste> {
             Row(
               children: [
                 const Expanded(
-                    child: Text("Laboratório: ",
-                        style: TextStyle(
-                            color: Colors.deepPurple,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16), textAlign: TextAlign.end,)),
+                    child: Text(
+                  "Laboratório: ",
+                  style: TextStyle(
+                      color: Colors.deepPurple,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16),
+                  textAlign: TextAlign.end,
+                )),
                 Expanded(
                   flex: 2,
                   child: DropdownButton<String>(
@@ -147,7 +163,8 @@ class _FormTesteState extends State<FormTeste> {
                   style: TextStyle(
                       color: Colors.deepPurple,
                       fontWeight: FontWeight.bold,
-                      fontSize: 16), textAlign: TextAlign.end,
+                      fontSize: 16),
+                  textAlign: TextAlign.end,
                 )),
                 Expanded(
                   flex: 2,
@@ -186,12 +203,46 @@ class _FormTesteState extends State<FormTeste> {
               ],
             ),
             ElevatedButton(
-                onPressed: () {
-                  _controller.salvarHorario(
-                      sucesso: () {
-                        Navigator.pop(context, true);
-                      },
-                      falha: (motivo) {});
+                onPressed: () async {
+                  if (await confirm(
+                    context,
+                    title: const Text(
+                      'Confirmação',
+                      style: TextStyle(color: Colors.deepPurple),
+                    ),
+                    content: const Text(
+                      'Você tem certeza?',
+                      style: TextStyle(color: Colors.deepPurple),
+                    ),
+                    textOK: const Text(
+                      'Sim',
+                      style: TextStyle(color: Colors.green),
+                    ),
+                    textCancel: const Text(
+                      'Não',
+                      style: TextStyle(color: Colors.red),
+                    ),
+                  )) {
+                    _controller.salvarHorario(sucesso: () {
+                      Navigator.pop(context, true);
+                    }, falha: (motivo) {
+                      MotionToast.error(
+                        title: const Text(
+                          'Erro',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        description: Text(motivo),
+                        animationType: AnimationType.fromLeft,
+                        position: MotionToastPosition.top,
+                        barrierColor: Colors.black.withOpacity(0.3),
+                        width: 300,
+                        height: 80,
+                        dismissable: true,
+                      ).show(context);
+                    });
+                  }
                 },
                 child: const Text("Cadastrar"))
           ],

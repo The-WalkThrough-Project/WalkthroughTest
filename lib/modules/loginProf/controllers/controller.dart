@@ -17,7 +17,14 @@ class UserProfController extends ChangeNotifier {
   final _firebaseAuthProvider = FireBaseAuthProvider();
   final _firebaseFirestoreProvider = FireBaseFirestoreProvider();
 
-  Future<UserProf> getDados(BuildContext context) async {
+  removeToken() async{
+    String? userId = await _firebaseAuthProvider.getCurrentUID();
+    UserProf user = await _firebaseFirestoreProvider.getDadosUsuario(userId);
+    user.codigo = '';
+    _firebaseFirestoreProvider.removeToken(user.toMap(), userId);
+  }
+
+  Future<UserProf> getDados() async {
     try {
       final String? userId = await _firebaseAuthProvider.getCurrentUID();
       UserProf user =
@@ -40,7 +47,6 @@ class UserProfController extends ChangeNotifier {
         email: email,
       );
       usuario.isValid(senha.text);
-      print(email + ' ' + senha.text);
 
       await _firebaseAuthProvider.efetuarLogin(email, senha.text);
       redirecionaLogado(context);
@@ -61,6 +67,10 @@ class UserProfController extends ChangeNotifier {
     } catch (e) {
       falha(e.toString().substring(11));
     }
+  }
+
+  atualizaToken(UserProf prof){
+    _repository.atualizaToken(prof);
   }
 
   void redirecionaLogado(BuildContext context) {

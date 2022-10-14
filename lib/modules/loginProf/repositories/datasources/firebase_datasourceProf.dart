@@ -6,6 +6,18 @@ class FirebaseDataSourceProf extends DataSourceBaseProf {
   final _firebasefirestore = FirebaseFirestore.instance;
 
   @override
+  Future<void> atualizaToken(Map<String, dynamic> professor) async {
+    QuerySnapshot qs = await _firebasefirestore
+        .collection('usuários')
+        .where("id", isEqualTo: professor['id'])
+        .get();
+    await _firebasefirestore
+        .collection('usuários')
+        .doc(qs.docs.last.id)
+        .update(professor);
+  }
+
+  @override
   Future<void> alterar(Map<String, dynamic> professor) async {
     QuerySnapshot qs = await _firebasefirestore
         .collection("usuários")
@@ -19,18 +31,11 @@ class FirebaseDataSourceProf extends DataSourceBaseProf {
   }
 
   @override
-  Future<void> excluir(Map<String, dynamic> professor) async {
-    
-  }
+  Future<void> excluir(Map<String, dynamic> professor) async {}
 
   @override
-  Future<Map<String, dynamic>?> selecionar(String login) async {
-    
-  }
+  Future<Map<String, dynamic>?> selecionar(String login) async {}
 
   @override
-  Future<List<Map<String, dynamic>>?> selecionarTodos() async {
-    
-  }
-
+  Future<List<Map<String, dynamic>>?> selecionarTodos() async {}
 }

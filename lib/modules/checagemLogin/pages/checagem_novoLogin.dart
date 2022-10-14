@@ -20,7 +20,8 @@ class LoginPageController extends StatefulWidget {
 class _LoginPageControllerState extends State<LoginPageController> {
   final _controller = UserProfController();
   UserProf user = UserProf();
-  final _firebase_messaging_service = FirebaseMessagingService(NotificationService());
+  final _firebase_messaging_service =
+      FirebaseMessagingService(NotificationService());
   String? token = '';
   bool novoLogin = false;
   bool isLoading = false;
@@ -33,17 +34,23 @@ class _LoginPageControllerState extends State<LoginPageController> {
 
   getToken() async {
     token = await _firebase_messaging_service.getDeviceFirebaseToken();
-    user = await _controller.getDados(context);
+    user = await _controller.getDados();
     setState(() {
       isLoading = true;
     });
-
+    
     setState(() {
       user;
-      user.codigo != null ? null : novoLogin = true; 
+      if (user.nome == null) {
+        return;
+      }
+      user.nome != '' ? null : novoLogin = true;
+      print(novoLogin);
       token;
       user.codigo = token;
     });
+
+    await _controller.atualizaToken(user);
 
     setState(() {
       isLoading = false;
@@ -52,6 +59,14 @@ class _LoginPageControllerState extends State<LoginPageController> {
 
   @override
   Widget build(BuildContext context) {
-    return novoLogin && !isLoading ? NovoLogin(user: user,) : isLoading ? const Center(child: CircularProgressIndicator(color: Colors.deepPurple),) : HomePage();
+    return novoLogin && !isLoading
+        ? NovoLogin(
+            user: user,
+          )
+        : isLoading
+            ? const Center(
+                child: CircularProgressIndicator(color: Colors.deepPurple),
+              )
+            : HomePage();
   }
 }

@@ -20,6 +20,18 @@ class FireBaseFirestoreProvider {
     }
   }
 
-  
+  removeToken(Map<String, dynamic> user, String? id) async{
+    try {
+    await _firebasefirestore
+        .collection("usuários")
+        .doc(id)
+        .update(user);
+    return true;
+      
+    } on Exception catch (e) {
+      print(e.toString());
+      throw Exception(e.toString());
+    }
+  }
   
 }

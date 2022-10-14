@@ -16,6 +16,10 @@ class ProfUserRepository{
     return FirebaseAuth.instance;
   }
 
+  atualizaToken(UserProf professor){
+    _db!.atualizaToken(professor.toMap());
+  }
+
   Future<void> excluir(UserProf professor) async{
     _db!.excluir(professor.toMap());
   }

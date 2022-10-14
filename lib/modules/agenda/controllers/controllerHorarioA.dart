@@ -12,7 +12,7 @@ class HorariosAgendadosController extends ChangeNotifier {
   final lab = TextEditingController();
   final _repositoryA = HorarioAgendadoRepository();
 
-  Future<Map<String, List<HorarioAgendado>>?> getHorariosA() async {
+  Future<ValueNotifier<Map<String, List<HorarioAgendado>>?>> getHorariosA() async {
     var horarios = await _repositoryA.selecionarTodos();
     print('horarios map: ' + horarios.toString());
     return horarios;
@@ -20,5 +20,23 @@ class HorariosAgendadosController extends ChangeNotifier {
 
   void cadastraHorarios(HorarioAgendado horarioAgendado){
     _repositoryA.incluir(horarioAgendado);
+  }
+
+  Future<List<HorarioAgendado>?> getHorariosATemp() async {
+    var horarios = await _repositoryA.selecionarTodosTemp();
+    
+    print('horarios map temp: ' + horarios.toString());
+    return horarios;
+  }
+
+  excluirHorarioTemp(HorarioAgendado? horarioAgendado) async {
+    _repositoryA.excluir(horarioAgendado);
+  }
+
+  atualizarHorarioTemp(HorarioAgendado? horarioAgendado) async {
+    if (horarioAgendado == null) {
+      return null;
+    }
+    _repositoryA.alterar(horarioAgendado);
   }
 }

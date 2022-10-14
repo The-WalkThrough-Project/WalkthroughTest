@@ -25,47 +25,64 @@ class _NovoLoginState extends State<NovoLogin> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Novo Login? Atualize seus dados!',
+          'Atualize seus dados!',
           style: TextStyle(fontSize: 12),
         ),
       ),
       body: Center(
-        child: Column(
-          children: [
-            CampoForm(
-              label: 'Nome',
-              controller: _controller.nome,
-            ),
-            CampoForm(
-              label: 'Email',
-              controller: _controller.email,
-            ),
-            ElevatedButton(
-              onPressed: () {
-                _controller.atualizaDados(sucesso: () {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => HomePage()));
-                }, falha: (motivo) {
-                  MotionToast.error(
-                    title: const Text(
-                      'Erro',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            children: [
+              CampoForm(
+                label: 'Nome',
+                controller: _controller.nome,
+              ),
+              CampoForm(
+                label: 'Email',
+                controller: _controller.email,
+              ),
+              Row(
+                children: [
+                  Text('Assinale caso queira alterar a sua senha: ', style: TextStyle(color: Colors.deepPurple, ),),
+                  Checkbox(
+                    activeColor: Colors.deepPurple,
+                    value: _controller.hasSenha, 
+                    onChanged: (value){
+                      setState(() {
+                        _controller.hasSenha = !_controller.hasSenha;
+                      });
+                    }
+                  ),
+                ],
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  _controller.atualizaDados(sucesso: () {
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => HomePage()));
+                  }, falha: (motivo) {
+                    MotionToast.error(
+                      title: const Text(
+                        'Erro',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    description: Text(motivo),
-                    animationType: AnimationType.fromLeft,
-                    position: MotionToastPosition.top,
-                    barrierColor: Colors.black.withOpacity(0.3),
-                    width: 300,
-                    height: 80,
-                    dismissable: true,
-                  ).show(context);
-                }, usuario: widget.user);
-              },
-              child: const Text('Atualizar'),
-            )
-          ],
+                      description: Text(motivo),
+                      animationType: AnimationType.fromLeft,
+                      position: MotionToastPosition.top,
+                      barrierColor: Colors.black.withOpacity(0.3),
+                      width: 300,
+                      height: 80,
+                      dismissable: true,
+                    ).show(context);
+                  }, usuario: widget.user);
+                },
+                child: const Text('Atualizar'),
+              )
+            ],
+          ),
         ),
       ),
     );

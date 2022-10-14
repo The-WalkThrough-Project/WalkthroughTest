@@ -5,7 +5,7 @@ import 'package:walkthrough/modules/notificacoes/pages/index.dart';
 
 class Routes {
   static Map<String, Widget Function(BuildContext)> list = <String, WidgetBuilder>{
-    '/home': (_) => LoginPageController(),
+    '/home': (_) => HomeController(),
     '/notificacao': (_) => NotificacaoPage(),
   };
 

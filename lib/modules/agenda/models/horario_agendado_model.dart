@@ -5,57 +5,43 @@ import 'package:intl/locale.dart';
 
 class HorarioAgendado {
 
+  int? id; 
   final String nomeProfessor;
   final String horarioInicial;
   final String horarioFinal;
   final String data;
   final String lab;
+  int? isTemp;
 
   HorarioAgendado({
+    this.id,
     required this.nomeProfessor,
     required this.horarioInicial,
     required this.horarioFinal,
     required this.data,
     required this.lab,
+    this.isTemp,
   });
 
 
 
   HorarioAgendado copyWith({
+    int? id,
     String? nomeProfessor,
     String? horarioInicial,
     String? horarioFinal,
     String? data,
     String? lab,
+    int? isTemp,
   }) {
     return HorarioAgendado(
+      id: id ?? this.id,
       nomeProfessor: nomeProfessor ?? this.nomeProfessor,
       horarioInicial: horarioInicial ?? this.horarioInicial,
       horarioFinal: horarioFinal ?? this.horarioFinal,
       data: data ?? this.data,
       lab: lab ?? this.lab,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    final result = <String, dynamic>{};
-  
-    result.addAll({'nomeProfessor': nomeProfessor});
-    result.addAll({'horarioInicial': horarioInicial});
-    result.addAll({'horarioFinal': horarioFinal});
-    result.addAll({'data': data});
-    result.addAll({'lab': lab});
-  
-    return result;
-  }
-
-  factory HorarioAgendado.fromMap(Map<String, dynamic> map) {
-    return HorarioAgendado(
-      nomeProfessor: map['nomeProfessor'] ?? '',
-      horarioInicial: map['horarioInicial'] ?? '',
-      horarioFinal: map['horarioFinal'] ?? '',
-      data: map['data'] ?? '',
-      lab: map['lab'] ?? '',
+      isTemp: isTemp ?? this.isTemp,
     );
   }
 
@@ -65,7 +51,7 @@ class HorarioAgendado {
 
   @override
   String toString() {
-    return 'HorarioAgendado(nomeProfessor: $nomeProfessor, horarioInicial: $horarioInicial, horarioFinal: $horarioFinal, data: $data, lab: $lab)';
+    return 'HorarioAgendado(id: $id, nomeProfessor: $nomeProfessor, horarioInicial: $horarioInicial, horarioFinal: $horarioFinal, data: $data, lab: $lab, isTemp: $isTemp)';
   }
 
   @override
@@ -73,20 +59,24 @@ class HorarioAgendado {
     if (identical(this, other)) return true;
   
     return other is HorarioAgendado &&
+      other.id == id &&
       other.nomeProfessor == nomeProfessor &&
       other.horarioInicial == horarioInicial &&
       other.horarioFinal == horarioFinal &&
       other.data == data &&
-      other.lab == lab;
+      other.lab == lab &&
+      other.isTemp == isTemp;
   }
 
   @override
   int get hashCode {
-    return nomeProfessor.hashCode ^
+    return id.hashCode ^
+      nomeProfessor.hashCode ^
       horarioInicial.hashCode ^
       horarioFinal.hashCode ^
       data.hashCode ^
-      lab.hashCode;
+      lab.hashCode ^
+      isTemp.hashCode;
   }
 
   bool isValid(){
@@ -103,5 +93,35 @@ class HorarioAgendado {
       throw Exception("Laboratório não informado.");
     }
     return true;
+  }
+
+  Map<String, dynamic> toMap() {
+    final result = <String, dynamic>{};
+  
+    if(id != null){
+      result.addAll({'id': id});
+    }
+    result.addAll({'nomeProfessor': nomeProfessor});
+    result.addAll({'horarioInicial': horarioInicial});
+    result.addAll({'horarioFinal': horarioFinal});
+    result.addAll({'data': data});
+    result.addAll({'lab': lab});
+    if(isTemp != null){
+      result.addAll({'isTemp': isTemp});
+    }
+  
+    return result;
+  }
+
+  factory HorarioAgendado.fromMap(Map<String, dynamic>? map) {
+    return HorarioAgendado(
+      id: map?['id']?.toInt(),
+      nomeProfessor: map?['nomeProfessor'] ?? '',
+      horarioInicial: map?['horarioInicial'] ?? '',
+      horarioFinal: map?['horarioFinal'] ?? '',
+      data: map?['data'] ?? '',
+      lab: map?['lab'] ?? '',
+      isTemp: map?['isTemp']?.toInt(),
+    );
   }
 }

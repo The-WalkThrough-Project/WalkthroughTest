@@ -22,11 +22,17 @@ class BancoHorarios {
   BancoHorarios._init();
 
   Future<Database> get database async {
-    if (_db != null) return _db!;
+    if (_db != null) {
+      //deleteDatabase('WTdatabase.db');
+      return _db!;
+    }
 
     _db = await _initDB("WTdatabase.db");
     return _db!;
   }
+
+  Future<void> deleteDatabase(String path) =>
+    databaseFactory.deleteDatabase(path);
 
   Future<Database> _initDB(String filePath) async {
     final dbPath = await getDatabasesPath();
@@ -39,10 +45,11 @@ class BancoHorarios {
     print("Criando Tabelas...");
     await db.execute(
         "CREATE TABLE horariosFixos(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, uid TEXT, nomeProfessor VARCHAR(50), nomeDisciplina VARCHAR(50), horario TEXT, diaSemana VARCHAR(20), lab VARCHAR(5));");
-    /*await db.execute(
-        "CREATE TABLE horariosAgendados(id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT, nomeProfessor VARCHAR(50), horarioInicio TEXT, horarioFim TEXT, data TEXT, lab VARCHAR(5));");
+    
+    await db.execute(
+        "CREATE TABLE horariosAgendados(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, nomeProfessor VARCHAR(50), horarioInicial TEXT, horarioFinal TEXT, data TEXT, lab VARCHAR(5), isTemp BOOLEAN);");
 
-     await db.execute(
+    /* await db.execute(
         "CREATE TABLE professor(id VARCHAR(50) NOT NULL PRIMARY KEY, nome TEXT, professor TEXT, contato TEXT, turmaID VARCHAR(50), FOREIGN KEY (turmaID) REFERENCES turma(id) ON DELETE CASCADE);");
    */
   }
@@ -53,6 +60,7 @@ class BancoHorarios {
     db.close();
   }
 
+
   /*static Future _onConfigure(Database db) async {
     await db.execute('PRAGMA foreign_keys = ON');
   }*/
@@ -61,9 +69,45 @@ class BancoHorarios {
     print("Inserindo horário....");
     
     final db = await instance.database;
+    db.close();
 
     final id = await db.insert("horariosFixos", horarioFixo.toMap());
     horarioFixo.copyWith(id: id);
+  }
+
+  Future<int?> insertHorarioAgendado(HorarioAgendado horarioAgendado) async {
+    print("Inserindo horário....");
+    
+    final db = await instance.database;
+
+    final id = await db.insert("horariosAgendados", horarioAgendado.toMap());
+    horarioAgendado.copyWith(id: id);
+    return id;
+  }
+
+  Future<HorarioAgendado?> readHorarioAgendado(int id) async {
+    final db = await instance.database;
+
+    final maps = await db.query("horariosAgendados", columns: [
+      "id",
+      "nomeProfessor",
+      "horarioInicial",
+      'horarioFinal',
+      "data",
+      "lab",
+      'isTemp'
+    ],
+    where: 'id = ?',
+    whereArgs: [id],
+    );
+
+    if(maps.isNotEmpty){
+      return HorarioAgendado.fromMap(maps.first);
+    } else {
+      print("ID $id not found");
+      return null;
+    }
+
   }
 
   Future<HorarioFixo> readHorarioFixo(int id) async {
@@ -98,6 +142,22 @@ class BancoHorarios {
     return result.map((json) => HorarioFixo.fromMap(json)).toList();
   }
 
+  Future<List<HorarioAgendado>> readTodosHorariosAgendadosTemp() async{
+    final db = await instance.database;
+
+    final result = await db.query("horariosAgendados", where: "isTemp = ?", whereArgs: [true]);
+
+    return result.map((json) => HorarioAgendado.fromMap(json)).toList();
+  }
+
+  Future<List<HorarioAgendado>> readTodosHorariosAgendadosNotTemp() async{
+    final db = await instance.database;
+
+    final result = await db.query("horariosAgendados", where: "isTemp = ?", whereArgs: [false]);
+
+    return result.map((json) => HorarioAgendado.fromMap(json)).toList();
+  }
+
   Future<int> update(HorarioFixo horario) async {
 
     final db = await instance.database;
@@ -111,6 +171,18 @@ class BancoHorarios {
 
     return await db.delete(
       "horariosFixos",
+      where: "id = ?",
+      whereArgs: [id]
+    );
+
+  }
+
+  Future<int> deleteHA(int id) async {
+
+    final db = await instance.database;
+
+    return await db.delete(
+      "horariosAgendados",
       where: "id = ?",
       whereArgs: [id]
     );

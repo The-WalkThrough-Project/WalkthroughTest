@@ -37,7 +37,7 @@ class HorarioController extends ChangeNotifier{
       sucesso();
 
     } catch (e) {
-      falha(e.toString());
+      falha(e.toString().substring(11));
     }
   }
 

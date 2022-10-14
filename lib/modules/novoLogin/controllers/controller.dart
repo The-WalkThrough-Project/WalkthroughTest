@@ -5,8 +5,9 @@ import 'package:walkthrough/modules/loginProf/repositories/profUser_repository.d
 import 'package:walkthrough/shared/providers/firebaseAuth_provider.dart';
 
 class NovoLoginController extends ChangeNotifier {
-  final nome = TextEditingController();
-  final email = TextEditingController();
+  var nome = TextEditingController();
+  var email = TextEditingController();
+  bool hasSenha = false;
   final _repository = ProfUserRepository();
   final _firebase_auth = FireBaseAuthProvider();
 
@@ -24,9 +25,12 @@ class NovoLoginController extends ChangeNotifier {
       user.isValidUser();
 
       User? currentUser = await _firebase_auth.getCurrentUser();
-      await _repository.alterar(user);
       
       await _firebase_auth.atualizarEmail(currentUser, user.email);
+      
+      await _repository.alterar(user);
+
+      hasSenha ? await _firebase_auth.atualizarSenha(user.email ?? '') : null;
 
       sucesso();
     } on Exception catch (e) {

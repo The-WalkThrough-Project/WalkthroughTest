@@ -57,6 +57,8 @@ class FireBaseAuthProvider{
         throw Exception("Informe um email válido!");
       }else if(e.toString().contains('email-already-in-use')){
         throw Exception("Este email já está em uso!");
+      }else if(e.toString().contains('requires-recent-login')){
+        throw Exception("Você precisa estar logado há menos tempo para atualizar seu e-mail!");
       }else throw Exception(e.toString());
     }
   }
@@ -66,7 +68,17 @@ class FireBaseAuthProvider{
       await _firebaseauth.sendPasswordResetEmail(email: email);
     } catch (e) {
       print(e.toString());
-      throw Exception(e.toString());
+      if(e.toString().contains('invalid-email')){
+        throw Exception("Informe um email válido!");
+      }else if(e.toString().contains('user-not-found')){
+        throw Exception("Usuário não encontrado!");
+      }else if(e.toString().contains('missing-continue-uri')){
+        throw Exception("É necessária um URL na requisição!");
+      }else if(e.toString().contains('unauthorized-continue-uri')){
+        throw Exception("O domínio requisitado não está autorizado!");
+      }else if(e.toString().contains('requires-recent-login')){
+        throw Exception("Você precisa estar logado há menos tempo para atualizar sua senha!");
+      }else throw Exception(e.toString());
     }
   }
 
