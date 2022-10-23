@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
 import 'package:walkthrough/shared/providers/notifications/firebase_messaging_service.dart';
 import 'package:walkthrough/shared/providers/notifications/notification_service.dart';
@@ -15,20 +13,20 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
 
-  @override
-  void initState() {
-    super.initState();
-    initializeFirebaseMessaging();
-    checkNotifications();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   initializeFirebaseMessaging();
+  //   checkNotifications();
+  // }
 
-  checkNotifications() async {
-    await Provider.of<NotificationService>(context, listen: false).checkForNotifications();
-  }
+  // checkNotifications() async {
+  //   await Provider.of<NotificationService>(context, listen: false).checkForNotifications();
+  // }
 
-  initializeFirebaseMessaging() async {
-    await Provider.of<FirebaseMessagingService>(context, listen: false).initialize();
-  }
+  // initializeFirebaseMessaging() async {
+  //   await Provider.of<FirebaseMessagingService>(context, listen: false).initialize();
+  // }
 
   @override
   Widget build(BuildContext context) {

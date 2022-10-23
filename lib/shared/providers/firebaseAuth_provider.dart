@@ -27,13 +27,13 @@ class FireBaseAuthProvider{
     } on FirebaseAuthException catch (e) {
       print(e.toString());
       if (e.code == 'user-not-found') {
-        throw Exception('Não há usuário cadastrado com este email.');
+        throw Exception('Login ou senha incorretos.');
       } else if (e.code == 'wrong-password') {
         throw Exception('Login ou senha incorretos.');
       } else if (e.code == 'invalid-email'){
         throw Exception('Informe um email válido.');
       } else if (e.code == 'user-disabled'){
-        throw Exception('Este usuário está disabilitado.');
+        throw Exception('Login ou senha incorretos.');
       }
       return {};
     }

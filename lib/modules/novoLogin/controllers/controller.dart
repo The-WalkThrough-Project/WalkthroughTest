@@ -12,7 +12,7 @@ class NovoLoginController extends ChangeNotifier {
   final _firebase_auth = FireBaseAuthProvider();
 
   atualizaDados(
-      {required VoidCallback? sucesso(),
+      {required VoidCallback? sucesso(UserProf? usuario),
       required VoidCallback? falha(String motivo),
       required UserProf usuario}) async {
     try {
@@ -32,7 +32,7 @@ class NovoLoginController extends ChangeNotifier {
 
       hasSenha ? await _firebase_auth.atualizarSenha(user.email ?? '') : null;
 
-      sucesso();
+      sucesso(user);
     } on Exception catch (e) {
       falha(e.toString().substring(11));
     }

@@ -44,40 +44,53 @@ class _NovoLoginState extends State<NovoLogin> {
               ),
               Row(
                 children: [
-                  Text('Assinale caso queira alterar a sua senha: ', style: TextStyle(color: Colors.deepPurple, ),),
-                  Checkbox(
-                    activeColor: Colors.deepPurple,
-                    value: _controller.hasSenha, 
-                    onChanged: (value){
-                      setState(() {
-                        _controller.hasSenha = !_controller.hasSenha;
-                      });
-                    }
+                  const Text(
+                    'Assinale caso queira alterar a sua senha: ',
+                    style: TextStyle(
+                      color: Colors.deepPurple,
+                    ),
                   ),
+                  Checkbox(
+                      side: MaterialStateBorderSide.resolveWith(
+                        (states) =>
+                            const BorderSide(width: 2.0, color: Colors.deepPurple),
+                      ),
+                      activeColor: Colors.deepPurple,
+                      value: _controller.hasSenha,
+                      onChanged: (value) {
+                        setState(() {
+                          _controller.hasSenha = !_controller.hasSenha;
+                        });
+                      }),
                 ],
               ),
               ElevatedButton(
                 onPressed: () {
-                  _controller.atualizaDados(sucesso: () {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => HomePage()));
-                  }, falha: (motivo) {
-                    MotionToast.error(
-                      title: const Text(
-                        'Erro',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      description: Text(motivo),
-                      animationType: AnimationType.fromLeft,
-                      position: MotionToastPosition.top,
-                      barrierColor: Colors.black.withOpacity(0.3),
-                      width: 300,
-                      height: 80,
-                      dismissable: true,
-                    ).show(context);
-                  }, usuario: widget.user);
+                  _controller.atualizaDados(
+                      sucesso: (usuario) {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HomePage(usuario: usuario ?? UserProf())));
+                      },
+                      falha: (motivo) {
+                        MotionToast.error(
+                          title: const Text(
+                            'Erro',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          description: Text(motivo),
+                          animationType: AnimationType.fromLeft,
+                          position: MotionToastPosition.top,
+                          barrierColor: Colors.black.withOpacity(0.3),
+                          width: 300,
+                          height: 80,
+                          dismissable: true,
+                        ).show(context);
+                      },
+                      usuario: widget.user);
                 },
                 child: const Text('Atualizar'),
               )

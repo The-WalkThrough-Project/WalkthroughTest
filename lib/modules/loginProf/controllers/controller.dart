@@ -49,11 +49,11 @@ class UserProfController extends ChangeNotifier {
       usuario.isValid(senha.text);
 
       await _firebaseAuthProvider.efetuarLogin(email, senha.text);
-      redirecionaLogado(context);
+      sucesso();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        print('Não há usuário cadastrado com este email.');
-        falha('Não há usuário cadastrado com este email.');
+        print('Login ou senha incorretos.');
+        falha('Login ou senha incorretos.');
       } else if (e.code == 'wrong-password') {
         print('Login ou senha incorretos.');
         falha('Login ou senha incorretos.');
@@ -61,8 +61,8 @@ class UserProfController extends ChangeNotifier {
         print('Informe um email válido.');
         falha('Informe um email válido.');
       } else if (e.code == 'user-disabled') {
-        print('Este usuário está desabilitado.');
-        falha('Este usuário está desabilitado.');
+        print('Login ou senha incorretos.');
+        falha('Login ou senha incorretos.');
       }
     } catch (e) {
       falha(e.toString().substring(11));
@@ -72,23 +72,6 @@ class UserProfController extends ChangeNotifier {
   atualizaToken(UserProf prof){
     _repository.atualizaToken(prof);
   }
-
-  void redirecionaLogado(BuildContext context) {
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => LoginPageController()));
-    /*ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        duration: Duration(milliseconds: 1500),
-        behavior: SnackBarBehavior.floating,
-        backgroundColor: Colors.deepPurple,
-        content: Text(
-          'Bem vindo!',
-          textAlign: TextAlign.center,
-        ),
-      ),
-    );*/
-  }
-
   Future<void> logOut() async {
     _firebaseAuthProvider.logOut();
   }

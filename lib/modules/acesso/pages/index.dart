@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 
-import '../../home/pages/index.dart';
 
 class BluetoothApp extends StatefulWidget {
   const BluetoothApp({Key? key}) : super(key: key);
@@ -79,7 +78,9 @@ class _BluetoothAppState extends State<BluetoothApp> {
   void dispose() {
     if (isConnected) {
       isDisconnecting = true;
-      connection!.dispose();
+      if (connection != null) {
+        connection?.dispose();
+      }
       connection = null;
     }
 

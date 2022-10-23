@@ -6,6 +6,7 @@ import 'package:walkthrough/modules/agenda/pages/formTest.dart';
 import 'package:walkthrough/modules/loginProf/models/prof_model.dart';
 import 'package:walkthrough/shared/components/tabela_horario_dia/tabelaHorario.dart';
 import 'package:walkthrough/shared/databases/BD.dart';
+
 class HorariosPage extends StatefulWidget {
   final UserProf user;
 
@@ -58,104 +59,228 @@ class _HorariosPageState extends State<HorariosPage> {
 
   @override
   Widget build(BuildContext context) {
+    double? largura = MediaQuery.maybeOf(context)?.size.width;
     return StreamBuilder(
-      stream: FirebaseFirestore.instance.collection("horáriosFixos").where('lab', isEqualTo: dropdownValue.substring(4)).snapshots(),
-      builder: (context, AsyncSnapshot snapshot) {
-        return Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: ListView(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 5, 15, 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text('Selecione um laboratório: ', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.deepPurple),),
-                          DropdownButton<String>(
-                            value: dropdownValue,
-                            icon: const Icon(
-                              Icons.expand_more_rounded,
-                              color: Colors.deepPurple,
-                            ),
-                            elevation: 16,
-                            style: const TextStyle(color: Colors.deepPurple),
-                            dropdownColor: Colors.white,
-                            underline: Container(
-                              color: Colors.transparent,
-                            ),
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                dropdownValue = newValue!;
-                                refreshHorarios();
-                              });
-                            },
-                            items: <String>[
-                              'Lab 304',
-                              'Lab 602',
-                              'Lab 604',
-                              'Lab 606',
-                              'Lab 608',
-                              'Lab 609',
-                            ].map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                          ),
-                        ],
+        stream: FirebaseFirestore.instance
+            .collection("horáriosFixos")
+            .where('lab', isEqualTo: dropdownValue.substring(4))
+            .snapshots(),
+        builder: (context, AsyncSnapshot snapshot) {
+          return Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: ListView(children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 5, 15, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Selecione um laboratório: ',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.deepPurple),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: widget.user.tipoUsuario == 'Gerenciador' ? ElevatedButton(
-                          onPressed: () async {
-                            var result = await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: ((context) =>
-                                        FormTeste(lab: dropdownValue.substring(4)))));
-                            result == true ? refreshHorarios() : null;
-                          },
-                          child: const Text("CADASTRAR")
-                      ) : null
-                    ),
-                        snapshot.hasData && isLoading == false 
-                        //horarios != null && horarios!.isNotEmpty && isLoading == false 
-                        ? Column(children: [
-                            TabelaHorarios(
-                              diaSemana: "Segunda-Feira",
-                              horarios: snapshot.data.docs ?? [],
-                              lab: dropdownValue.substring(4),
-                            ),
-                            TabelaHorarios(
-                              diaSemana: "Terça-Feira",
-                              horarios: snapshot.data.docs ?? [],
-                              lab: dropdownValue.substring(4),
-                            ),
-                            TabelaHorarios(
-                              diaSemana: "Quarta-Feira",
-                              horarios: snapshot.data.docs ?? [],
-                              lab: dropdownValue.substring(4),
-                            ),
-                            TabelaHorarios(
-                              diaSemana: "Quinta-Feira",
-                              horarios: snapshot.data.docs ?? [],
-                              lab: dropdownValue.substring(4),
-                            ),
-                            TabelaHorarios(
-                              diaSemana: "Sexta-Feira",
-                              horarios: snapshot.data.docs ?? [],
-                              lab: dropdownValue.substring(4),
-                            ),
-                          ])
-                        : const Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.deepPurple,
+                      DropdownButton<String>(
+                        value: dropdownValue,
+                        icon: const Icon(
+                          Icons.expand_more_rounded,
+                          color: Colors.deepPurple,
+                        ),
+                        elevation: 16,
+                        style: const TextStyle(color: Colors.deepPurple),
+                        dropdownColor: Colors.white,
+                        underline: Container(
+                          color: Colors.transparent,
+                        ),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            dropdownValue = newValue ?? '';
+                            refreshHorarios();
+                          });
+                        },
+                        items: <String>[
+                          'Lab 304',
+                          'Lab 602',
+                          'Lab 604',
+                          'Lab 606',
+                          'Lab 608',
+                          'Lab 609',
+                        ].map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                    padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+                    child: widget.user.tipoUsuario == 'Gerenciador'
+                        ? ElevatedButton(
+                            onPressed: () async {
+                              var result = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: ((context) => FormTeste(
+                                          lab: dropdownValue.substring(4)))));
+                              result == true ? refreshHorarios() : null;
+                            },
+                            child: const Text("CADASTRAR"))
+                        : null
+                ),
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(0, 9, 0, 12),
+                  child: Text('Clique nas tabelas para ampliá-las:',
+                  style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.deepPurple), textAlign: TextAlign.center,),
+                ),
+                snapshot.hasData && isLoading == false
+                    ? Column(children: [
+                        GestureDetector(
+                          onTap: () => showDialog(
+                              context: context,
+                              builder: (context) {
+                                return Center(
+                                  child: Container(
+                                    height: 207,
+                                    width: largura != null ? largura * 0.95 : 300,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5)),
+                                    child: InteractiveViewer(
+                                      child: TabelaHorarios(
+                                          diaSemana: "Segunda-Feira",
+                                          horarios: snapshot.data.docs ?? [],
+                                          lab: dropdownValue.substring(4),
+                                          zoom: true,
+                                        ),
+                                      ),
+                                    ),
+                                );
+                              }),
+                          child: TabelaHorarios(
+                            diaSemana: "Segunda-Feira",
+                            horarios: snapshot.data.docs ?? [],
+                            lab: dropdownValue.substring(4),
                           ),
-                        )
-                  ]));
-      }
-    );
+                        ),
+                        GestureDetector(
+                          onTap: () => showDialog(
+                              context: context,
+                              builder: (context) {
+                                return Center(
+                                  child: Container(
+                                    height: 207,
+                                    width: largura != null ? largura * 0.95 : 300,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5)),
+                                    child: InteractiveViewer(
+                                      child: TabelaHorarios(
+                                          diaSemana: "Terça-Feira",
+                                          horarios: snapshot.data.docs ?? [],
+                                          lab: dropdownValue.substring(4),
+                                          zoom: true,
+                                        ),
+                                      ),
+                                    ),
+                                );
+                              }),
+                          child: TabelaHorarios(
+                            diaSemana: "Terça-Feira",
+                            horarios: snapshot.data.docs ?? [],
+                            lab: dropdownValue.substring(4),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () => showDialog(
+                              context: context,
+                              builder: (context) {
+                                return Center(
+                                  child: Container(
+                                    height: 207,
+                                    width: largura != null ? largura * 0.95 : 300,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5)),
+                                    child: InteractiveViewer(
+                                      child: TabelaHorarios(
+                                          diaSemana: "Quarta-Feira",
+                                          horarios: snapshot.data.docs ?? [],
+                                          lab: dropdownValue.substring(4),
+                                          zoom: true,
+                                        ),
+                                      ),
+                                    ),
+                                );
+                              }),
+                          child: TabelaHorarios(
+                            diaSemana: "Quarta-Feira",
+                            horarios: snapshot.data.docs ?? [],
+                            lab: dropdownValue.substring(4),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () => showDialog(
+                              context: context,
+                              builder: (context) {
+                                return Center(
+                                  child: Container(
+                                    height: 207,
+                                    width: largura != null ? largura * 0.95 : 300,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5)),
+                                    child: InteractiveViewer(
+                                      child: TabelaHorarios(
+                                          diaSemana: "Quinta-Feira",
+                                          horarios: snapshot.data.docs ?? [],
+                                          lab: dropdownValue.substring(4),
+                                          zoom: true,
+                                        ),
+                                      ),
+                                    ),
+                                );
+                              }),
+                          child: TabelaHorarios(
+                            diaSemana: "Quinta-Feira",
+                            horarios: snapshot.data.docs ?? [],
+                            lab: dropdownValue.substring(4),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () => showDialog(
+                              context: context,
+                              builder: (context) {
+                                return Center(
+                                  child: Container(
+                                    height: 207,
+                                    width: largura != null ? largura * 0.95 : 300,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5)),
+                                    child: InteractiveViewer(
+                                      child: TabelaHorarios(
+                                          diaSemana: "Sexta-Feira",
+                                          horarios: snapshot.data.docs ?? [],
+                                          lab: dropdownValue.substring(4),
+                                          zoom: true,
+                                        ),
+                                      ),
+                                    ),
+                                );
+                              }),
+                          child: TabelaHorarios(
+                            diaSemana: "Sexta-Feira",
+                            horarios: snapshot.data.docs ?? [],
+                            lab: dropdownValue.substring(4),
+                          ),
+                        ),
+                      ])
+                    : const Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.deepPurple,
+                        ),
+                      )
+              ]));
+        });
   }
 }

@@ -14,7 +14,9 @@ import 'package:walkthrough/shared/providers/notifications/notification_service.
 import '../../acesso/pages/index.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final UserProf usuario;
+
+  const HomePage({Key? key, required this.usuario}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -22,8 +24,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _controller = UserProfController();
-  final FireBaseAuthProvider auth = FireBaseAuthProvider();
-  UserProf user = UserProf();
   bool valor = false;
 
   showNotification() {
@@ -43,37 +43,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    getDados1();
-  }
-
-  getDados1() async {
-    final user = await _controller.getDados();
-    print(user);
-    mounted ?
-    setState(() {
-      user;
-    }):
-    user.nome != null && user.nome!.isNotEmpty && user.nome != '' && mounted
-        ? setState(() {
-          WidgetsBinding.instance.addPostFrameCallback((_){
-            showsnackbar('Bem vindo ${user.nome}!', context);
-          });
-          })
-        : null;
-  }
-
-  showsnackbar(String message, context) {
-    final snackbar = SnackBar(
-      content: Text(
-        message,
-        textAlign: TextAlign.center,
-      ),
-      behavior: SnackBarBehavior.floating,
-      backgroundColor: Colors.deepPurple,
-      duration: const Duration(milliseconds: 2200),
-    );
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(snackbar);
   }
 
   @override
@@ -97,14 +66,11 @@ class _HomePageState extends State<HomePage> {
           ));
     }
 
-    return StreamBuilder(
-        stream: auth.onAuthStatedChanged,
-        builder: (context, snapshot) {
-          return Scaffold(
+    return Scaffold(
             appBar: AppBar(
               automaticallyImplyLeading: false,
               title: Text(
-                snapshot.hasData ? 'Bem vindo ' : 'Início',
+                'Bem vindo, ${widget.usuario.nome}!',
               ),
               actions: <Widget>[
                 TextButton.icon(
@@ -141,7 +107,7 @@ class _HomePageState extends State<HomePage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const PerfilPage(),
+                          builder: (context) => PerfilPage(usuario: widget.usuario),
                         ));
                   },
                 ),
@@ -157,19 +123,18 @@ class _HomePageState extends State<HomePage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const AgendaPage()));
+                              builder: (context) => AgendaPage(usuario: widget.usuario)));
                     },
                   ),
                   botao("Acesso", onPressed: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => BluetoothApp()));
+                            builder: (context) => BluetoothApp(/*usuario: widget.usuario*/)));
                   }),
                 ],
               ),
             ),
           );
-        });
   }
 }

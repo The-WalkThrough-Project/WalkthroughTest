@@ -67,6 +67,6 @@ class _LoginPageControllerState extends State<LoginPageController> {
             ? const Center(
                 child: CircularProgressIndicator(color: Colors.deepPurple),
               )
-            : HomePage();
+            : HomePage(usuario: user);
   }
 }

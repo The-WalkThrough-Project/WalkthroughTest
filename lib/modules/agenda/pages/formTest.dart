@@ -89,7 +89,7 @@ class _FormTesteState extends State<FormTeste> {
                     }).toList(),
                     onChanged: (String? novoValor) {
                       setState(() {
-                        valorHorario = novoValor!;
+                        valorHorario = novoValor ?? '';
                         _controller.horario.text = valorHorario.substring(16);
                       });
                     },
@@ -134,7 +134,7 @@ class _FormTesteState extends State<FormTeste> {
                     ),
                     onChanged: (String? novoValor) {
                       setState(() {
-                        valorLab = novoValor!;
+                        valorLab = novoValor ?? '';
                         _controller.lab.text = valorLab;
                       });
                     },
@@ -184,7 +184,7 @@ class _FormTesteState extends State<FormTeste> {
                     }).toList(),
                     onChanged: (String? novoValor) {
                       setState(() {
-                        valorDia = novoValor!;
+                        valorDia = novoValor ?? '';
                         _controller.diaSemana.text = valorDia;
                       });
                     },

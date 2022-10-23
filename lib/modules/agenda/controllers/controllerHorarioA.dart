@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:walkthrough/modules/agenda/models/horario_agendado_model.dart';
 import 'package:walkthrough/modules/agenda/models/horario_fixo_model.dart';
 import 'package:walkthrough/modules/agenda/repositories/horario_agendado_repository.dart';

@@ -1,8 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:walkthrough/core/app.dart';
 
 class FirebaseAppInit extends StatelessWidget {
@@ -20,17 +17,29 @@ class FirebaseAppInit extends StatelessWidget {
             child: Text("Ocorreu um erro ao inicializar o Firebase!"),
           );
         }
-
-        if (snapshot.connectionState == ConnectionState.done) {
-          return MyApp();
+        if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
+          return const MyApp();
         }
 
-        return Container(
-          color: Colors.deepPurple,
-          child: const Center(
-            child: CircularProgressIndicator(),
-          ),
-        );
+        return Scaffold(
+                body: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    CircularProgressIndicator(
+                      color: Colors.deepPurple,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Text(
+                        'Carregando...',
+                        style:
+                            TextStyle(color: Colors.deepPurple, fontSize: 18),
+                      ),
+                    )
+                  ],
+                )),
+              );
       }
     );
   }

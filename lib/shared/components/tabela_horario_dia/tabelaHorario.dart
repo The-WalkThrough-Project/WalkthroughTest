@@ -13,8 +13,9 @@ class TabelaHorarios extends StatefulWidget {
   final String lab;
   final String diaSemana;
   final List horarios;
+  final bool? zoom;
 
-  const TabelaHorarios({Key? key,/* this.content1, this.content2, this.width, this.height,*/ required this.lab, required this.diaSemana, required this.horarios}) : super(key: key);
+  const TabelaHorarios({Key? key, required this.lab, required this.diaSemana, required this.horarios, this.zoom}) : super(key: key);
 
   @override
   State<TabelaHorarios> createState() => _TabelaHorariosState();
@@ -58,6 +59,7 @@ class _TabelaHorariosState extends State<TabelaHorarios> {
           child: Container(
                 padding: EdgeInsets.all(4),
                 decoration: BoxDecoration(
+                  color: widget.zoom ?? false ? Colors.white : null,
                     border: Border.all(color: Colors.deepPurple),
                     borderRadius: BorderRadius.circular(5)),
                 child: Column(children: [

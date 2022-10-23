@@ -13,7 +13,9 @@ import 'package:walkthrough/modules/novoLogin/controllers/controller.dart';
 import 'package:walkthrough/shared/providers/firebaseAuth_provider.dart';
 
 class PerfilPage extends StatefulWidget {
-  const PerfilPage({Key? key}) : super(key: key);
+  final UserProf usuario;
+
+  const PerfilPage({Key? key, required this.usuario}) : super(key: key);
 
   @override
   State<PerfilPage> createState() => _PerfilPageState();
@@ -30,24 +32,9 @@ class _PerfilPageState extends State<PerfilPage> {
   @override
   void initState() {
     super.initState();
-    getDados1();
   }
 
-  getDados1() async {
-    setState(() {
-      isLoading = true;
-    });
-
-    user = await _controller.getDados();
-    print(user);
-    setState(() {
-      user;
-    });
-
-    setState(() {
-      isLoading = false;
-    });
-  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -83,18 +70,34 @@ class _PerfilPageState extends State<PerfilPage> {
                       ? ListView(
                           children: [
                             const Padding(
-                              padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
+                              padding: EdgeInsets.fromLTRB(20, 20, 20, 25),
+                              child: Text(
+                                  'Clique no ícone da caneta para habilitar a edição dos campos desejados!',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.deepPurple,
+                                      fontWeight: FontWeight.bold
+                                    ),
+                                    textAlign: TextAlign.center,
+                                ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.fromLTRB(30, 20, 0, 0),
                               child: Text(
                                 'Seu nome:',
-                                style: TextStyle(fontSize: 18),
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.deepPurple,
+                                    fontWeight: FontWeight.bold),
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
                               child: TextFormField(
                                 controller: _controller2.nome,
+                                style: const TextStyle(color: Colors.deepPurple),
                                 decoration: InputDecoration(
-                                  hintText: user.nome,
+                                  hintText: widget.usuario.nome,
                                   suffixIcon: Container(
                                     margin: const EdgeInsets.only(left: 8),
                                     decoration: const BoxDecoration(
@@ -112,15 +115,18 @@ class _PerfilPageState extends State<PerfilPage> {
                                           color: Colors.deepPurple,
                                         )),
                                   ),
+                                  hintStyle: const TextStyle(
+                                      color:
+                                          Color.fromARGB(255, 166, 140, 211)),
                                   enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
                                       borderSide: const BorderSide(
-                                          color: Colors.deepPurple)),
+                                          color: Color.fromARGB(
+                                              255, 144, 117, 189)),
+                                      borderRadius:
+                                          BorderRadius.circular(10.0)),
                                   focusedBorder: OutlineInputBorder(
                                       borderSide: const BorderSide(
-                                        color: Colors.deepPurple,
-                                        width: 2,
-                                      ),
+                                          color: Colors.deepPurple),
                                       borderRadius:
                                           BorderRadius.circular(10.0)),
                                 ),
@@ -128,20 +134,22 @@ class _PerfilPageState extends State<PerfilPage> {
                               ),
                             ),
                             const Padding(
-                              padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
+                              padding: EdgeInsets.fromLTRB(30, 20, 0, 0),
                               child: Text(
                                 'Seu email:',
                                 style: TextStyle(
-                                  fontSize: 18,
-                                ),
+                                    fontSize: 18,
+                                    color: Colors.deepPurple,
+                                    fontWeight: FontWeight.bold),
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
                               child: TextFormField(
                                 controller: _controller2.email,
+                                style: const TextStyle(color: Colors.deepPurple),
                                 decoration: InputDecoration(
-                                  hintText: user.email,
+                                  hintText: widget.usuario.email,
                                   suffixIcon: Container(
                                     margin: const EdgeInsets.only(left: 8),
                                     decoration: const BoxDecoration(
@@ -159,15 +167,18 @@ class _PerfilPageState extends State<PerfilPage> {
                                           color: Colors.deepPurple,
                                         )),
                                   ),
+                                  hintStyle: const TextStyle(
+                                      color:
+                                          Color.fromARGB(255, 166, 140, 211)),
                                   enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
                                       borderSide: const BorderSide(
-                                          color: Colors.deepPurple)),
+                                          color: Color.fromARGB(
+                                              255, 144, 117, 189)),
+                                      borderRadius:
+                                          BorderRadius.circular(10.0)),
                                   focusedBorder: OutlineInputBorder(
                                       borderSide: const BorderSide(
-                                        color: Colors.deepPurple,
-                                        width: 2,
-                                      ),
+                                          color: Colors.deepPurple),
                                       borderRadius:
                                           BorderRadius.circular(10.0)),
                                 ),
@@ -175,16 +186,20 @@ class _PerfilPageState extends State<PerfilPage> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                              padding: const EdgeInsets.fromLTRB(30, 10, 20, 0),
                               child: Row(
                                 children: [
                                   const Text(
                                     'Assinale caso queira alterar a sua senha: ',
                                     style: TextStyle(
-                                      color: Colors.deepPurple,
-                                    ),
+                                        color: Colors.deepPurple,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                   Checkbox(
+                                      side: MaterialStateBorderSide.resolveWith(
+                                        (states) => const BorderSide(
+                                            width: 2.0, color: Colors.deepPurple),
+                                      ),
                                       activeColor: Colors.deepPurple,
                                       value: _controller2.hasSenha,
                                       onChanged: (value) {
@@ -197,90 +212,147 @@ class _PerfilPageState extends State<PerfilPage> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(top: 10),
-                              child: Center(
-                                child: ElevatedButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        _controller2.nome.text.isNotEmpty
-                                            ? null
-                                            : _controller2.nome.text =
-                                                user.nome ?? '';
-                                        _controller2.email.text.isNotEmpty
-                                            ? null
-                                            : _controller2.email.text =
-                                                user.email ?? '';
-                                      });
-                                      _controller2.atualizaDados(
-                                          sucesso: () {
-                                            Navigator.pop(context);
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(const SnackBar(
-                                              duration:
-                                                  Duration(milliseconds: 2500),
-                                              behavior: SnackBarBehavior.floating,
-                                              backgroundColor:
-                                                  Colors.deepPurple,
-                                              content: Text(
-                                                'Dados Atualizados com sucesso!',
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ));
-                                            if(_controller2.hasSenha) {
-                                              MotionToast.success(
-                                              toastDuration: Duration(seconds: 5),
-                                              title: const Text(
-                                                'Erro',
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
+                                padding: const EdgeInsets.only(top: 10),
+                                child: Center(
+                                  child: ElevatedButton(
+                                    onPressed: () async {
+                                      if ((!alterar ||
+                                              !alterar2 ||
+                                              _controller2
+                                                  .nome.text.isNotEmpty ||
+                                              _controller2
+                                                  .email.text.isNotEmpty) &&
+                                          (_controller2.nome.text ==
+                                                  user.nome ||
+                                              _controller2.email.text ==
+                                                  user.email ||
+                                              _controller2.hasSenha)) {
+                                        setState(() {
+                                          isLoading = true;
+                                          _controller2.nome.text.isNotEmpty
+                                              ? null
+                                              : _controller2.nome.text =
+                                                  user.nome ?? '';
+                                          _controller2.email.text.isNotEmpty
+                                              ? null
+                                              : _controller2.email.text =
+                                                  user.email ?? '';
+                                        });
+                                        await _controller2.atualizaDados(
+                                            sucesso: (usuario) {
+                                              isLoading = false;
+                                              Navigator.pop(context);
+                                              if ((!alterar || !alterar2) &&
+                                                  (_controller2.nome.text !=
+                                                          user.nome ||
+                                                      _controller2.email.text !=
+                                                          user.email)) {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                        const SnackBar(
+                                                  duration: Duration(
+                                                      milliseconds: 2500),
+                                                  behavior:
+                                                      SnackBarBehavior.floating,
+                                                  backgroundColor:
+                                                      Colors.deepPurple,
+                                                  content: Text(
+                                                    'Dados Atualizados com sucesso!',
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ));
+                                              }
+                                              if (_controller2.hasSenha) {
+                                                MotionToast.success(
+                                                  toastDuration: const Duration(
+                                                      seconds: 5),
+                                                  title: const Text(
+                                                    'Erro',
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                  description: const Text(
+                                                      'Verifique seu email para alterar sua senha. \nLembre-se de checar o spam!'),
+                                                  animationType:
+                                                      AnimationType.fromTop,
+                                                  position:
+                                                      MotionToastPosition.top,
+                                                  barrierColor: Colors.black
+                                                      .withOpacity(0.3),
+                                                  width: 300,
+                                                  height: 80,
+                                                  dismissable: true,
+                                                ).show(context);
+                                              }
+                                            },
+                                            falha: (motivo) {
+                                              isLoading = false;
+                                              MotionToast.error(
+                                                title: const Text(
+                                                  'Erro',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
                                                 ),
-                                              ),
-                                              description: const Text('Verifique seu email para alterar sua senha. \nLembre-se de checar o spam!'),
-                                              animationType:
-                                                  AnimationType.fromTop,
-                                              position: MotionToastPosition.top,
-                                              barrierColor:
-                                                  Colors.black.withOpacity(0.3),
-                                              width: 300,
-                                              height: 80,
-                                              dismissable: true,
-                                            ).show(context);
-                                            }
-                                          },
-                                          falha: (motivo) {
-                                            MotionToast.error(
-                                              title: const Text(
-                                                'Erro',
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              description: Text(motivo),
-                                              animationType:
-                                                  AnimationType.fromLeft,
-                                              position: MotionToastPosition.top,
-                                              barrierColor:
-                                                  Colors.black.withOpacity(0.3),
-                                              width: 300,
-                                              height: 80,
-                                              dismissable: true,
-                                            ).show(context);
-                                          },
-                                          usuario: user);
-                                      setState(() {
-                                        alterar = true;
-                                        alterar2 = true;
-                                      });
+                                                description: Text(motivo),
+                                                animationType:
+                                                    AnimationType.fromLeft,
+                                                position:
+                                                    MotionToastPosition.top,
+                                                barrierColor: Colors.black
+                                                    .withOpacity(0.3),
+                                                width: 300,
+                                                height: 80,
+                                                dismissable: true,
+                                              ).show(context);
+                                            },
+                                            usuario: user);
+                                        setState(() {
+                                          alterar = true;
+                                          alterar2 = true;
+                                        });
+                                      }
                                     },
-                                    child: const Text('Confirmar')),
-                              ),
-                            )
+                                    child: const Text('Confirmar'),
+                                    style: ElevatedButton.styleFrom(
+                                      primary: (_controller2
+                                                      .nome.text.isNotEmpty ||
+                                                  _controller2
+                                                      .email.text.isNotEmpty ||
+                                                  _controller2.hasSenha) &&
+                                              (_controller2.nome.text !=
+                                                      user.nome ||
+                                                  _controller2.email.text !=
+                                                      user.email ||
+                                                  _controller2.hasSenha)
+                                          ? Colors.deepPurple
+                                          : const Color.fromARGB(255, 166, 140, 211),
+                                    ),
+                                  ),
+                                ))
                           ],
                         )
-                      : const Center(
-                          child: const CircularProgressIndicator(
-                          color: Colors.deepPurple,
-                        ))));
+                      : Center(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              CircularProgressIndicator(
+                                color: Colors.deepPurple,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(10.0),
+                                child: Text(
+                                  'Carregando...',
+                                  style: TextStyle(
+                                      color: Colors.deepPurple, fontSize: 18),
+                                ),
+                              )
+                            ],
+                          ),
+                        )));
         });
   }
 }
