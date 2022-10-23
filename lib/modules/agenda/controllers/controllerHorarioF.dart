@@ -41,6 +41,31 @@ class HorarioController extends ChangeNotifier{
     }
   }
 
+  void excluirHorario(
+    {required VoidCallback sucesso,
+    required VoidCallback? falha(String motivo)}) async {
+    
+    try {
+      final horarioF = HorarioFixo(
+        nomeProfessor: nomeProfessor.text.trim(),
+        nomeDisciplina: nomeDisciplina.text.trim(),
+        diaSemana: diaSemana.text.trim(),
+        lab: lab.text.trim(),
+        horario: horario.text.trim()
+      );
+      
+      await _repoHorarioF.excluir(horarioF);
+      sucesso();
+    } catch (e) {
+      falha(e.toString().substring(11));
+    }
+  }
+
+  existeHorario(HorarioAgendado horario, String dia) async{
+    print(dia);
+    return await _repoHorarioF.existeHorario(horario, dia);
+  }
+
   Future<List<HorarioFixo>?> getHorariosF(String lab) async {
     return await _repoHorarioF.selecionarTodosPLab(lab);
   }

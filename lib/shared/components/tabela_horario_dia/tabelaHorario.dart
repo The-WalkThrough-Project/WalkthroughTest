@@ -60,7 +60,7 @@ class _TabelaHorariosState extends State<TabelaHorarios> {
                 padding: EdgeInsets.all(4),
                 decoration: BoxDecoration(
                   color: widget.zoom ?? false ? Colors.white : null,
-                    border: Border.all(color: Colors.deepPurple),
+                    border: Border.all(color: Colors.deepPurple, width: 2),
                     borderRadius: BorderRadius.circular(5)),
                 child: Column(children: [
                   Container(

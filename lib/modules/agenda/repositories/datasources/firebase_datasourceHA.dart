@@ -27,12 +27,31 @@ class FirebaseDataSourceHA extends DataSourceBaseA {
   }
 
   @override
+  Future<bool?> existeHorario(Map<String, dynamic>? horarioAgendado) async{
+    String string = horarioAgendado?['data'];
+    string = string.substring(0, 10);
+    QuerySnapshot qs = await _firebasefirestore
+        .collection("horáriosAgendados")
+        .where('lab', isEqualTo: horarioAgendado?['lab'])
+        .where('data', isEqualTo: string)
+        .where('horarioInicial', isEqualTo: horarioAgendado?['horarioInicial'])
+        .get();
+
+    if (qs.size == 0) {
+      return false;
+    }    
+    return true;
+  }
+
+  @override
   Future<void> excluir(Map<String, dynamic>? horarioAgendado) async {
     QuerySnapshot qs = await _firebasefirestore
         .collection("horáriosAgendados")
         .where("nomeProfessor", isEqualTo: horarioAgendado?['nomeProfessor'])
         .where('lab', isEqualTo: horarioAgendado?['lab'])
         .where('data', isEqualTo: horarioAgendado?['data'])
+        .where('horarioInicial', isEqualTo: horarioAgendado?['horarioInicial'])
+        .where('isTemp', isEqualTo: horarioAgendado?['isTemp'])
         .get();
 
     await _firebasefirestore

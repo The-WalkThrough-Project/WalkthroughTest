@@ -13,5 +13,7 @@ abstract class DataSourceBaseF{
   Future<List<Map<String, dynamic>>?> selecionarTodos();
 
   Future<Query<Map<String, dynamic>>?> selecionarTodosPLab(String lab);
+
+  Future<bool?>? existeHorario(Map<String, dynamic>? horarioFixo, String dia);
   
 }

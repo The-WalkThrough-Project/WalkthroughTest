@@ -26,15 +26,12 @@ class _PerfilPageState extends State<PerfilPage> {
   bool alterar2 = true;
   final _controller = UserProfController();
   final _controller2 = NovoLoginController();
-  UserProf user = UserProf();
   bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
   }
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -72,21 +69,20 @@ class _PerfilPageState extends State<PerfilPage> {
                             const Padding(
                               padding: EdgeInsets.fromLTRB(20, 20, 20, 25),
                               child: Text(
-                                  'Clique no ícone da caneta para habilitar a edição dos campos desejados!',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.deepPurple,
-                                      fontWeight: FontWeight.bold
-                                    ),
-                                    textAlign: TextAlign.center,
-                                ),
+                                'Clique no ícone da caneta para habilitar a edição dos campos desejados!',
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.deepPurple,
+                                    fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.center,
+                              ),
                             ),
                             const Padding(
                               padding: EdgeInsets.fromLTRB(30, 20, 0, 0),
                               child: Text(
                                 'Seu nome:',
                                 style: TextStyle(
-                                    fontSize: 18,
+                                    fontSize: 16,
                                     color: Colors.deepPurple,
                                     fontWeight: FontWeight.bold),
                               ),
@@ -95,7 +91,8 @@ class _PerfilPageState extends State<PerfilPage> {
                               padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
                               child: TextFormField(
                                 controller: _controller2.nome,
-                                style: const TextStyle(color: Colors.deepPurple),
+                                style:
+                                    const TextStyle(color: Colors.deepPurple),
                                 decoration: InputDecoration(
                                   hintText: widget.usuario.nome,
                                   suffixIcon: Container(
@@ -138,7 +135,7 @@ class _PerfilPageState extends State<PerfilPage> {
                               child: Text(
                                 'Seu email:',
                                 style: TextStyle(
-                                    fontSize: 18,
+                                    fontSize: 16,
                                     color: Colors.deepPurple,
                                     fontWeight: FontWeight.bold),
                               ),
@@ -147,7 +144,8 @@ class _PerfilPageState extends State<PerfilPage> {
                               padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
                               child: TextFormField(
                                 controller: _controller2.email,
-                                style: const TextStyle(color: Colors.deepPurple),
+                                style:
+                                    const TextStyle(color: Colors.deepPurple),
                                 decoration: InputDecoration(
                                   hintText: widget.usuario.email,
                                   suffixIcon: Container(
@@ -198,7 +196,8 @@ class _PerfilPageState extends State<PerfilPage> {
                                   Checkbox(
                                       side: MaterialStateBorderSide.resolveWith(
                                         (states) => const BorderSide(
-                                            width: 2.0, color: Colors.deepPurple),
+                                            width: 2.0,
+                                            color: Colors.deepPurple),
                                       ),
                                       activeColor: Colors.deepPurple,
                                       value: _controller2.hasSenha,
@@ -216,56 +215,109 @@ class _PerfilPageState extends State<PerfilPage> {
                                 child: Center(
                                   child: ElevatedButton(
                                     onPressed: () async {
-                                      if ((!alterar ||
-                                              !alterar2 ||
-                                              _controller2
-                                                  .nome.text.isNotEmpty ||
+                                      if ((!alterar || !alterar2) &&
+                                          (_controller2.nome.text.isNotEmpty ||
                                               _controller2
                                                   .email.text.isNotEmpty) &&
-                                          (_controller2.nome.text ==
-                                                  user.nome ||
-                                              _controller2.email.text ==
-                                                  user.email ||
-                                              _controller2.hasSenha)) {
-                                        setState(() {
-                                          isLoading = true;
-                                          _controller2.nome.text.isNotEmpty
-                                              ? null
-                                              : _controller2.nome.text =
-                                                  user.nome ?? '';
-                                          _controller2.email.text.isNotEmpty
-                                              ? null
-                                              : _controller2.email.text =
-                                                  user.email ?? '';
-                                        });
-                                        await _controller2.atualizaDados(
-                                            sucesso: (usuario) {
-                                              isLoading = false;
-                                              Navigator.pop(context);
-                                              if ((!alterar || !alterar2) &&
-                                                  (_controller2.nome.text !=
-                                                          user.nome ||
-                                                      _controller2.email.text !=
-                                                          user.email)) {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                        const SnackBar(
-                                                  duration: Duration(
-                                                      milliseconds: 2500),
-                                                  behavior:
-                                                      SnackBarBehavior.floating,
-                                                  backgroundColor:
-                                                      Colors.deepPurple,
-                                                  content: Text(
-                                                    'Dados Atualizados com sucesso!',
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                ));
-                                              }
-                                              if (_controller2.hasSenha) {
-                                                MotionToast.success(
-                                                  toastDuration: const Duration(
-                                                      seconds: 5),
+                                          (_controller2.nome.text !=
+                                                  widget.usuario.nome ||
+                                              _controller2.email.text !=
+                                                  widget.usuario.email ||
+                                              _controller2.hasSenha) || (_controller2.hasSenha)) {
+                                        if (await confirm(
+                                          context,
+                                          title: const Text(
+                                            'Confirmação',
+                                            style: TextStyle(
+                                                color: Colors.deepPurple),
+                                          ),
+                                          content: const Text(
+                                            'Você terá que entrar novamente para atualizar suas informações. \n\nCerteza?',
+                                            style: TextStyle(
+                                                color: Colors.deepPurple),
+                                          ),
+                                          textOK: const Text(
+                                            'Sim',
+                                            style:
+                                                TextStyle(color: Colors.green),
+                                          ),
+                                          textCancel: const Text(
+                                            'Não',
+                                            style: TextStyle(color: Colors.red),
+                                          ),
+                                        )) {
+                                          setState(() {
+                                            isLoading = true;
+                                            _controller2.nome.text.isNotEmpty
+                                                ? null
+                                                : _controller2.nome.text =
+                                                    widget.usuario.nome ?? '';
+                                            _controller2.email.text.isNotEmpty
+                                                ? null
+                                                : _controller2.email.text =
+                                                    widget.usuario.email ?? '';
+                                          });
+                                          await _controller2.atualizaDados(
+                                              sucesso: (usuario) {
+                                                isLoading = false;
+                                                _controller.removeToken();
+                                                _controller.logOut();
+                                                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
+                                                if ((!alterar || !alterar2) &&
+                                                    (_controller2.nome.text !=
+                                                            widget.usuario.nome ||
+                                                        _controller2
+                                                                .email.text !=
+                                                            widget.usuario.email)) {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                          const SnackBar(
+                                                    duration: Duration(
+                                                        milliseconds: 2500),
+                                                    behavior: SnackBarBehavior
+                                                        .floating,
+                                                    backgroundColor:
+                                                        Colors.deepPurple,
+                                                    content: Text(
+                                                      'Dados Atualizados com sucesso!',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                    ),
+                                                  ));
+                                                }
+                                                if (_controller2.hasSenha) {
+                                                  MotionToast.success(
+                                                    toastDuration:
+                                                        const Duration(
+                                                            seconds: 5),
+                                                    title: const Text(
+                                                      'Sucesso',
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                    description: const Text(
+                                                        'Verifique seu email para alterar sua senha. \nLembre-se de checar o spam!'),
+                                                    animationType:
+                                                        AnimationType.fromTop,
+                                                    position:
+                                                        MotionToastPosition.top,
+                                                    barrierColor: Colors.black
+                                                        .withOpacity(0.3),
+                                                    width: 300,
+                                                    height: 80,
+                                                    dismissable: true,
+                                                  ).show(context);
+                                                }
+                                                setState(() {
+                                                  alterar = true;
+                                                  alterar2 = true;
+                                                });
+                                              },
+                                              falha: (motivo) {
+                                                isLoading = false;
+                                                MotionToast.error(
                                                   title: const Text(
                                                     'Erro',
                                                     style: TextStyle(
@@ -273,10 +325,9 @@ class _PerfilPageState extends State<PerfilPage> {
                                                           FontWeight.bold,
                                                     ),
                                                   ),
-                                                  description: const Text(
-                                                      'Verifique seu email para alterar sua senha. \nLembre-se de checar o spam!'),
+                                                  description: Text(motivo),
                                                   animationType:
-                                                      AnimationType.fromTop,
+                                                      AnimationType.fromLeft,
                                                   position:
                                                       MotionToastPosition.top,
                                                   barrierColor: Colors.black
@@ -285,50 +336,26 @@ class _PerfilPageState extends State<PerfilPage> {
                                                   height: 80,
                                                   dismissable: true,
                                                 ).show(context);
-                                              }
-                                            },
-                                            falha: (motivo) {
-                                              isLoading = false;
-                                              MotionToast.error(
-                                                title: const Text(
-                                                  'Erro',
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                                description: Text(motivo),
-                                                animationType:
-                                                    AnimationType.fromLeft,
-                                                position:
-                                                    MotionToastPosition.top,
-                                                barrierColor: Colors.black
-                                                    .withOpacity(0.3),
-                                                width: 300,
-                                                height: 80,
-                                                dismissable: true,
-                                              ).show(context);
-                                            },
-                                            usuario: user);
-                                        setState(() {
-                                          alterar = true;
-                                          alterar2 = true;
-                                        });
+                                              },
+                                              usuario: widget.usuario);
+                                        }
                                       }
                                     },
                                     child: const Text('Confirmar'),
                                     style: ElevatedButton.styleFrom(
-                                      primary: (_controller2
-                                                      .nome.text.isNotEmpty ||
-                                                  _controller2
-                                                      .email.text.isNotEmpty ||
-                                                  _controller2.hasSenha) &&
-                                              (_controller2.nome.text !=
-                                                      user.nome ||
-                                                  _controller2.email.text !=
-                                                      user.email ||
-                                                  _controller2.hasSenha)
-                                          ? Colors.deepPurple
-                                          : const Color.fromARGB(255, 166, 140, 211),
+                                      backgroundColor:
+                                          (_controller2.nome.text.isNotEmpty ||
+                                                      _controller2.email.text
+                                                          .isNotEmpty ||
+                                                      _controller2.hasSenha) &&
+                                                  (_controller2.nome.text !=
+                                                          widget.usuario.nome ||
+                                                      _controller2.email.text !=
+                                                          widget.usuario.email ||
+                                                      _controller2.hasSenha)
+                                              ? Colors.deepPurple
+                                              : const Color.fromARGB(
+                                                  255, 166, 140, 211),
                                     ),
                                   ),
                                 ))

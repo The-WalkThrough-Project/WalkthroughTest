@@ -22,13 +22,18 @@ class NovoLoginController extends ChangeNotifier {
           codigo: usuario.codigo,
           id: usuario.id
       );
-      user.isValidUser();
 
       User? currentUser = await _firebase_auth.getCurrentUser();
       
-      await _firebase_auth.atualizarEmail(currentUser, user.email);
+      if (email.text.trim() != '') {
+        await _firebase_auth.atualizarEmail(currentUser, user.email);
+      } else {
+        user.email = usuario.email;
+      }
       
-      await _repository.alterar(user);
+      if (user.email != '' && user.nome != '') {
+        await _repository.alterar(user);
+      }
 
       hasSenha ? await _firebase_auth.atualizarSenha(user.email ?? '') : null;
 

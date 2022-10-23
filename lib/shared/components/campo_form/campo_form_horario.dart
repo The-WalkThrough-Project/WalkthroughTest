@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:walkthrough/modules/agenda/controllers/controllerHorarioA.dart';
 
 class CampoFormHorario extends StatefulWidget {
   final String label;
@@ -42,6 +39,12 @@ class _CampoFormHorarioState extends State<CampoFormHorario> {
 
   void _showTimePicker() {
     showTimePicker(
+        helpText: 'SELECIONE UM HORÁRIO',
+        cancelText: 'CANCELAR',
+        confirmText: 'CONFIRMAR',
+        hourLabelText: 'Hora',
+        minuteLabelText: 'Minuto',
+        errorInvalidText: 'Insira um valor válido',
         context: context,
         initialTime: TimeOfDay.now(),
         builder: (context, child) {

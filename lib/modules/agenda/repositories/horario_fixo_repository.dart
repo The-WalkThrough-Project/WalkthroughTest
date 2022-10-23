@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:walkthrough/modules/agenda/models/horario_agendado_model.dart';
 import 'package:walkthrough/modules/agenda/models/horario_fixo_model.dart';
 import 'package:walkthrough/modules/agenda/repositories/datasources/datasource_ds_fixo.dart';
 import 'package:walkthrough/modules/agenda/repositories/datasources/firebase_datasourceHF.dart';
@@ -6,6 +7,10 @@ import 'package:walkthrough/modules/agenda/repositories/datasources/firebase_dat
 class HorarioFixoRepository{
 
   final DataSourceBaseF? _db = FirebaseDataSource();
+
+  Future<bool?> existeHorario(HorarioAgendado horario, String dia) async{
+    return await _db!.existeHorario(horario.toMap(), dia);
+  }
 
   Future<void> incluir(HorarioFixo horarioFixo) async{
     //Validações

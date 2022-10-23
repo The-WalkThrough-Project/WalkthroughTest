@@ -14,7 +14,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  initializeDateFormatting().then((_) => runApp(MultiProvider(providers: [
+  initializeDateFormatting('pt_BR', null).then((_) => runApp(MultiProvider(providers: [
         Provider<NotificationService>(
           create: (context) => NotificationService(),
         ),

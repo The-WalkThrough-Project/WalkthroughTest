@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:walkthrough/modules/agenda/controllers/controllerHorarioF.dart';
 import 'package:walkthrough/modules/agenda/models/horario_fixo_model.dart';
-import 'package:walkthrough/modules/agenda/pages/formTest.dart';
+import 'package:walkthrough/modules/agenda/pages/cadastro_horario_fixo.dart';
+import 'package:walkthrough/modules/agenda/pages/exclusao_horario_fixo.dart';
 import 'package:walkthrough/modules/loginProf/models/prof_model.dart';
 import 'package:walkthrough/shared/components/tabela_horario_dia/tabelaHorario.dart';
 import 'package:walkthrough/shared/databases/BD.dart';
@@ -118,16 +119,37 @@ class _HorariosPageState extends State<HorariosPage> {
                 Padding(
                     padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
                     child: widget.user.tipoUsuario == 'Gerenciador'
-                        ? ElevatedButton(
-                            onPressed: () async {
-                              var result = await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: ((context) => FormTeste(
-                                          lab: dropdownValue.substring(4)))));
-                              result == true ? refreshHorarios() : null;
-                            },
-                            child: const Text("CADASTRAR"))
+                        ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.lightGreen
+                              ),
+                                onPressed: () async {
+                                  var result = await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: ((context) => CadastroHF(
+                                              lab: dropdownValue.substring(4)))));
+                                  result == true ? refreshHorarios() : null;
+                                },
+                                child: const Text("CADASTRAR/ATUALIZAR")),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.redAccent
+                              ),
+                                onPressed: () async {
+                                  var result = await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: ((context) => ExcluiHF(
+                                              lab: dropdownValue.substring(4)))));
+                                  result == true ? refreshHorarios() : null;
+                                },
+                                child: const Text("EXCLUIR")),
+                          ],
+                        )
                         : null
                 ),
                 const Padding(
@@ -148,7 +170,8 @@ class _HorariosPageState extends State<HorariosPage> {
                                     height: 207,
                                     width: largura != null ? largura * 0.95 : 300,
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5)),
+                                        borderRadius: BorderRadius.circular(5)
+                                    ),
                                     child: InteractiveViewer(
                                       child: TabelaHorarios(
                                           diaSemana: "Segunda-Feira",

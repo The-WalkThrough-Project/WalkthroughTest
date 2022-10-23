@@ -53,6 +53,9 @@ dependencies:
   provider: ^6.0.3
   confirm_dialog: ^1.0.1
 
+  flutter_localizations:
+    sdk: flutter
+
 dev_dependencies:
   
   flutter_test:
@@ -108,3 +111,4 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+  generate: true

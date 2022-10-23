@@ -11,6 +11,10 @@ class HorarioAgendadoRepository{
   final DataSourceBaseA? _db = FirebaseDataSourceHA();
   final DataSourceBaseA? _db2 = SQLDataSourceHA();
 
+  Future<bool?> existeHorario(HorarioAgendado horarioAgendado) async{
+    return await _db!.existeHorario(horarioAgendado.toMap());
+  }
+
   Future<void> incluir(HorarioAgendado horarioAgendado) async{
     //Validações
     horarioAgendado.isValid();

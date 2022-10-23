@@ -23,6 +23,10 @@ class HorariosAgendadosController extends ChangeNotifier {
     _repositoryA.incluir(horarioAgendado);
   }
 
+  existeHorario(HorarioAgendado horarioAgendado) async{
+    return await _repositoryA.existeHorario(horarioAgendado);
+  }
+
   Future<List<HorarioAgendado>?> getHorariosATemp() async {
     var horarios = await _repositoryA.selecionarTodosTemp();
     

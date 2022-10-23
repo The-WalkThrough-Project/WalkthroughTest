@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:walkthrough/shared/providers/routes.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -9,7 +10,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   // @override
   // void initState() {
   //   super.initState();
@@ -30,13 +30,16 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'WalkThrough',
-      theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
-        fontFamily: 'Roboto'
-      ),
+      theme: ThemeData(primarySwatch: Colors.deepPurple, fontFamily: 'Roboto'),
       routes: Routes.list,
       initialRoute: Routes.initial,
       navigatorKey: Routes.navigatorKey,
+      // supportedLocales: const [
+      //   Locale('pt', 'BR'),
+      //   Locale('en', '')
+      // ],
+      // localizationsDelegates: 
+      //   GlobalMaterialLocalizations.delegates,
     );
   }
 }

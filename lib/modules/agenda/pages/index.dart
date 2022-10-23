@@ -2,10 +2,13 @@ import 'package:confirm_dialog/confirm_dialog.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:motion_toast/resources/arrays.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:timezone/timezone.dart';
 import 'package:walkthrough/modules/agenda/controllers/controllerHorarioA.dart';
+import 'package:walkthrough/modules/agenda/controllers/controllerHorarioF.dart';
 import 'package:walkthrough/modules/agenda/models/horario_agendado_model.dart';
 import 'package:walkthrough/modules/agenda/pages/horarios.dart';
 import 'package:walkthrough/modules/loginProf/controllers/controller.dart';
@@ -13,6 +16,10 @@ import 'package:walkthrough/modules/loginProf/models/prof_model.dart';
 import 'package:walkthrough/modules/notificacoes/pages/index.dart';
 import 'package:walkthrough/shared/components/campo_form/campo_form.dart';
 import 'package:walkthrough/shared/components/campo_form/campo_form_horario.dart';
+extension StringCasingExtension on String {
+  String toCapitalized() => length > 0 ?'${this[0].toUpperCase()}${substring(1).toLowerCase()}':'';
+  String toTitleCase() => replaceAll(RegExp(' +'), ' ').split('-').map((str) => str.toCapitalized()).join('-');
+}
 
 class AgendaPage extends StatefulWidget {
   final UserProf usuario;
@@ -27,7 +34,7 @@ class _AgendaPageState extends State<AgendaPage> {
   List<HorarioAgendado>? horariosTemp = [];
   final _controller = UserProfController();
   final _horariosAController = HorariosAgendadosController();
-  // _horariosAController.horarioFinal.text;
+  final _horariosFController = HorarioController();
    DateTime hoje = DateTime.now();
   ValueListenable<Map<String, List<HorarioAgendado>>?> selectedHorarios =
       ValueNotifier({});
@@ -652,26 +659,45 @@ class _AgendaPageState extends State<AgendaPage> {
                                       lab: _horariosAController.lab.text.trim(),
                                       data: diaSelecionado.toString(),
                                       isTemp: 1);
-                                  _horariosAController
+                                  if(await _horariosAController.existeHorario(horarioC) || await _horariosFController.existeHorario(horarioC, DateFormat('EEEE', 'pt_Br').format(diaSelecionado).toTitleCase())){
+                                    MotionToast.error(
+                                      title: const Text(
+                                        'Erro',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      description:
+                                          const Text("Este laboratório já está ocupado no dia e horário indicados!"),
+                                      animationType: AnimationType.fromLeft,
+                                      position: MotionToastPosition.top,
+                                      barrierColor: Colors.black.withOpacity(0.3),
+                                      width: 300,
+                                      height: 80,
+                                      dismissable: true,
+                                    ).show(context);
+                                  } else {
+                                    _horariosAController
                                       .cadastraHorarios(horarioC);
-                                  getHorarios();
-                                  Navigator.of(context).pop();
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(const SnackBar(
-                                    duration: Duration(milliseconds: 2500),
-                                    behavior: SnackBarBehavior.fixed,
-                                    backgroundColor: Colors.deepPurple,
-                                    content: Text(
-                                      'Solicitação realizada com sucesso!',
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ));
-                                  _horariosAController.nomeProfessor.clear();
-                                  _horariosAController.horarioInicial.clear();
-                                  _horariosAController.horarioFinal.clear();
-                                  setState(() {
-                                    dropdownValue = '304';
-                                  });
+                                    getHorarios();
+                                    Navigator.of(context).pop();
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(const SnackBar(
+                                      duration: Duration(milliseconds: 2500),
+                                      behavior: SnackBarBehavior.fixed,
+                                      backgroundColor: Colors.deepPurple,
+                                      content: Text(
+                                        'Solicitação realizada com sucesso!',
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ));
+                                    _horariosAController.nomeProfessor.clear();
+                                    _horariosAController.horarioInicial.clear();
+                                    _horariosAController.horarioFinal.clear();
+                                    setState(() {
+                                      dropdownValue = '304';
+                                    });
+                                  }
                                 }
                                 return;
                               },

@@ -22,7 +22,6 @@ class SQLDataSourceHA extends DataSourceBaseA {
     String string = horarioAgendado?['data'];
     string = string.substring(0, 10);
     horarioAgendado?['data'] = string;
-    print(horarioAgendado?['isTemp']);
     return await _bancoSQL.insertHorarioAgendado(HorarioAgendado.fromMap(horarioAgendado));
   }
 
@@ -62,5 +61,12 @@ class SQLDataSourceHA extends DataSourceBaseA {
         isTemp: e.isTemp
       ).toMap()
     }).toList();
+  }
+  
+  @override
+  Future<bool?>? existeHorario(Map<String, dynamic>? horarioAgendado) {
+    String string = horarioAgendado?['data'];
+    string = string.substring(0, 10);
+    horarioAgendado?['data'] = string;
   }
 }
