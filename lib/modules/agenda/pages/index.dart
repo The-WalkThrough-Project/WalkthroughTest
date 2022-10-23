@@ -7,9 +7,7 @@ import 'package:motion_toast/resources/arrays.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:walkthrough/modules/agenda/controllers/controllerHorarioA.dart';
 import 'package:walkthrough/modules/agenda/models/horario_agendado_model.dart';
-import 'package:walkthrough/modules/agenda/pages/calendarios.dart';
 import 'package:walkthrough/modules/agenda/pages/horarios.dart';
-import 'package:walkthrough/modules/home/pages/index.dart';
 import 'package:walkthrough/modules/loginProf/controllers/controller.dart';
 import 'package:walkthrough/modules/loginProf/models/prof_model.dart';
 import 'package:walkthrough/modules/notificacoes/pages/index.dart';
@@ -545,9 +543,11 @@ class _AgendaPageState extends State<AgendaPage> {
                                     padding: const EdgeInsets.fromLTRB(
                                         15, 10, 20, 0),
                                     child: CampoFormHorario(
+                                        horario: 'inicial',
                                         label: "07:00",
                                         controller: _horariosAController
-                                            .horarioInicial)),
+                                            .horarioInicial,
+                                        controller2: _horariosAController.horarioFinal,)),
                               ],
                             ),
                           ),
@@ -565,9 +565,11 @@ class _AgendaPageState extends State<AgendaPage> {
                                     padding:
                                         const EdgeInsets.fromLTRB(5, 10, 0, 0),
                                     child: CampoFormHorario(
+                                        horario: 'final',
                                         label: "07:00",
                                         controller:
-                                            _horariosAController.horarioFinal)),
+                                            _horariosAController.horarioFinal,
+                                        controller2: _horariosAController.horarioInicial,)),
                               ],
                             ),
                           ),

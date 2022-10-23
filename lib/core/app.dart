@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:walkthrough/shared/providers/notifications/firebase_messaging_service.dart';
-import 'package:walkthrough/shared/providers/notifications/notification_service.dart';
 import 'package:walkthrough/shared/providers/routes.dart';
 
 class MyApp extends StatefulWidget {

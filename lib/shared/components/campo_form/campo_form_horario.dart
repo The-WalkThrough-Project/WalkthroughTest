@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:walkthrough/modules/agenda/controllers/controllerHorarioA.dart';
 
 class CampoFormHorario extends StatefulWidget {
   final String label;
   final TextEditingController controller;
+  final TextEditingController controller2;
+  final String horario;
 
   const CampoFormHorario(
-      {Key? key, required this.label, required this.controller})
+      {Key? key, required this.label, required this.controller, required this.horario, required this.controller2})
       : super(key: key);
 
   @override
@@ -48,8 +51,23 @@ class _CampoFormHorarioState extends State<CampoFormHorario> {
           );
         }).then((value) {
       setState(() {
-        _timeOfDay = value!;
+        _timeOfDay = value ?? TimeOfDay.now();
         widget.controller.text = _timeOfDay.to24hours();
+        if (widget.horario == 'inicial') {
+          int h = _timeOfDay.hour;
+          int m = _timeOfDay.minute;
+          int somaH = 1;
+          int somaM = 40;
+          if (somaM + m <= 59) {
+            
+          } else {
+            int soma = somaM + m;
+            somaH = 2;
+            somaM = - (m - (soma - 60));
+          }
+
+          widget.controller2.text = _timeOfDay.replacing(hour: _timeOfDay.hour + somaH, minute: _timeOfDay.minute + somaM).to24hours();
+        }
       });
     });
   }
