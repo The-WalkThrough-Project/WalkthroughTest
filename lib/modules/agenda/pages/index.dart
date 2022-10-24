@@ -67,6 +67,8 @@ class _AgendaPageState extends State<AgendaPage> {
         value.sort((a, b) => int.parse(a.horarioInicial.substring(0, 2)).compareTo(int.parse(b.horarioInicial.substring(0, 2))));
         value.sort((a, b) => a.lab.compareTo(b.lab));
       });
+      _horariosAController.horarioInicial.text = (TimeOfDay.now().hour.toString() + ':' + TimeOfDay.now().minute.toString());
+      _horariosAController.horarioFinal.text = (TimeOfDay.now().hour.toString() + ':' + TimeOfDay.now().minute.toString());
       _horariosAController.nomeProfessor.text = widget.usuario.nome ?? '';
       carregando = false;
     });
@@ -720,8 +722,6 @@ class _AgendaPageState extends State<AgendaPage> {
                                                                     CampoFormHorario(
                                                                   horario:
                                                                       'inicial',
-                                                                  label:
-                                                                      "07:00",
                                                                   controller:
                                                                       _horariosAController
                                                                           .horarioInicial,
@@ -763,8 +763,6 @@ class _AgendaPageState extends State<AgendaPage> {
                                                                     CampoFormHorario(
                                                                   horario:
                                                                       'final',
-                                                                  label:
-                                                                      "07:00",
                                                                   controller:
                                                                       _horariosAController
                                                                           .horarioFinal,
@@ -903,7 +901,39 @@ class _AgendaPageState extends State<AgendaPage> {
                                                                   data: diaSelecionado
                                                                       .toString(),
                                                                   isTemp: 1);
-                                                              if (await _horariosAController
+                                                              String? valida = _horariosAController.horarioIsValid(horarioC);
+                                                              if (valida != null) {
+                                                                MotionToast
+                                                                    .error(
+                                                                  title:
+                                                                      const Text(
+                                                                    'Erro',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                    ),
+                                                                  ),
+                                                                  description:
+                                                                      Text(
+                                                                          valida),
+                                                                  animationType:
+                                                                      AnimationType
+                                                                          .fromLeft,
+                                                                  position:
+                                                                      MotionToastPosition
+                                                                          .top,
+                                                                  barrierColor: Colors
+                                                                      .black
+                                                                      .withOpacity(
+                                                                          0.3),
+                                                                  width: 300,
+                                                                  height: 80,
+                                                                  dismissable:
+                                                                      true,
+                                                                ).show(context);
+                                                              } else if (await _horariosAController
                                                                       .existeHorario(
                                                                           horarioC) ||
                                                                   await _horariosFController.existeHorario(

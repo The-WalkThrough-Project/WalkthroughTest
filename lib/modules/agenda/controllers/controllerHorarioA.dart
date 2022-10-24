@@ -19,12 +19,43 @@ class HorariosAgendadosController extends ChangeNotifier {
     return horarios;
   }
 
+  String? horarioIsValid(HorarioAgendado horarioAgendado){
+    if((int.parse(horarioAgendado.horarioInicial.substring(0, 2)) >= 7 && int.parse(horarioAgendado.horarioInicial.substring(0, 2)) <= 22) && (int.parse(horarioAgendado.horarioFinal.substring(0, 2)) >= 7 && int.parse(horarioAgendado.horarioFinal.substring(0, 2)) <= 22)){
+       
+    } else {
+      return 'Favor inserir um horário entre 07:00 e 22:35!';
+    } 
+    if ((int.parse(horarioAgendado.horarioInicial.substring(0, 2)) == 22)) {
+      if (int.parse(horarioAgendado.horarioInicial.substring(3)) <= 35) {
+        
+      } else {
+        return 'Favor inserir um horário entre 07:00 e 22:35!';
+      } 
+    } 
+    if (int.parse(horarioAgendado.horarioFinal.substring(0, 2)) == 22) {
+      if (int.parse(horarioAgendado.horarioFinal.substring(3)) <= 35) {
+          
+      } else {
+        return 'Favor inserir um horário entre 07:00 e 22:35!';
+      } 
+    } 
+    if(int.parse(horarioAgendado.horarioInicial.substring(0, 2)) <= int.parse(horarioAgendado.horarioFinal.substring(0, 2))){
+      if(int.parse(horarioAgendado.horarioInicial.substring(0, 2)) == int.parse(horarioAgendado.horarioFinal.substring(0, 2))){
+        if(int.parse(horarioAgendado.horarioInicial.substring(3)) >= int.parse(horarioAgendado.horarioFinal.substring(3))){
+          return 'Favor inserir um horário final posterior ao horário inicial!';
+        }
+      }
+    } else {
+      return 'Favor inserir um horário final posterior ao horário inicial!';
+    }
+  }
+
   void cadastraHorarios(HorarioAgendado horarioAgendado){
     _repositoryA.incluir(horarioAgendado);
   }
 
   existeHorario(HorarioAgendado horarioAgendado) async{
-    return await _repositoryA.existeHorario(horarioAgendado);
+    return await _repositoryA.selecionarTodosDiaLab(horarioAgendado.toMap());
   }
 
   Future<List<HorarioAgendado>?> getHorariosATemp() async {

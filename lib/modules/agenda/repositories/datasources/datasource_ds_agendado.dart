@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 abstract class DataSourceBaseA{
 
+  Future<bool?>? selecionarTodosDiaLab(Map<String, dynamic>? horarioAgendado);
+
   Future<bool?>? existeHorario(Map<String, dynamic>? horarioAgendado);
 
   Future<int?> incluir(Map<String, dynamic>? horarioAgendado);

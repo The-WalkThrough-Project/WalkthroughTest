@@ -69,4 +69,8 @@ class SQLDataSourceHA extends DataSourceBaseA {
     string = string.substring(0, 10);
     horarioAgendado?['data'] = string;
   }
+  
+  @override
+  Future<bool?>? selecionarTodosDiaLab(Map<String, dynamic>? horarioAgendado) {
+  }
 }

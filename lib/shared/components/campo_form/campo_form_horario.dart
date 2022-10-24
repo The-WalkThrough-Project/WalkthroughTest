@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 
 class CampoFormHorario extends StatefulWidget {
-  final String label;
   final TextEditingController controller;
   final TextEditingController controller2;
   final String horario;
 
   const CampoFormHorario(
-      {Key? key, required this.label, required this.controller, required this.horario, required this.controller2})
+      {Key? key, required this.controller, required this.horario, required this.controller2})
       : super(key: key);
 
   @override
@@ -46,7 +45,7 @@ class _CampoFormHorarioState extends State<CampoFormHorario> {
         minuteLabelText: 'Minuto',
         errorInvalidText: 'Insira um valor válido',
         context: context,
-        initialTime: TimeOfDay.now(),
+        initialTime: TimeOfDay(hour:int.parse(widget.controller.text.split(":")[0]),minute: int.parse(widget.controller.text.split(":")[1])),
         builder: (context, child) {
           return MediaQuery(
             data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
@@ -86,38 +85,40 @@ class _CampoFormHorarioState extends State<CampoFormHorario> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 150,
-      child: TextFormField(
-        controller: widget.controller,
-        style: TextStyle(
-            fontSize: 15,
-            color: Colors.deepPurple,
-            fontWeight: FontWeight.bold),
-        decoration: InputDecoration(
-            hintText: widget.label,
-            hintStyle: TextStyle(
-                fontSize: 15,
-                color: Color.fromARGB(255, 139, 108, 192),
-                fontWeight: FontWeight.bold),
-            suffixIcon: Container(
-              margin: EdgeInsets.only(left: 8),
-              decoration: BoxDecoration(
-                  border: Border(left: BorderSide(color: Colors.deepPurple))),
-              child: IconButton(
-                  onPressed: _showTimePicker,
-                  icon: Icon(
-                    Icons.timer,
-                    color: Colors.deepPurple,
-                  )),
-            ),
-            enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(color: Colors.deepPurple)),
-            focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(color: Colors.deepPurple))),
-        readOnly: true,
+    return GestureDetector(
+      onTap: _showTimePicker,
+      child: Container(
+        width: 150,
+        child: TextFormField(
+          controller: widget.controller,
+          style: TextStyle(
+              fontSize: 15,
+              color: Colors.deepPurple,
+              fontWeight: FontWeight.bold),
+          decoration: InputDecoration(
+              hintStyle: TextStyle(
+                  fontSize: 15,
+                  color: Color.fromARGB(255, 139, 108, 192),
+                  fontWeight: FontWeight.bold),
+              suffixIcon: Container(
+                margin: EdgeInsets.only(left: 8),
+                decoration: BoxDecoration(
+                    border: Border(left: BorderSide(color: Colors.deepPurple))),
+                child: IconButton(
+                    onPressed: _showTimePicker,
+                    icon: Icon(
+                      Icons.timer,
+                      color: Colors.deepPurple,
+                    )),
+              ),
+              enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: Colors.deepPurple)),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: Colors.deepPurple))),
+          readOnly: true,
+        ),
       ),
     );
   }

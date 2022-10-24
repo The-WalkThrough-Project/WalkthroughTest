@@ -77,6 +77,10 @@ class HorarioAgendadoRepository{
     return lista;
   }
 
+  Future<bool?>? selecionarTodosDiaLab(Map<String, dynamic>? horarioAgendado) async{
+     return await _db!.selecionarTodosDiaLab(horarioAgendado);
+  }
+
   Future<ValueNotifier<Map<String, List<HorarioAgendado>>?>> selecionarTodos() async{
     List<Map<String, dynamic>?>? maps = [];
     try {
