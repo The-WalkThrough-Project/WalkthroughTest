@@ -38,31 +38,36 @@ class _NotificacaoPageState extends State<NotificacaoPage> {
   }
 
   String arrumaStringData(String? data) {
-    if(data != null) {
-        DateTime testeData = DateTime.now();
-        testeData = DateTime.parse(data);
-        String testeString = formatDate(testeData, ['dd', '/', 'mm', '/', 'yyyy']);
-        return testeString;
+    if (data != null) {
+      DateTime testeData = DateTime.now();
+      testeData = DateTime.parse(data);
+      String testeString =
+          formatDate(testeData, ['dd', '/', 'mm', '/', 'yyyy']);
+      return testeString;
     }
     return '';
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text(
-          'Solicitações de Agendamento',
-          style: TextStyle(fontSize: 16.5),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text(
+            'Solicitações de Agendamento',
+            style: TextStyle(fontSize: 16.5),
+          ),
+          leading: BackButton(onPressed: () => Navigator.pop(context, true)),
         ),
-        leading: BackButton(onPressed: () => Navigator.pop(context, true)),
-      ),
-      body: !isLoading ? FutureBuilder<List?>(
-        future: _horariosAController.getHorariosATemp(),
-        builder: (context, snapshot) {
-          return snapshot.data != null && snapshot.data?.length != 0 ? Center(
-              child: ListView.builder(
+        body: !isLoading
+            ? FutureBuilder<List?>(
+                future: _horariosAController.getHorariosATemp(),
+                builder: (context, snapshot) {
+                  return snapshot.data != null && snapshot.data?.length != 0
+                      ? Center(
+                          child: ListView.builder(
                           itemCount: snapshot.data?.length,
                           itemBuilder: (context, index) {
                             return Padding(
@@ -75,7 +80,12 @@ class _NotificacaoPageState extends State<NotificacaoPage> {
                                       elevation: 15,
                                       color: Colors.deepPurple,
                                       shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(20)),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          side: BorderSide(
+                                              color: Color.fromARGB(
+                                                  255, 147, 118, 226),
+                                              width: 2)),
                                       child: InkWell(
                                         radius: 400,
                                         borderRadius: BorderRadius.circular(20),
@@ -93,15 +103,17 @@ class _NotificacaoPageState extends State<NotificacaoPage> {
                                               Row(
                                                 children: [
                                                   const Padding(
-                                                    padding: EdgeInsets.fromLTRB(
-                                                        10, 0, 20, 0),
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            10, 0, 20, 0),
                                                     child: Icon(
                                                         Icons.calendar_month,
                                                         color: Colors.white),
                                                   ),
                                                   Column(
                                                     crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Text(
                                                         'Data: ${arrumaStringData(snapshot.data?.elementAt(index).data)} \nHorário: ${snapshot.data?.elementAt(index).horarioInicial} às ${snapshot.data?.elementAt(index).horarioFinal}',
@@ -109,14 +121,18 @@ class _NotificacaoPageState extends State<NotificacaoPage> {
                                                             fontSize: 15,
                                                             fontWeight:
                                                                 FontWeight.bold,
-                                                            color: Colors.white),
+                                                            color:
+                                                                Colors.white),
                                                       ),
                                                       Text(
                                                         'Professor(a): ${snapshot.data?.elementAt(index).nomeProfessor} \nLaboratório: ${snapshot.data?.elementAt(index).lab}',
                                                         style: const TextStyle(
                                                           fontSize: 12,
                                                           color: Color.fromARGB(
-                                                              255, 199, 199, 199),
+                                                              255,
+                                                              199,
+                                                              199,
+                                                              199),
                                                         ),
                                                       ),
                                                     ],
@@ -132,13 +148,23 @@ class _NotificacaoPageState extends State<NotificacaoPage> {
                                               ),
                                               Row(
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment.spaceBetween,
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
                                                   Expanded(
                                                     child: TextButton(
-                                                      style: TextButton.styleFrom(
-                                                          backgroundColor:
-                                                              Colors.redAccent),
+                                                      style:
+                                                          TextButton.styleFrom(
+                                                              shape:
+                                                                  RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10.0),
+                                                              ),
+                                                              backgroundColor:
+                                                                  Colors
+                                                                      .redAccent),
                                                       onPressed: () async {
                                                         if (await confirm(
                                                           context,
@@ -157,16 +183,22 @@ class _NotificacaoPageState extends State<NotificacaoPage> {
                                                           textOK: const Text(
                                                             'Sim',
                                                             style: TextStyle(
-                                                                color:
-                                                                    Colors.green),
+                                                                color: Colors
+                                                                    .green),
                                                           ),
-                                                          textCancel: const Text(
+                                                          textCancel:
+                                                              const Text(
                                                             'Não',
                                                             style: TextStyle(
-                                                                color: Colors.red),
+                                                                color:
+                                                                    Colors.red),
                                                           ),
                                                         )) {
-                                                          HorarioAgendado horarioX = snapshot.data?.elementAt(index);
+                                                          HorarioAgendado
+                                                              horarioX =
+                                                              snapshot.data
+                                                                  ?.elementAt(
+                                                                      index);
                                                           _horariosAController
                                                               .excluirHorarioTemp(
                                                                   horarioX);
@@ -176,16 +208,19 @@ class _NotificacaoPageState extends State<NotificacaoPage> {
                                                               .showSnackBar(
                                                                   const SnackBar(
                                                             duration: Duration(
-                                                                milliseconds: 2500),
+                                                                milliseconds:
+                                                                    2500),
                                                             behavior:
                                                                 SnackBarBehavior
                                                                     .floating,
                                                             backgroundColor:
-                                                                Colors.deepPurple,
+                                                                Colors
+                                                                    .deepPurple,
                                                             content: Text(
                                                               'Solicitação recusada com sucesso!',
                                                               textAlign:
-                                                                  TextAlign.center,
+                                                                  TextAlign
+                                                                      .center,
                                                             ),
                                                           ));
                                                         }
@@ -199,12 +234,22 @@ class _NotificacaoPageState extends State<NotificacaoPage> {
                                                     ),
                                                   ),
                                                   const Padding(
-                                                      padding: EdgeInsets.all(8)),
+                                                      padding:
+                                                          EdgeInsets.all(8)),
                                                   Expanded(
                                                     child: TextButton(
-                                                      style: TextButton.styleFrom(
-                                                          backgroundColor:
-                                                              Colors.lightGreen),
+                                                      style:
+                                                          TextButton.styleFrom(
+                                                              shape:
+                                                                  RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10.0),
+                                                              ),
+                                                              backgroundColor:
+                                                                  Colors
+                                                                      .lightGreen),
                                                       onPressed: () async {
                                                         if (await confirm(
                                                           context,
@@ -223,16 +268,22 @@ class _NotificacaoPageState extends State<NotificacaoPage> {
                                                           textOK: const Text(
                                                             'Sim',
                                                             style: TextStyle(
-                                                                color:
-                                                                    Colors.green),
+                                                                color: Colors
+                                                                    .green),
                                                           ),
-                                                          textCancel: const Text(
+                                                          textCancel:
+                                                              const Text(
                                                             'Não',
                                                             style: TextStyle(
-                                                                color: Colors.red),
+                                                                color:
+                                                                    Colors.red),
                                                           ),
                                                         )) {
-                                                          HorarioAgendado horarioX = snapshot.data?.elementAt(index);
+                                                          HorarioAgendado
+                                                              horarioX =
+                                                              snapshot.data
+                                                                  ?.elementAt(
+                                                                      index);
                                                           horarioX.isTemp = 0;
                                                           _horariosAController
                                                               .atualizarHorarioTemp(
@@ -243,16 +294,19 @@ class _NotificacaoPageState extends State<NotificacaoPage> {
                                                               .showSnackBar(
                                                                   const SnackBar(
                                                             duration: Duration(
-                                                                milliseconds: 2500),
+                                                                milliseconds:
+                                                                    2500),
                                                             behavior:
                                                                 SnackBarBehavior
                                                                     .floating,
                                                             backgroundColor:
-                                                                Colors.deepPurple,
+                                                                Colors
+                                                                    .deepPurple,
                                                             content: Text(
                                                               'Solicitação aceitada com sucesso!',
                                                               textAlign:
-                                                                  TextAlign.center,
+                                                                  TextAlign
+                                                                      .center,
                                                             ),
                                                           ));
                                                         }
@@ -277,9 +331,9 @@ class _NotificacaoPageState extends State<NotificacaoPage> {
                               ),
                             );
                           },
-                        )
-                      ) : Center(
-                        child: Column(
+                        ))
+                      : Center(
+                          child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: const [
                               Text(
@@ -299,25 +353,25 @@ class _NotificacaoPageState extends State<NotificacaoPage> {
                               )
                             ],
                           ),
-                      );
-        } 
-      ) : Center(
-                    child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    CircularProgressIndicator(
-                      color: Colors.deepPurple,
+                        );
+                })
+            : Center(
+                child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  CircularProgressIndicator(
+                    color: Colors.deepPurple,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text(
+                      'Carregando...',
+                      style: TextStyle(color: Colors.deepPurple, fontSize: 18),
                     ),
-                    Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Text(
-                        'Carregando...',
-                        style:
-                            TextStyle(color: Colors.deepPurple, fontSize: 18),
-                      ),
-                    )
-                  ],
-                )), 
-                      );
+                  )
+                ],
+              )),
+      ),
+    );
   }
 }

@@ -357,7 +357,7 @@ class _BluetoothAppState extends State<BluetoothApp> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       const Text(
-                        "NOTA: Se você não consegue encontrar o dispositivo na lista acima, favor pareá-lo nas configurações de BlueTooth do dispositivo.",
+                        "Obs.: Se você não consegue encontrar o dispositivo na lista acima, favor pareá-lo nas configurações de Bluetooth do dispositivo.",
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,

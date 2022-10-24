@@ -120,44 +120,53 @@ class _HorariosPageState extends State<HorariosPage> {
                     padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
                     child: widget.user.tipoUsuario == 'Gerenciador'
                         ? Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.lightGreen
-                              ),
-                                onPressed: () async {
-                                  var result = await Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: ((context) => CadastroHF(
-                                              lab: dropdownValue.substring(4)))));
-                                  result == true ? refreshHorarios() : null;
-                                },
-                                child: const Text("CADASTRAR/ATUALIZAR")),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.redAccent
-                              ),
-                                onPressed: () async {
-                                  var result = await Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: ((context) => ExcluiHF(
-                                              lab: dropdownValue.substring(4)))));
-                                  result == true ? refreshHorarios() : null;
-                                },
-                                child: const Text("EXCLUIR")),
-                          ],
-                        )
-                        : null
-                ),
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                      ),
+                                      backgroundColor: Colors.lightGreen),
+                                  onPressed: () async {
+                                    var result = await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: ((context) => CadastroHF(
+                                                lab: dropdownValue
+                                                    .substring(4)))));
+                                    result == true ? refreshHorarios() : null;
+                                  },
+                                  child: const Text("CADASTRAR/ATUALIZAR")),
+                              ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                      ),
+                                      backgroundColor: Colors.redAccent),
+                                  onPressed: () async {
+                                    var result = await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: ((context) => ExcluiHF(
+                                                lab: dropdownValue
+                                                    .substring(4)))));
+                                    result == true ? refreshHorarios() : null;
+                                  },
+                                  child: const Text("EXCLUIR")),
+                            ],
+                          )
+                        : null),
                 const Padding(
                   padding: EdgeInsets.fromLTRB(0, 9, 0, 12),
-                  child: Text('Clique nas tabelas para ampliá-las:',
-                  style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.deepPurple), textAlign: TextAlign.center,),
+                  child: Text(
+                    'Clique nas tabelas para ampliá-las:',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.deepPurple),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
                 snapshot.hasData && isLoading == false
                     ? Column(children: [
@@ -168,19 +177,19 @@ class _HorariosPageState extends State<HorariosPage> {
                                 return Center(
                                   child: Container(
                                     height: 207,
-                                    width: largura != null ? largura * 0.95 : 300,
+                                    width:
+                                        largura != null ? largura * 0.95 : 300,
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5)
-                                    ),
+                                        borderRadius: BorderRadius.circular(5)),
                                     child: InteractiveViewer(
                                       child: TabelaHorarios(
-                                          diaSemana: "Segunda-Feira",
-                                          horarios: snapshot.data.docs ?? [],
-                                          lab: dropdownValue.substring(4),
-                                          zoom: true,
-                                        ),
+                                        diaSemana: "Segunda-Feira",
+                                        horarios: snapshot.data.docs ?? [],
+                                        lab: dropdownValue.substring(4),
+                                        zoom: true,
                                       ),
                                     ),
+                                  ),
                                 );
                               }),
                           child: TabelaHorarios(
@@ -196,18 +205,19 @@ class _HorariosPageState extends State<HorariosPage> {
                                 return Center(
                                   child: Container(
                                     height: 207,
-                                    width: largura != null ? largura * 0.95 : 300,
+                                    width:
+                                        largura != null ? largura * 0.95 : 300,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(5)),
                                     child: InteractiveViewer(
                                       child: TabelaHorarios(
-                                          diaSemana: "Terça-Feira",
-                                          horarios: snapshot.data.docs ?? [],
-                                          lab: dropdownValue.substring(4),
-                                          zoom: true,
-                                        ),
+                                        diaSemana: "Terça-Feira",
+                                        horarios: snapshot.data.docs ?? [],
+                                        lab: dropdownValue.substring(4),
+                                        zoom: true,
                                       ),
                                     ),
+                                  ),
                                 );
                               }),
                           child: TabelaHorarios(
@@ -223,18 +233,19 @@ class _HorariosPageState extends State<HorariosPage> {
                                 return Center(
                                   child: Container(
                                     height: 207,
-                                    width: largura != null ? largura * 0.95 : 300,
+                                    width:
+                                        largura != null ? largura * 0.95 : 300,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(5)),
                                     child: InteractiveViewer(
                                       child: TabelaHorarios(
-                                          diaSemana: "Quarta-Feira",
-                                          horarios: snapshot.data.docs ?? [],
-                                          lab: dropdownValue.substring(4),
-                                          zoom: true,
-                                        ),
+                                        diaSemana: "Quarta-Feira",
+                                        horarios: snapshot.data.docs ?? [],
+                                        lab: dropdownValue.substring(4),
+                                        zoom: true,
                                       ),
                                     ),
+                                  ),
                                 );
                               }),
                           child: TabelaHorarios(
@@ -250,18 +261,19 @@ class _HorariosPageState extends State<HorariosPage> {
                                 return Center(
                                   child: Container(
                                     height: 207,
-                                    width: largura != null ? largura * 0.95 : 300,
+                                    width:
+                                        largura != null ? largura * 0.95 : 300,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(5)),
                                     child: InteractiveViewer(
                                       child: TabelaHorarios(
-                                          diaSemana: "Quinta-Feira",
-                                          horarios: snapshot.data.docs ?? [],
-                                          lab: dropdownValue.substring(4),
-                                          zoom: true,
-                                        ),
+                                        diaSemana: "Quinta-Feira",
+                                        horarios: snapshot.data.docs ?? [],
+                                        lab: dropdownValue.substring(4),
+                                        zoom: true,
                                       ),
                                     ),
+                                  ),
                                 );
                               }),
                           child: TabelaHorarios(
@@ -277,18 +289,19 @@ class _HorariosPageState extends State<HorariosPage> {
                                 return Center(
                                   child: Container(
                                     height: 207,
-                                    width: largura != null ? largura * 0.95 : 300,
+                                    width:
+                                        largura != null ? largura * 0.95 : 300,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(5)),
                                     child: InteractiveViewer(
                                       child: TabelaHorarios(
-                                          diaSemana: "Sexta-Feira",
-                                          horarios: snapshot.data.docs ?? [],
-                                          lab: dropdownValue.substring(4),
-                                          zoom: true,
-                                        ),
+                                        diaSemana: "Sexta-Feira",
+                                        horarios: snapshot.data.docs ?? [],
+                                        lab: dropdownValue.substring(4),
+                                        zoom: true,
                                       ),
                                     ),
+                                  ),
                                 );
                               }),
                           child: TabelaHorarios(

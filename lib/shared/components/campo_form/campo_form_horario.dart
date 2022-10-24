@@ -57,6 +57,7 @@ class _CampoFormHorarioState extends State<CampoFormHorario> {
         _timeOfDay = value ?? TimeOfDay.now();
         widget.controller.text = _timeOfDay.to24hours();
         if (widget.horario == 'inicial') {
+          print('HORA:' + _timeOfDay.hour.toString());
           int h = _timeOfDay.hour;
           int m = _timeOfDay.minute;
           int somaH = 1;
@@ -68,6 +69,14 @@ class _CampoFormHorarioState extends State<CampoFormHorario> {
             somaH = 2;
             somaM = - (m - (soma - 60));
           }
+          if (somaH + h <= 23) {
+            
+          } else{
+            int soma = somaH + h;
+            somaH = - (soma - (somaH + 1));
+          }
+          print('HORA:' + somaH.toString());
+
 
           widget.controller2.text = _timeOfDay.replacing(hour: _timeOfDay.hour + somaH, minute: _timeOfDay.minute + somaM).to24hours();
         }

@@ -4,7 +4,7 @@ String horarioAtoF(String horarioInicial){
       return '1M2M';
     case '08:55':
       return '3M4M';
-    case '10:35':
+    case '10:50':
       return '5M6M';
     case '13:50':
       return '1T2T';

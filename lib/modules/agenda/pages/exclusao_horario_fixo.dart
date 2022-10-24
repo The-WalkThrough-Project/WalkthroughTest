@@ -198,8 +198,10 @@ class _ExcluiHFState extends State<ExcluiHF> {
             ),
             ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.redAccent
-                ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    backgroundColor: Colors.redAccent),
                 onPressed: () async {
                   if (await confirm(
                     context,
@@ -224,12 +226,13 @@ class _ExcluiHFState extends State<ExcluiHF> {
                       Navigator.pop(context, true);
                       MotionToast.success(
                         title: const Text(
-                          'Erro',
+                          'Sucesso!',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        description: const Text('Horário excluído com sucesso!'),
+                        description:
+                            const Text('Horário excluído com sucesso!'),
                         animationType: AnimationType.fromLeft,
                         position: MotionToastPosition.top,
                         barrierColor: Colors.black.withOpacity(0.3),

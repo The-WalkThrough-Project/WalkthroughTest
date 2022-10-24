@@ -14,6 +14,7 @@ class FirebaseDataSourceHA extends DataSourceBaseA {
         .where("nomeProfessor", isEqualTo: horarioAgendado?['nomeProfessor'])
         .where('lab', isEqualTo: horarioAgendado?['lab'])
         .where('data', isEqualTo: horarioAgendado?['data'])
+        .where('id', isEqualTo: horarioAgendado?['id'])
         .get();
 
     if (horarioAgendado == null) {
@@ -52,6 +53,7 @@ class FirebaseDataSourceHA extends DataSourceBaseA {
         .where('data', isEqualTo: horarioAgendado?['data'])
         .where('horarioInicial', isEqualTo: horarioAgendado?['horarioInicial'])
         .where('isTemp', isEqualTo: horarioAgendado?['isTemp'])
+        .where('id', isEqualTo: horarioAgendado?['id'])
         .get();
 
     await _firebasefirestore

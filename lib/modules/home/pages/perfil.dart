@@ -343,6 +343,10 @@ class _PerfilPageState extends State<PerfilPage> {
                                     },
                                     child: const Text('Confirmar'),
                                     style: ElevatedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                      ),
                                       backgroundColor:
                                           (_controller2.nome.text.isNotEmpty ||
                                                       _controller2.email.text
