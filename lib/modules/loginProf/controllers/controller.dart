@@ -75,31 +75,4 @@ class UserProfController extends ChangeNotifier {
   Future<void> logOut() async {
     _firebaseAuthProvider.logOut();
   }
-
-  /*Future<void> entrarLogin(context) async {
-    _repository.getConexaoAuth().authStateChanges().listen((User? user) async { 
-      if (user == null) {
-        print('Usuário está deslogado!');
-      } else {
-        print('Usuário está logado!');
-        DocumentSnapshot dados = await _repository.getConexao().collection('usuários').doc(user.uid).get();
-        print(dados.data());
-        String? userNome = dados['nome'];
-        
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => HomePage()));
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            duration: Duration(milliseconds: 1500),
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.deepPurple,
-            content: Text(
-              'Bem vindo $userNome!',
-              textAlign: TextAlign.center,
-            ),
-          ),
-        );
-      }
-    });    
-  }*/
 }

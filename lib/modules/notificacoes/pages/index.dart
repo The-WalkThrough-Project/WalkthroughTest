@@ -82,19 +82,19 @@ class _NotificacaoPageState extends State<NotificacaoPage> {
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(20),
-                                          side: BorderSide(
+                                          side: const BorderSide(
                                               color: Color.fromARGB(
                                                   255, 147, 118, 226),
                                               width: 2)),
                                       child: InkWell(
                                         radius: 400,
                                         borderRadius: BorderRadius.circular(20),
-                                        highlightColor:
-                                            Color.fromARGB(255, 152, 102, 240)
-                                                .withAlpha(60),
-                                        splashColor:
-                                            Color.fromARGB(255, 152, 102, 240)
-                                                .withAlpha(60),
+                                        highlightColor: const Color.fromARGB(
+                                                255, 152, 102, 240)
+                                            .withAlpha(60),
+                                        splashColor: const Color.fromARGB(
+                                                255, 152, 102, 240)
+                                            .withAlpha(60),
                                         onTap: () {},
                                         child: Padding(
                                           padding: const EdgeInsets.all(10.0),
@@ -125,7 +125,8 @@ class _NotificacaoPageState extends State<NotificacaoPage> {
                                                                 Colors.white),
                                                       ),
                                                       Text(
-                                                        'Professor(a): ${snapshot.data?.elementAt(index).nomeProfessor} \nLaboratório: ${snapshot.data?.elementAt(index).lab}',
+                                                        'Professor(a): ${snapshot.data?.elementAt(index).nomeProfessor} \n'
+                                                        'Laboratório: ${snapshot.data?.elementAt(index).lab}',
                                                         style: const TextStyle(
                                                           fontSize: 12,
                                                           color: Color.fromARGB(
@@ -212,7 +213,7 @@ class _NotificacaoPageState extends State<NotificacaoPage> {
                                                                     2500),
                                                             behavior:
                                                                 SnackBarBehavior
-                                                                    .floating,
+                                                                    .fixed,
                                                             backgroundColor:
                                                                 Colors
                                                                     .deepPurple,
@@ -298,7 +299,7 @@ class _NotificacaoPageState extends State<NotificacaoPage> {
                                                                     2500),
                                                             behavior:
                                                                 SnackBarBehavior
-                                                                    .floating,
+                                                                    .fixed,
                                                             backgroundColor:
                                                                 Colors
                                                                     .deepPurple,
@@ -320,7 +321,15 @@ class _NotificacaoPageState extends State<NotificacaoPage> {
                                                     ),
                                                   ),
                                                 ],
-                                              )
+                                              ),
+                                              Text(
+                                                'Solicitado em: ${snapshot.data?.elementAt(index).horarioAgendamento}',
+                                                textAlign: TextAlign.center,
+                                                style: const TextStyle(
+                                                  fontSize: 12,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
                                             ],
                                           ),
                                         ),

@@ -44,7 +44,7 @@ class _PerfilPageState extends State<PerfilPage> {
               onTap: () => FocusScope.of(context).unfocus(),
               child: Scaffold(
                   appBar: AppBar(
-                    title: const Text("Seu Perfil"),
+                    title: Text("Seu Perfil: ${widget.usuario.tipoUsuario}"),
                     actions: [
                       TextButton.icon(
                           onPressed: () {
@@ -60,7 +60,7 @@ class _PerfilPageState extends State<PerfilPage> {
                             Icons.logout,
                             color: Colors.white,
                           ),
-                          label: const Text(""))
+                          label: const Text("Logout", style: TextStyle(color: Colors.white),))
                     ],
                   ),
                   body: !isLoading
@@ -259,8 +259,6 @@ class _PerfilPageState extends State<PerfilPage> {
                                           });
                                           await _controller2.atualizaDados(
                                               sucesso: (usuario) {
-                                                isLoading = false;
-                                                _controller.removeToken();
                                                 _controller.logOut();
                                                 Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
                                                 if ((!alterar || !alterar2) &&
@@ -275,7 +273,7 @@ class _PerfilPageState extends State<PerfilPage> {
                                                     duration: Duration(
                                                         milliseconds: 2500),
                                                     behavior: SnackBarBehavior
-                                                        .floating,
+                                                        .fixed,
                                                     backgroundColor:
                                                         Colors.deepPurple,
                                                     content: Text(
@@ -316,7 +314,6 @@ class _PerfilPageState extends State<PerfilPage> {
                                                 });
                                               },
                                               falha: (motivo) {
-                                                isLoading = false;
                                                 MotionToast.error(
                                                   title: const Text(
                                                     'Erro',
@@ -336,8 +333,15 @@ class _PerfilPageState extends State<PerfilPage> {
                                                   height: 80,
                                                   dismissable: true,
                                                 ).show(context);
+                                                setState(() {
+                                                  _controller2.nome.text == widget.usuario.nome ? _controller2.nome.text = '' : null;
+                                                  _controller2.email.text == widget.usuario.email ? _controller2.email.text = '' : null;
+                                                });
                                               },
                                               usuario: widget.usuario);
+                                              setState(() {
+                                                isLoading = false;
+                                              });
                                         }
                                       }
                                     },

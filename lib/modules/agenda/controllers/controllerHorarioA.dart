@@ -48,6 +48,23 @@ class HorariosAgendadosController extends ChangeNotifier {
     } else {
       return 'Favor inserir um horário final posterior ao horário inicial!';
     }
+
+    if (int.parse(horarioAgendado.horarioFinal.substring(0, 2)) - int.parse(horarioAgendado.horarioInicial.substring(0, 2)) == 0) {
+      if (int.parse(horarioAgendado.horarioFinal.substring(3)) - int.parse(horarioAgendado.horarioInicial.substring(3)) < 50) {
+        return 'Favor inserir um horário de 50min a 1h40min!';
+      }
+    } else if (int.parse(horarioAgendado.horarioFinal.substring(0, 2)) - int.parse(horarioAgendado.horarioInicial.substring(0, 2)) == 1) {
+      if ((60 - int.parse(horarioAgendado.horarioInicial.substring(3))) + int.parse(horarioAgendado.horarioFinal.substring(3)) < 50) {
+        return 'Favor inserir um horário de 50min a 1h40min!';
+      } else if ((60 - int.parse(horarioAgendado.horarioInicial.substring(3))) + int.parse(horarioAgendado.horarioFinal.substring(3)) > 100) {
+        return 'Favor inserir um horário de 50min a 1h40min!';
+      }
+    } else if (int.parse(horarioAgendado.horarioFinal.substring(0, 2)) - int.parse(horarioAgendado.horarioInicial.substring(0, 2)) >= 2) {
+      if ((60 - int.parse(horarioAgendado.horarioInicial.substring(3))) + int.parse(horarioAgendado.horarioFinal.substring(3)) + 60 > 100) {
+        return 'Favor inserir um horário de 50min a 1h40min!';
+      }
+    }
+    
   }
 
   void cadastraHorarios(HorarioAgendado horarioAgendado){

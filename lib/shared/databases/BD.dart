@@ -23,7 +23,7 @@ class BancoHorarios {
 
   Future<Database> get database async {
     if (_db != null) {
-      //deleteDatabase('WTdatabase.db');
+      // deleteDatabase('WTdatabase.db');
       return _db!;
     }
 
@@ -47,7 +47,7 @@ class BancoHorarios {
         "CREATE TABLE horariosFixos(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, uid TEXT, nomeProfessor VARCHAR(50), nomeDisciplina VARCHAR(50), horario TEXT, diaSemana VARCHAR(20), lab VARCHAR(5));");
     
     await db.execute(
-        "CREATE TABLE horariosAgendados(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, nomeProfessor VARCHAR(50), horarioInicial TEXT, horarioFinal TEXT, data TEXT, lab VARCHAR(5), isTemp BOOLEAN);");
+        "CREATE TABLE horariosAgendados(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, nomeProfessor VARCHAR(50), horarioInicial TEXT, horarioFinal TEXT, data TEXT, lab VARCHAR(5), isTemp BOOLEAN, horarioAgendamento TEXT);");
 
     /* await db.execute(
         "CREATE TABLE professor(id VARCHAR(50) NOT NULL PRIMARY KEY, nome TEXT, professor TEXT, contato TEXT, turmaID VARCHAR(50), FOREIGN KEY (turmaID) REFERENCES turma(id) ON DELETE CASCADE);");

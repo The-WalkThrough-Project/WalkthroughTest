@@ -55,6 +55,7 @@ class _AgendaPageState extends State<AgendaPage> {
     setState(() {
       carregando = true;
     });
+    print(formatDate(DateTime.now(), [dd, ' de ', MM, ' às ', H, ':', n, ':', s], locale: PortugueseDateLocale()));
     await Future.delayed(const Duration(seconds: 1));
     selectedHorarios = await _horariosAController.getHorariosA();
     print('selected: ' + selectedHorarios.toString());
@@ -67,8 +68,11 @@ class _AgendaPageState extends State<AgendaPage> {
         value.sort((a, b) => int.parse(a.horarioInicial.substring(0, 2)).compareTo(int.parse(b.horarioInicial.substring(0, 2))));
         value.sort((a, b) => a.lab.compareTo(b.lab));
       });
-      _horariosAController.horarioInicial.text = (TimeOfDay.now().hour.toString() + ':' + TimeOfDay.now().minute.toString());
-      _horariosAController.horarioFinal.text = (TimeOfDay.now().hour.toString() + ':' + TimeOfDay.now().minute.toString());
+      String hora = '', minuto = '';
+      TimeOfDay.now().hour >= 10 ? hora = TimeOfDay.now().hour.toString() : hora = '0' + TimeOfDay.now().hour.toString();
+      TimeOfDay.now().minute >= 10 ? minuto = TimeOfDay.now().minute.toString() : minuto = '0' + TimeOfDay.now().minute.toString();
+      _horariosAController.horarioInicial.text = (hora + ':' + minuto);
+      _horariosAController.horarioFinal.text = (hora + ':' + minuto);
       _horariosAController.nomeProfessor.text = widget.usuario.nome ?? '';
       carregando = false;
     });
@@ -880,6 +884,7 @@ class _AgendaPageState extends State<AgendaPage> {
                                                               ),
                                                             )) {
                                                               var horarioC = HorarioAgendado(
+                                                                  horarioAgendamento: formatDate(DateTime.now(), [dd, ' de ', MM, ' às ', HH, ':', nn, ':', ss], locale: PortugueseDateLocale()),
                                                                   nomeProfessor:
                                                                       _horariosAController
                                                                           .nomeProfessor

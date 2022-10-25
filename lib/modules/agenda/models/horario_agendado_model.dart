@@ -4,8 +4,9 @@ import 'package:date_format/date_format.dart';
 import 'package:intl/locale.dart';
 
 class HorarioAgendado {
-
-  int? id; 
+  
+  int? id;
+  final String horarioAgendamento;
   final String nomeProfessor;
   final String horarioInicial;
   final String horarioFinal;
@@ -15,6 +16,7 @@ class HorarioAgendado {
 
   HorarioAgendado({
     this.id,
+    required this.horarioAgendamento,
     required this.nomeProfessor,
     required this.horarioInicial,
     required this.horarioFinal,
@@ -27,6 +29,7 @@ class HorarioAgendado {
 
   HorarioAgendado copyWith({
     int? id,
+    String? horarioAgendamento,
     String? nomeProfessor,
     String? horarioInicial,
     String? horarioFinal,
@@ -36,6 +39,7 @@ class HorarioAgendado {
   }) {
     return HorarioAgendado(
       id: id ?? this.id,
+      horarioAgendamento: horarioAgendamento ?? this.horarioAgendamento,
       nomeProfessor: nomeProfessor ?? this.nomeProfessor,
       horarioInicial: horarioInicial ?? this.horarioInicial,
       horarioFinal: horarioFinal ?? this.horarioFinal,
@@ -51,7 +55,7 @@ class HorarioAgendado {
 
   @override
   String toString() {
-    return 'HorarioAgendado(id: $id, nomeProfessor: $nomeProfessor, horarioInicial: $horarioInicial, horarioFinal: $horarioFinal, data: $data, lab: $lab, isTemp: $isTemp)';
+    return 'HorarioAgendado(id: $id, horarioAgendamento: $horarioAgendamento, nomeProfessor: $nomeProfessor, horarioInicial: $horarioInicial, horarioFinal: $horarioFinal, data: $data, lab: $lab, isTemp: $isTemp)';
   }
 
   @override
@@ -60,6 +64,7 @@ class HorarioAgendado {
   
     return other is HorarioAgendado &&
       other.id == id &&
+      other.horarioAgendamento == horarioAgendamento &&
       other.nomeProfessor == nomeProfessor &&
       other.horarioInicial == horarioInicial &&
       other.horarioFinal == horarioFinal &&
@@ -71,6 +76,7 @@ class HorarioAgendado {
   @override
   int get hashCode {
     return id.hashCode ^
+      horarioAgendamento.hashCode ^
       nomeProfessor.hashCode ^
       horarioInicial.hashCode ^
       horarioFinal.hashCode ^
@@ -101,6 +107,7 @@ class HorarioAgendado {
     if(id != null){
       result.addAll({'id': id});
     }
+    result.addAll({'horarioAgendamento': horarioAgendamento});
     result.addAll({'nomeProfessor': nomeProfessor});
     result.addAll({'horarioInicial': horarioInicial});
     result.addAll({'horarioFinal': horarioFinal});
@@ -116,6 +123,7 @@ class HorarioAgendado {
   factory HorarioAgendado.fromMap(Map<String, dynamic>? map) {
     return HorarioAgendado(
       id: map?['id']?.toInt(),
+      horarioAgendamento: map?['horarioAgendamento'] ?? '',
       nomeProfessor: map?['nomeProfessor'] ?? '',
       horarioInicial: map?['horarioInicial'] ?? '',
       horarioFinal: map?['horarioFinal'] ?? '',

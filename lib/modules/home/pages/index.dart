@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
     }
 
     return Scaffold(
-            appBar: AppBar(
+            appBar: widget.usuario.nome != null ? AppBar(
               automaticallyImplyLeading: false,
               title: Text(
                 'Bem vindo, ${widget.usuario.nome}!',
@@ -112,8 +112,8 @@ class _HomePageState extends State<HomePage> {
                   },
                 ),
               ],
-            ),
-            body: Center(
+            ) : null,
+            body: widget.usuario.nome != null ? Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -134,7 +134,25 @@ class _HomePageState extends State<HomePage> {
                   }),
                 ],
               ),
-            ),
+            ) : Center(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              CircularProgressIndicator(
+                                color: Colors.deepPurple,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(10.0),
+                                child: Text(
+                                  'Carregando...',
+                                  style: TextStyle(
+                                      color: Colors.deepPurple, fontSize: 18),
+                                ),
+                              )
+                            ],
+                          ),
+                        )
           );
   }
 }

@@ -124,6 +124,7 @@ class _HorariosPageState extends State<HorariosPage> {
                             children: [
                               ElevatedButton(
                                   style: ElevatedButton.styleFrom(
+                                    elevation: 10,
                                       shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(10.0),
@@ -141,6 +142,7 @@ class _HorariosPageState extends State<HorariosPage> {
                                   child: const Text("CADASTRAR/ATUALIZAR")),
                               ElevatedButton(
                                   style: ElevatedButton.styleFrom(
+                                    elevation: 10,
                                       shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(10.0),

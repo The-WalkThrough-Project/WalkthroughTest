@@ -42,7 +42,8 @@ class SQLDataSourceHA extends DataSourceBaseA {
         horarioFinal: e.horarioFinal,
         horarioInicial: e.horarioInicial,
         id: e.id,
-        isTemp: e.isTemp
+        isTemp: e.isTemp,
+        horarioAgendamento: e.horarioAgendamento
       ).toMap()
     }).toList();
   }
@@ -58,7 +59,8 @@ class SQLDataSourceHA extends DataSourceBaseA {
         horarioFinal: e.horarioFinal,
         horarioInicial: e.horarioInicial,
         id: e.id,
-        isTemp: e.isTemp
+        isTemp: e.isTemp,
+        horarioAgendamento: e.horarioAgendamento
       ).toMap()
     }).toList();
   }

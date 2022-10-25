@@ -76,6 +76,7 @@ class FirebaseDataSourceHA extends DataSourceBaseA {
         .collection("horáriosAgendados")
         .where('lab', isEqualTo: horarioAgendado?['lab'])
         .where('data', isEqualTo: string)
+        .where('isTemp', isEqualTo: 0)
         .get();
     print('dasdadas WQSQS:' + qs.docs.toString());
     
@@ -162,7 +163,8 @@ class FirebaseDataSourceHA extends DataSourceBaseA {
       'horarioInicial': horarioAgendado?['horarioInicial'],
       'horarioFinal': horarioAgendado?['horarioFinal'],
       'nomeProfessor': horarioAgendado?['nomeProfessor'],
-      'isTemp': horarioAgendado?['isTemp']
+      'isTemp': horarioAgendado?['isTemp'],
+      'horarioAgendamento':horarioAgendado?['horarioAgendamento']
     });
     return horarioAgendado?['id'];
   }
@@ -181,7 +183,8 @@ class FirebaseDataSourceHA extends DataSourceBaseA {
                 horarioFinal: e.data()['horarioFinal'],
                 data: e.data()['data'],
                 lab: e.data()['lab'],
-                isTemp: e.data()['isTemp'])
+                isTemp: e.data()['isTemp'],
+                horarioAgendamento: e.data()['horarioAgendamento'])
             .toMap())
         .toList();
   }
@@ -197,7 +200,8 @@ class FirebaseDataSourceHA extends DataSourceBaseA {
                 horarioFinal: e.data()['horarioFinal'],
                 data: e.data()['data'],
                 lab: e.data()['lab'],
-                isTemp: e.data()['isTemp'])
+                isTemp: e.data()['isTemp'],
+                horarioAgendamento: e.data()['horarioAgendamento'])
             .toMap())
         .toList();
   }

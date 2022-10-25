@@ -74,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
                             width: 700,
                             height: 700,
                             alignment: Alignment.center,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               image: DecorationImage(
                                   image: AssetImage(
                                     'assets/images/WT.png',
@@ -111,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                          LoginPageController()));
+                                                          const LoginPageController()));
                                             },
                                             falha: (motivo) {
                                               MotionToast.error(

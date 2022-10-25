@@ -495,7 +495,7 @@ class _BluetoothAppState extends State<BluetoothApp> {
     
     ScaffoldMessenger(key: _scaffoldKey, child: SnackBar(
         duration: Duration(milliseconds: 800),
-                          behavior: SnackBarBehavior.floating,
+                          behavior: SnackBarBehavior.fixed,
                           backgroundColor: Colors.deepPurple,
         content: Text(
           message,

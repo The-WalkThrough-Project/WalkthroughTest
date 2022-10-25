@@ -104,9 +104,6 @@ class UserProf {
     if(nome == null || nome!.isEmpty){
       throw Exception("Nome não informado.");
     }
-    if(codigo == null || codigo!.isEmpty){
-      throw Exception("Código não informado.");
-    }
     return true;
   }
 
