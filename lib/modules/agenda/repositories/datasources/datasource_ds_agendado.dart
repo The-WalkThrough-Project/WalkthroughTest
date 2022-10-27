@@ -17,5 +17,7 @@ abstract class DataSourceBaseA{
   Future<List<Map<String, dynamic>?>?> selecionarTodos();
 
   Future<List<Map<String, dynamic>?>?> selecionarTodosTemp();
+
+  Future<String?> getEmailGerenciador();
   
 }

@@ -36,6 +36,7 @@ class SQLDataSourceHA extends DataSourceBaseA {
     var lista = await _bancoSQL.readTodosHorariosAgendadosNotTemp();
     lista.map((e) => {
       HorarioAgendado(
+        emailProfessor: e.emailProfessor,
         data: e.data,
         nomeProfessor: e.nomeProfessor,
         lab: e.lab,
@@ -53,6 +54,7 @@ class SQLDataSourceHA extends DataSourceBaseA {
     var lista = await _bancoSQL.readTodosHorariosAgendadosTemp();
     lista.map((e) => {
       HorarioAgendado(
+        emailProfessor: e.emailProfessor,
         data: e.data,
         nomeProfessor: e.nomeProfessor,
         lab: e.lab,
@@ -74,5 +76,10 @@ class SQLDataSourceHA extends DataSourceBaseA {
   
   @override
   Future<bool?>? selecionarTodosDiaLab(Map<String, dynamic>? horarioAgendado) {
+  }
+
+  @override
+  Future<String?> getEmailGerenciador() async{
+    return '';
   }
 }

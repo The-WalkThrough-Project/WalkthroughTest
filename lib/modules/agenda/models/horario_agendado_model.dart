@@ -7,6 +7,7 @@ class HorarioAgendado {
   
   int? id;
   final String horarioAgendamento;
+  final String emailProfessor;
   final String nomeProfessor;
   final String horarioInicial;
   final String horarioFinal;
@@ -17,6 +18,7 @@ class HorarioAgendado {
   HorarioAgendado({
     this.id,
     required this.horarioAgendamento,
+    required this.emailProfessor,
     required this.nomeProfessor,
     required this.horarioInicial,
     required this.horarioFinal,
@@ -30,6 +32,7 @@ class HorarioAgendado {
   HorarioAgendado copyWith({
     int? id,
     String? horarioAgendamento,
+    String? emailProfessor,
     String? nomeProfessor,
     String? horarioInicial,
     String? horarioFinal,
@@ -40,6 +43,7 @@ class HorarioAgendado {
     return HorarioAgendado(
       id: id ?? this.id,
       horarioAgendamento: horarioAgendamento ?? this.horarioAgendamento,
+      emailProfessor: emailProfessor ?? this.emailProfessor,
       nomeProfessor: nomeProfessor ?? this.nomeProfessor,
       horarioInicial: horarioInicial ?? this.horarioInicial,
       horarioFinal: horarioFinal ?? this.horarioFinal,
@@ -55,7 +59,7 @@ class HorarioAgendado {
 
   @override
   String toString() {
-    return 'HorarioAgendado(id: $id, horarioAgendamento: $horarioAgendamento, nomeProfessor: $nomeProfessor, horarioInicial: $horarioInicial, horarioFinal: $horarioFinal, data: $data, lab: $lab, isTemp: $isTemp)';
+    return 'HorarioAgendado(id: $id, horarioAgendamento: $horarioAgendamento, emailProfessor: $emailProfessor, nomeProfessor: $nomeProfessor, horarioInicial: $horarioInicial, horarioFinal: $horarioFinal, data: $data, lab: $lab, isTemp: $isTemp)';
   }
 
   @override
@@ -65,6 +69,7 @@ class HorarioAgendado {
     return other is HorarioAgendado &&
       other.id == id &&
       other.horarioAgendamento == horarioAgendamento &&
+      other.emailProfessor == emailProfessor &&
       other.nomeProfessor == nomeProfessor &&
       other.horarioInicial == horarioInicial &&
       other.horarioFinal == horarioFinal &&
@@ -77,6 +82,7 @@ class HorarioAgendado {
   int get hashCode {
     return id.hashCode ^
       horarioAgendamento.hashCode ^
+      emailProfessor.hashCode ^
       nomeProfessor.hashCode ^
       horarioInicial.hashCode ^
       horarioFinal.hashCode ^
@@ -108,6 +114,7 @@ class HorarioAgendado {
       result.addAll({'id': id});
     }
     result.addAll({'horarioAgendamento': horarioAgendamento});
+    result.addAll({'emailProfessor': emailProfessor});
     result.addAll({'nomeProfessor': nomeProfessor});
     result.addAll({'horarioInicial': horarioInicial});
     result.addAll({'horarioFinal': horarioFinal});
@@ -124,6 +131,7 @@ class HorarioAgendado {
     return HorarioAgendado(
       id: map?['id']?.toInt(),
       horarioAgendamento: map?['horarioAgendamento'] ?? '',
+      emailProfessor: map?['emailProfessor'] ?? '',
       nomeProfessor: map?['nomeProfessor'] ?? '',
       horarioInicial: map?['horarioInicial'] ?? '',
       horarioFinal: map?['horarioFinal'] ?? '',

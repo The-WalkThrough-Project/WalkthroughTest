@@ -5,6 +5,7 @@ import 'package:walkthrough/modules/agenda/models/horario_fixo_model.dart';
 import 'package:walkthrough/modules/agenda/repositories/horario_agendado_repository.dart';
 import 'package:walkthrough/modules/agenda/repositories/horario_fixo_repository.dart';
 import 'package:walkthrough/shared/databases/BD.dart';
+import 'package:walkthrough/shared/providers/email/send_email_provider.dart';
 
 class HorariosAgendadosController extends ChangeNotifier {
   final horarioInicial = TextEditingController();
@@ -12,6 +13,7 @@ class HorariosAgendadosController extends ChangeNotifier {
   final nomeProfessor = TextEditingController();
   final lab = TextEditingController();
   final _repositoryA = HorarioAgendadoRepository();
+  final _emailProvider = EmailProvider();
 
   Future<ValueNotifier<Map<String, List<HorarioAgendado>>?>> getHorariosA() async {
     var horarios = await _repositoryA.selecionarTodos();
@@ -67,8 +69,40 @@ class HorariosAgendadosController extends ChangeNotifier {
     
   }
 
-  void cadastraHorarios(HorarioAgendado horarioAgendado){
+  void cadastraHorarios(HorarioAgendado horarioAgendado)async {
     _repositoryA.incluir(horarioAgendado);
+    String? gerenciador = await _repositoryA.getEmailGerenciador();
+    String data = horarioAgendado.data;
+    data = data.substring(0, 10);
+    await
+    _emailProvider.enviaEmailSolicitacao(
+      nomeProf: horarioAgendado.nomeProfessor, 
+      emailProf: horarioAgendado.emailProfessor, 
+      emailGerenciador: gerenciador == null ? 'thewalkthroughproj@gmail.com' : gerenciador.split(':')[0],
+      assunto: 'Solicitação de Agendamento de Laboratório', 
+      laboratorioAgendamento: horarioAgendado.lab,
+      dataAgendamento: data.split('-')[2] + '/' + data.split('-')[1] + '/' + data.split('-')[0],
+      horarioInicialAgendamento: horarioAgendado.horarioInicial,
+      horarioFinalAgendamento: horarioAgendado.horarioFinal,
+      nomeGerenciador: gerenciador == null ? 'Gerenciador' : gerenciador.split(':')[1],
+    );
+  }
+
+  Future<void> respostaAgendamento(HorarioAgendado horarioAgendado, String mensagem, String? gerenciador, String avaliacao) async{
+    String data = horarioAgendado.data;
+    data = data.substring(0, 10);
+    await
+    _emailProvider.enviaEmailResposta(
+      nomeProf: horarioAgendado.nomeProfessor, 
+      emailProf: horarioAgendado.emailProfessor,
+      assunto: 'Resposta da Solicitação de Agendamento de Laboratório: ' + avaliacao + '!', 
+      laboratorioAgendamento: horarioAgendado.lab,
+      dataAgendamento: data.split('-')[2] + '/' + data.split('-')[1] + '/' + data.split('-')[0],
+      horarioInicialAgendamento: horarioAgendado.horarioInicial,
+      horarioFinalAgendamento: horarioAgendado.horarioFinal,
+      nomeGerenciador: gerenciador ?? '',
+      mensagem: mensagem
+    );
   }
 
   existeHorario(HorarioAgendado horarioAgendado) async{

@@ -109,7 +109,7 @@ class _AgendaPageState extends State<AgendaPage> {
 
   Future<void> _navegaEAtualiza(BuildContext context) async {
     final bool result = await Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const NotificacaoPage()));
+        MaterialPageRoute(builder: (context) => NotificacaoPage(usuario: widget.usuario,)));
     result ? getHorarios() : null;
 
     if (!mounted) return;
@@ -884,6 +884,7 @@ class _AgendaPageState extends State<AgendaPage> {
                                                               ),
                                                             )) {
                                                               var horarioC = HorarioAgendado(
+                                                                  emailProfessor: widget.usuario.email ?? '',
                                                                   horarioAgendamento: formatDate(DateTime.now(), [dd, ' de ', MM, ' às ', HH, ':', nn, ':', ss], locale: PortugueseDateLocale()),
                                                                   nomeProfessor:
                                                                       _horariosAController
@@ -983,7 +984,6 @@ class _AgendaPageState extends State<AgendaPage> {
                                                                 _horariosAController
                                                                     .cadastraHorarios(
                                                                         horarioC);
-                                                                getHorarios();
                                                                 Navigator.of(
                                                                         context)
                                                                     .pop();
@@ -1007,18 +1007,20 @@ class _AgendaPageState extends State<AgendaPage> {
                                                                             .center,
                                                                   ),
                                                                 ));
-                                                                _horariosAController
-                                                                    .nomeProfessor
-                                                                    .clear();
-                                                                _horariosAController
-                                                                    .horarioInicial
-                                                                    .clear();
-                                                                _horariosAController
-                                                                    .horarioFinal
-                                                                    .clear();
                                                                 setState(() {
+                                                                getHorarios();
+                                                                  _horariosAController
+                                                                      .nomeProfessor
+                                                                      .clear();
+                                                                  _horariosAController
+                                                                      .horarioInicial
+                                                                      .clear();
+                                                                  _horariosAController
+                                                                      .horarioFinal
+                                                                      .clear();
                                                                   dropdownValue =
                                                                       '304';
+                                                                  _horariosAController.lab.text = dropdownValue;
                                                                 });
                                                               }
                                                             }

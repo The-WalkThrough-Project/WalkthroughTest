@@ -79,6 +79,7 @@ class FirebaseDataSource extends DataSourceBaseF {
         for (var j = t; j < v; j++) {
           for (var element in lista) {
             if (int.parse(element!.substring(0, 2)) == i && int.parse(element.substring(3)) == j){
+              print(i.toString() + ':' + j.toString());
               return true;
             }
           }

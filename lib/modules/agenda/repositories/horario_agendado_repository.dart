@@ -15,6 +15,10 @@ class HorarioAgendadoRepository{
     return await _db!.existeHorario(horarioAgendado.toMap());
   }
 
+  Future<String?> getEmailGerenciador() async{
+    return await _db!.getEmailGerenciador();
+  }
+
   Future<void> incluir(HorarioAgendado horarioAgendado) async{
     //Validações
     horarioAgendado.isValid();

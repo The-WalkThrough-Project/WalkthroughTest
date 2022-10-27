@@ -11,7 +11,8 @@ import 'package:walkthrough/modules/loginProf/controllers/controller.dart';
 import 'package:walkthrough/modules/loginProf/models/prof_model.dart';
 
 class NotificacaoPage extends StatefulWidget {
-  const NotificacaoPage({Key? key}) : super(key: key);
+  final UserProf usuario;
+  const NotificacaoPage({Key? key, required this.usuario}) : super(key: key);
 
   @override
   State<NotificacaoPage> createState() => _NotificacaoPageState();
@@ -65,13 +66,13 @@ class _NotificacaoPageState extends State<NotificacaoPage> {
             ? FutureBuilder<List?>(
                 future: _horariosAController.getHorariosATemp(),
                 builder: (context, snapshot) {
-                  return snapshot.data != null && snapshot.data?.length != 0
+                  return snapshot.data != null && snapshot.data!.isNotEmpty
                       ? Center(
                           child: ListView.builder(
                           itemCount: snapshot.data?.length,
                           itemBuilder: (context, index) {
                             return Padding(
-                              padding: const EdgeInsets.fromLTRB(19, 11, 19, 0),
+                              padding: const EdgeInsets.fromLTRB(19, 0, 19, 0),
                               child: Column(
                                 children: [
                                   Padding(
@@ -200,6 +201,12 @@ class _NotificacaoPageState extends State<NotificacaoPage> {
                                                               snapshot.data
                                                                   ?.elementAt(
                                                                       index);
+                                                          await _horariosAController.respostaAgendamento(
+                                                            horarioX, 
+                                                            'Desculpe, mas sua solicitação foi recusada! Entre em contato com o gerenciador responsável ou agende em outro horário.', 
+                                                            widget.usuario.nome,
+                                                            'Recusada'
+                                                          );
                                                           _horariosAController
                                                               .excluirHorarioTemp(
                                                                   horarioX);
@@ -286,6 +293,12 @@ class _NotificacaoPageState extends State<NotificacaoPage> {
                                                                   ?.elementAt(
                                                                       index);
                                                           horarioX.isTemp = 0;
+                                                          await _horariosAController.respostaAgendamento(
+                                                            horarioX, 
+                                                            'Sua solicitação foi agendada no dia e horários indicados!', 
+                                                            widget.usuario.nome,
+                                                            'Confirmada'
+                                                          );
                                                           _horariosAController
                                                               .atualizarHorarioTemp(
                                                                   horarioX);
@@ -336,33 +349,52 @@ class _NotificacaoPageState extends State<NotificacaoPage> {
                                       ),
                                     ),
                                   ),
+                                  Padding(padding: EdgeInsets.only(bottom: 8))
                                 ],
                               ),
                             );
                           },
                         ))
-                      : Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
-                              Text(
-                                'Não há solicitações de agendamento!',
-                                style: TextStyle(
-                                    color: Colors.deepPurple,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(10.0),
-                                child: Icon(
-                                  Icons.sentiment_very_satisfied,
+                      : snapshot.data == null
+                          ? Center(
+                              child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                CircularProgressIndicator(
                                   color: Colors.deepPurple,
-                                  size: 25,
                                 ),
-                              )
-                            ],
-                          ),
-                        );
+                                Padding(
+                                  padding: EdgeInsets.all(10.0),
+                                  child: Text(
+                                    'Carregando...',
+                                    style: TextStyle(
+                                        color: Colors.deepPurple, fontSize: 18),
+                                  ),
+                                )
+                              ],
+                            ))
+                          : Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Text(
+                                    'Não há solicitações de agendamento!',
+                                    style: TextStyle(
+                                        color: Colors.deepPurple,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.all(10.0),
+                                    child: Icon(
+                                      Icons.sentiment_very_satisfied,
+                                      color: Colors.deepPurple,
+                                      size: 25,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            );
                 })
             : Center(
                 child: Column(

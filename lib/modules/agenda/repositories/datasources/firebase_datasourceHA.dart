@@ -8,6 +8,20 @@ class FirebaseDataSourceHA extends DataSourceBaseA {
   final FirebaseFirestore _firebasefirestore = FirebaseFirestore.instance;
 
   @override
+  Future<String?> getEmailGerenciador() async{
+    QuerySnapshot qs = await _firebasefirestore
+        .collection("usuários")
+        .where("tipoUsuário", isEqualTo: 'Gerenciador')
+        .get();
+
+    if (qs.docs.isEmpty) {
+      return null;
+    }
+
+    return qs.docs.last.get('email') + ':' +  qs.docs.last.get('nome');
+  }
+
+  @override
   Future<void> alterar(Map<String, dynamic>? horarioAgendado) async {
     QuerySnapshot qs = await _firebasefirestore
         .collection("horáriosAgendados")
@@ -164,7 +178,8 @@ class FirebaseDataSourceHA extends DataSourceBaseA {
       'horarioFinal': horarioAgendado?['horarioFinal'],
       'nomeProfessor': horarioAgendado?['nomeProfessor'],
       'isTemp': horarioAgendado?['isTemp'],
-      'horarioAgendamento':horarioAgendado?['horarioAgendamento']
+      'horarioAgendamento': horarioAgendado?['horarioAgendamento'],
+      'emailProfessor': horarioAgendado?['emailProfessor'],
     });
     return horarioAgendado?['id'];
   }
@@ -177,6 +192,7 @@ class FirebaseDataSourceHA extends DataSourceBaseA {
     var qs = await _firebasefirestore.collection('horáriosAgendados').get();
     return qs.docs
         .map((e) => HorarioAgendado(
+                emailProfessor: e.data()['emailProfessor'],
                 id: e.data()['id'],
                 nomeProfessor: e.data()['nomeProfessor'],
                 horarioInicial: e.data()['horarioInicial'],
@@ -194,6 +210,7 @@ class FirebaseDataSourceHA extends DataSourceBaseA {
     var qs = await _firebasefirestore.collection('horáriosAgendados').get();
     return qs.docs
         .map((e) => HorarioAgendado(
+                emailProfessor: e.data()['emailProfessor'],
                 id: e.data()['id'],
                 nomeProfessor: e.data()['nomeProfessor'],
                 horarioInicial: e.data()['horarioInicial'],
