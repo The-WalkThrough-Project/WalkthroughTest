@@ -1,13 +1,8 @@
 import 'package:confirm_dialog/confirm_dialog.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:intl/intl.dart';
 import 'package:walkthrough/modules/agenda/controllers/controllerHorarioA.dart';
 import 'package:walkthrough/modules/agenda/models/horario_agendado_model.dart';
-import 'package:walkthrough/modules/home/pages/index.dart';
-import 'package:walkthrough/modules/loginProf/controllers/controller.dart';
 import 'package:walkthrough/modules/loginProf/models/prof_model.dart';
 
 class NotificacaoPage extends StatefulWidget {
@@ -201,12 +196,13 @@ class _NotificacaoPageState extends State<NotificacaoPage> {
                                                               snapshot.data
                                                                   ?.elementAt(
                                                                       index);
-                                                          await _horariosAController.respostaAgendamento(
-                                                            horarioX, 
-                                                            'Desculpe, mas sua solicitação foi recusada! Entre em contato com o gerenciador responsável ou agende em outro horário.', 
-                                                            widget.usuario.nome,
-                                                            'Recusada'
-                                                          );
+                                                          _horariosAController
+                                                              .respostaAgendamento(
+                                                                  horarioX,
+                                                                  'Desculpe, mas sua solicitação foi recusada! Entre em contato com o gerenciador responsável ou tente agendar em outro horário.',
+                                                                  widget.usuario
+                                                                      .nome,
+                                                                  'Recusada');
                                                           _horariosAController
                                                               .excluirHorarioTemp(
                                                                   horarioX);
@@ -293,12 +289,13 @@ class _NotificacaoPageState extends State<NotificacaoPage> {
                                                                   ?.elementAt(
                                                                       index);
                                                           horarioX.isTemp = 0;
-                                                          await _horariosAController.respostaAgendamento(
-                                                            horarioX, 
-                                                            'Sua solicitação foi agendada no dia e horários indicados!', 
-                                                            widget.usuario.nome,
-                                                            'Confirmada'
-                                                          );
+                                                          _horariosAController
+                                                              .respostaAgendamento(
+                                                                  horarioX,
+                                                                  'Sua solicitação foi agendada no dia e horários indicados!',
+                                                                  widget.usuario
+                                                                      .nome,
+                                                                  'Confirmada');
                                                           _horariosAController
                                                               .atualizarHorarioTemp(
                                                                   horarioX);

@@ -11,7 +11,7 @@ class FirebaseDataSourceHA extends DataSourceBaseA {
   Future<String?> getEmailGerenciador() async{
     QuerySnapshot qs = await _firebasefirestore
         .collection("usuários")
-        .where("tipoUsuário", isEqualTo: 'Gerenciador')
+        .where("tipoUsuario", isEqualTo: 'Gerenciador')
         .get();
 
     if (qs.docs.isEmpty) {
