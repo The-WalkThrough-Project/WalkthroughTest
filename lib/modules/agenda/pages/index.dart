@@ -138,7 +138,7 @@ class _AgendaPageState extends State<AgendaPage> {
                                     if (snapshot.data != null) {
                                       tamanho = snapshot.data!.length;
                                     }
-                                    return TextButton.icon(
+                                    return IconButton(
                                         onPressed: () {
                                           _navegaEAtualiza(context);
                                         },
@@ -180,8 +180,7 @@ class _AgendaPageState extends State<AgendaPage> {
                                                 : const Padding(
                                                     padding: EdgeInsets.all(0)),
                                           ],
-                                        ),
-                                        label: const Text(''));
+                                        ),);
                                   }),
                             ]
                           : null

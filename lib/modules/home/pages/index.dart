@@ -73,16 +73,10 @@ class _HomePageState extends State<HomePage> {
                 'Bem vindo, ${widget.usuario.nome}!',
               ),
               actions: <Widget>[
-                TextButton.icon(
+                IconButton(
                   icon: const Icon(
                     Icons.question_mark,
                     color: Colors.white,
-                  ),
-                  label: Text(""),
-                  style: TextButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
                   ),
                   onPressed: () {
                     Navigator.push(
@@ -92,16 +86,10 @@ class _HomePageState extends State<HomePage> {
                         ));
                   },
                 ),
-                TextButton.icon(
+                IconButton(
                   icon: const Icon(
                     Icons.person,
                     color: Colors.white,
-                  ),
-                  label: Text(""),
-                  style: TextButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
                   ),
                   onPressed: () {
                     Navigator.push(

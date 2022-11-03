@@ -22,6 +22,8 @@ class PerfilPage extends StatefulWidget {
 }
 
 class _PerfilPageState extends State<PerfilPage> {
+  final FocusNode node1 = FocusNode();
+  final FocusNode node2 = FocusNode();
   bool alterar = true;
   bool alterar2 = true;
   final _controller = UserProfController();
@@ -90,6 +92,7 @@ class _PerfilPageState extends State<PerfilPage> {
                             Padding(
                               padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
                               child: TextFormField(
+                                focusNode: node1,
                                 controller: _controller2.nome,
                                 style:
                                     const TextStyle(color: Colors.deepPurple),
@@ -105,6 +108,7 @@ class _PerfilPageState extends State<PerfilPage> {
                                         onPressed: () {
                                           setState(() {
                                             alterar = false;
+                                            FocusScope.of(context).requestFocus(node1);
                                           });
                                         },
                                         icon: const Icon(
@@ -143,6 +147,7 @@ class _PerfilPageState extends State<PerfilPage> {
                             Padding(
                               padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
                               child: TextFormField(
+                                focusNode: node2,
                                 controller: _controller2.email,
                                 style:
                                     const TextStyle(color: Colors.deepPurple),
@@ -158,12 +163,14 @@ class _PerfilPageState extends State<PerfilPage> {
                                         onPressed: () {
                                           setState(() {
                                             alterar2 = false;
+                                            FocusScope.of(context).requestFocus(node2);
                                           });
                                         },
                                         icon: const Icon(
                                           Icons.edit,
                                           color: Colors.deepPurple,
-                                        )),
+                                        )
+                                    ),
                                   ),
                                   hintStyle: const TextStyle(
                                       color:
