@@ -97,6 +97,119 @@ class _LoginPageState extends State<LoginPage> {
                             campoForm("Login", 20, false, _controller.login),
                             campoForm("Senha", 10, true, _controller.senha),
                             Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Align(
+                                alignment: Alignment.bottomLeft,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            title: const Text(
+                                              'Recuperação de senha',
+                                              style: TextStyle(
+                                                  color: Colors.deepPurple),
+                                            ),
+                                            content: SizedBox(
+                                              width: 300,
+                                              child: Form(
+                                                child: campoForm(
+                                                    "Informe seu email",
+                                                    20,
+                                                    false,
+                                                    _controller.emailRecupera),
+                                              ),
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                    _controller.emailRecupera
+                                                        .clear();
+                                                  },
+                                                  child: const Text('Cancelar',
+                                                      style: TextStyle(
+                                                          color: Colors.red))),
+                                              TextButton(
+                                                  onPressed: () {
+                                                    _controller.recuperarSenha(
+                                                        sucesso: () {
+                                                      Navigator.pop(context);
+                                                      _controller.emailRecupera
+                                                          .clear();
+                                                      MotionToast.success(
+                                                        title: const Text(
+                                                          'Sucesso',
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                        description: const Text(
+                                                            'Um email de recuperação foi enviado ao email especificado!\nLembre-se de checar o spam!'),
+                                                        animationType:
+                                                            AnimationType
+                                                                .fromLeft,
+                                                        position:
+                                                            MotionToastPosition
+                                                                .top,
+                                                        barrierColor: Colors
+                                                            .black
+                                                            .withOpacity(0.3),
+                                                        width: 300,
+                                                        height: 80,
+                                                        toastDuration: Duration(
+                                                            seconds: 5),
+                                                        dismissable: true,
+                                                      ).show(context);
+                                                    }, falha: (motivo) {
+                                                      MotionToast.error(
+                                                        title: const Text(
+                                                          'Erro',
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                        description:
+                                                            Text(motivo),
+                                                        animationType:
+                                                            AnimationType
+                                                                .fromLeft,
+                                                        position:
+                                                            MotionToastPosition
+                                                                .top,
+                                                        barrierColor: Colors
+                                                            .black
+                                                            .withOpacity(0.3),
+                                                        width: 300,
+                                                        height: 80,
+                                                        dismissable: true,
+                                                      ).show(context);
+                                                    });
+                                                  },
+                                                  child: const Text(
+                                                      'Enviar recuperação',
+                                                      style: TextStyle(
+                                                          color:
+                                                              Colors.green))),
+                                            ],
+                                          );
+                                        });
+                                  },
+                                  child: const Text(
+                                    'Esqueci minha senha',
+                                    style: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 174, 137, 238),
+                                        decoration: TextDecoration.underline,
+                                        fontSize: 12),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
                               padding: const EdgeInsets.only(top: 20),
                               child: ElevatedButton(
                                 onPressed: (() async {

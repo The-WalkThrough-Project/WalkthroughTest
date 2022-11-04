@@ -49,20 +49,43 @@ class _PerfilPageState extends State<PerfilPage> {
                     title: Text("Seu Perfil: ${widget.usuario.tipoUsuario}"),
                     actions: [
                       TextButton.icon(
-                          onPressed: () {
-                            _controller.removeToken();
-                            _controller.logOut();
-                            Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const LoginPage()),
-                                (route) => false);
+                          onPressed: () async {
+                            if (await confirm(
+                              context,
+                              title: const Text(
+                                'Confirmação',
+                                style: TextStyle(color: Colors.deepPurple),
+                              ),
+                              content: const Text(
+                                'Você tem certeza de que deseja sair?',
+                                style: TextStyle(color: Colors.deepPurple),
+                              ),
+                              textOK: const Text(
+                                'Sim',
+                                style: TextStyle(color: Colors.green),
+                              ),
+                              textCancel: const Text(
+                                'Não',
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            )) {
+                              _controller.removeToken();
+                              _controller.logOut();
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const LoginPage()),
+                                  (route) => false);
+                            }
                           },
                           icon: const Icon(
                             Icons.logout,
                             color: Colors.white,
                           ),
-                          label: const Text("Logout", style: TextStyle(color: Colors.white),))
+                          label: const Text(
+                            "Logout",
+                            style: TextStyle(color: Colors.white),
+                          ))
                     ],
                   ),
                   body: !isLoading
@@ -108,7 +131,8 @@ class _PerfilPageState extends State<PerfilPage> {
                                         onPressed: () {
                                           setState(() {
                                             alterar = false;
-                                            FocusScope.of(context).requestFocus(node1);
+                                            FocusScope.of(context)
+                                                .requestFocus(node1);
                                           });
                                         },
                                         icon: const Icon(
@@ -163,14 +187,14 @@ class _PerfilPageState extends State<PerfilPage> {
                                         onPressed: () {
                                           setState(() {
                                             alterar2 = false;
-                                            FocusScope.of(context).requestFocus(node2);
+                                            FocusScope.of(context)
+                                                .requestFocus(node2);
                                           });
                                         },
                                         icon: const Icon(
                                           Icons.edit,
                                           color: Colors.deepPurple,
-                                        )
-                                    ),
+                                        )),
                                   ),
                                   hintStyle: const TextStyle(
                                       color:
@@ -223,14 +247,16 @@ class _PerfilPageState extends State<PerfilPage> {
                                   child: ElevatedButton(
                                     onPressed: () async {
                                       if ((!alterar || !alterar2) &&
-                                          (_controller2.nome.text.isNotEmpty ||
-                                              _controller2
-                                                  .email.text.isNotEmpty) &&
-                                          (_controller2.nome.text !=
-                                                  widget.usuario.nome ||
-                                              _controller2.email.text !=
-                                                  widget.usuario.email ||
-                                              _controller2.hasSenha) || (_controller2.hasSenha)) {
+                                              (_controller2
+                                                      .nome.text.isNotEmpty ||
+                                                  _controller2
+                                                      .email.text.isNotEmpty) &&
+                                              (_controller2.nome.text !=
+                                                      widget.usuario.nome ||
+                                                  _controller2.email.text !=
+                                                      widget.usuario.email ||
+                                                  _controller2.hasSenha) ||
+                                          (_controller2.hasSenha)) {
                                         if (await confirm(
                                           context,
                                           title: const Text(
@@ -267,20 +293,27 @@ class _PerfilPageState extends State<PerfilPage> {
                                           await _controller2.atualizaDados(
                                               sucesso: (usuario) {
                                                 _controller.logOut();
-                                                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
+                                                Navigator.pushAndRemoveUntil(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            LoginPage()),
+                                                    (route) => false);
                                                 if ((!alterar || !alterar2) &&
                                                     (_controller2.nome.text !=
-                                                            widget.usuario.nome ||
+                                                            widget
+                                                                .usuario.nome ||
                                                         _controller2
                                                                 .email.text !=
-                                                            widget.usuario.email)) {
+                                                            widget.usuario
+                                                                .email)) {
                                                   ScaffoldMessenger.of(context)
                                                       .showSnackBar(
                                                           const SnackBar(
                                                     duration: Duration(
                                                         milliseconds: 2500),
-                                                    behavior: SnackBarBehavior
-                                                        .fixed,
+                                                    behavior:
+                                                        SnackBarBehavior.fixed,
                                                     backgroundColor:
                                                         Colors.deepPurple,
                                                     content: Text(
@@ -341,14 +374,22 @@ class _PerfilPageState extends State<PerfilPage> {
                                                   dismissable: true,
                                                 ).show(context);
                                                 setState(() {
-                                                  _controller2.nome.text == widget.usuario.nome ? _controller2.nome.text = '' : null;
-                                                  _controller2.email.text == widget.usuario.email ? _controller2.email.text = '' : null;
+                                                  _controller2.nome.text ==
+                                                          widget.usuario.nome
+                                                      ? _controller2.nome.text =
+                                                          ''
+                                                      : null;
+                                                  _controller2.email.text ==
+                                                          widget.usuario.email
+                                                      ? _controller2
+                                                          .email.text = ''
+                                                      : null;
                                                 });
                                               },
                                               usuario: widget.usuario);
-                                              setState(() {
-                                                isLoading = false;
-                                              });
+                                          setState(() {
+                                            isLoading = false;
+                                          });
                                         }
                                       }
                                     },
@@ -358,19 +399,19 @@ class _PerfilPageState extends State<PerfilPage> {
                                         borderRadius:
                                             BorderRadius.circular(10.0),
                                       ),
-                                      backgroundColor:
-                                          (_controller2.nome.text.isNotEmpty ||
-                                                      _controller2.email.text
-                                                          .isNotEmpty ||
-                                                      _controller2.hasSenha) &&
-                                                  (_controller2.nome.text !=
-                                                          widget.usuario.nome ||
-                                                      _controller2.email.text !=
-                                                          widget.usuario.email ||
-                                                      _controller2.hasSenha)
-                                              ? Colors.deepPurple
-                                              : const Color.fromARGB(
-                                                  255, 166, 140, 211),
+                                      backgroundColor: (_controller2
+                                                      .nome.text.isNotEmpty ||
+                                                  _controller2
+                                                      .email.text.isNotEmpty ||
+                                                  _controller2.hasSenha) &&
+                                              (_controller2.nome.text !=
+                                                      widget.usuario.nome ||
+                                                  _controller2.email.text !=
+                                                      widget.usuario.email ||
+                                                  _controller2.hasSenha)
+                                          ? Colors.deepPurple
+                                          : const Color.fromARGB(
+                                              255, 166, 140, 211),
                                     ),
                                   ),
                                 ))

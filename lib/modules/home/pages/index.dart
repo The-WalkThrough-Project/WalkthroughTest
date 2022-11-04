@@ -5,7 +5,6 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
 import 'package:walkthrough/modules/agenda/pages/index.dart';
 import 'package:walkthrough/modules/home/pages/perfil.dart';
-import 'package:walkthrough/modules/home/pages/sobre.dart';
 import 'package:walkthrough/modules/loginProf/controllers/controller.dart';
 import 'package:walkthrough/modules/loginProf/models/prof_model.dart';
 import 'package:walkthrough/shared/providers/firebaseAuth_provider.dart';
@@ -73,19 +72,6 @@ class _HomePageState extends State<HomePage> {
                 'Bem vindo, ${widget.usuario.nome}!',
               ),
               actions: <Widget>[
-                IconButton(
-                  icon: const Icon(
-                    Icons.question_mark,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SobrePage(),
-                        ));
-                  },
-                ),
                 IconButton(
                   icon: const Icon(
                     Icons.person,

@@ -67,7 +67,6 @@ class FireBaseAuthProvider{
     try {
       await _firebaseauth.sendPasswordResetEmail(email: email);
     } catch (e) {
-      print(e.toString());
       if(e.toString().contains('invalid-email')){
         throw Exception("Informe um email válido!");
       }else if(e.toString().contains('user-not-found')){

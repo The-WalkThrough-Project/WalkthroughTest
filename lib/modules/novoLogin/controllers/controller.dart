@@ -16,25 +16,30 @@ class NovoLoginController extends ChangeNotifier {
   atualizaDados(
       {required VoidCallback? sucesso(UserProf? usuario),
       required VoidCallback? falha(String motivo),
-      required UserProf usuario}) async {
+      required UserProf usuario,
+      bool primeiroLogin = false}) async {
     try {
       final user = UserProf(
           nome: nome.text.trim(),
           email: email.text.trim(),
           codigo: usuario.codigo,
-          id: usuario.id
-      );
+          id: usuario.id);
 
       User? currentUser = await _firebase_auth.getCurrentUser();
-      
+      user.tipoUsuario = usuario.tipoUsuario;
+
       if (email.text.trim() != '') {
         await _firebase_auth.atualizarEmail(currentUser, user.email);
       } else {
-        user.email = usuario.email;
+        if (!primeiroLogin) {
+          user.email = usuario.email;
+        } 
       }
-      
+
       if (user.email != '' || user.nome != '') {
-        user.codigo = '';
+        if (!primeiroLogin) {
+          user.codigo = '';
+        }
         await _repository.alterar(user);
       }
 
