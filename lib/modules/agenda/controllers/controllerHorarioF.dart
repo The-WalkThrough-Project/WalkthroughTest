@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 import 'package:walkthrough/modules/agenda/models/horario_agendado_model.dart';
 import 'package:walkthrough/modules/agenda/models/horario_fixo_model.dart';
 import 'package:walkthrough/modules/agenda/repositories/horario_fixo_repository.dart';
@@ -12,13 +13,6 @@ class HorarioController extends ChangeNotifier{
   final lab = TextEditingController();
   final diaSemana = TextEditingController();
   final _repoHorarioF = HorarioFixoRepository();
-
-  /*@override
-  void dispose() {
-    BancoHorarios.instance.close();
-    
-    super.dispose();
-  }*/
 
   void salvarHorario(
     {required VoidCallback sucesso,
@@ -68,6 +62,15 @@ class HorarioController extends ChangeNotifier{
 
   Future<List<HorarioFixo>?> getHorariosF(String lab) async {
     return await _repoHorarioF.selecionarTodosPLab(lab);
+  }
+
+  Future<String?> getAttTabelasHorarios() async{
+    return await _repoHorarioF.getAttTabelasHorarios();
+  }
+
+  Future<void> attTabelasHorarios() async{
+    String data = DateFormat('dd/MM/yyyy', 'pt_Br').format(DateTime.now());
+    await _repoHorarioF.attTabelasHorarios(data);
   }
 
 }

@@ -55,7 +55,9 @@ class _AgendaPageState extends State<AgendaPage> {
     setState(() {
       carregando = true;
     });
-    print(formatDate(DateTime.now(), [dd, ' de ', MM, ' às ', H, ':', n, ':', s], locale: PortugueseDateLocale()));
+    print(formatDate(
+        DateTime.now(), [dd, ' de ', MM, ' às ', H, ':', n, ':', s],
+        locale: const PortugueseDateLocale()));
     await Future.delayed(const Duration(seconds: 1));
     selectedHorarios = await _horariosAController.getHorariosA();
     print('selected: ' + selectedHorarios.toString());
@@ -64,13 +66,19 @@ class _AgendaPageState extends State<AgendaPage> {
       selectedHorariosValue = selectedHorarios.value;
       selectedHorariosValue?.forEach((key, value) {
         String data2 = diaSelecionado.toString().substring(0, 10);
-        value.sort((a, b) => int.parse(a.horarioInicial.substring(3, 4)).compareTo(int.parse(b.horarioInicial.substring(3, 4))));
-        value.sort((a, b) => int.parse(a.horarioInicial.substring(0, 2)).compareTo(int.parse(b.horarioInicial.substring(0, 2))));
+        value.sort((a, b) => int.parse(a.horarioInicial.substring(3, 4))
+            .compareTo(int.parse(b.horarioInicial.substring(3, 4))));
+        value.sort((a, b) => int.parse(a.horarioInicial.substring(0, 2))
+            .compareTo(int.parse(b.horarioInicial.substring(0, 2))));
         value.sort((a, b) => a.lab.compareTo(b.lab));
       });
       String hora = '', minuto = '';
-      TimeOfDay.now().hour >= 10 ? hora = TimeOfDay.now().hour.toString() : hora = '0' + TimeOfDay.now().hour.toString();
-      TimeOfDay.now().minute >= 10 ? minuto = TimeOfDay.now().minute.toString() : minuto = '0' + TimeOfDay.now().minute.toString();
+      TimeOfDay.now().hour >= 10
+          ? hora = TimeOfDay.now().hour.toString()
+          : hora = '0' + TimeOfDay.now().hour.toString();
+      TimeOfDay.now().minute >= 10
+          ? minuto = TimeOfDay.now().minute.toString()
+          : minuto = '0' + TimeOfDay.now().minute.toString();
       _horariosAController.horarioInicial.text = (hora + ':' + minuto);
       _horariosAController.horarioFinal.text = (hora + ':' + minuto);
       _horariosAController.nomeProfessor.text = widget.usuario.nome ?? '';
@@ -108,8 +116,12 @@ class _AgendaPageState extends State<AgendaPage> {
   }
 
   Future<void> _navegaEAtualiza(BuildContext context) async {
-    final bool result = await Navigator.push(context,
-        MaterialPageRoute(builder: (context) => NotificacaoPage(usuario: widget.usuario,)));
+    final bool result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => NotificacaoPage(
+                  usuario: widget.usuario,
+                )));
     result ? getHorarios() : null;
 
     if (!mounted) return;
@@ -139,48 +151,48 @@ class _AgendaPageState extends State<AgendaPage> {
                                       tamanho = snapshot.data!.length;
                                     }
                                     return IconButton(
-                                        onPressed: () {
-                                          _navegaEAtualiza(context);
-                                        },
-                                        icon: Stack(
-                                          children: [
-                                            const Icon(
-                                              Icons.notifications,
-                                              color: Colors.white,
-                                            ),
-                                            tamanho > 0
-                                                ? Positioned(
-                                                    right: 0,
-                                                    child: Container(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              1),
-                                                      decoration: BoxDecoration(
-                                                        color: Colors.red,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(6),
-                                                      ),
-                                                      constraints:
-                                                          const BoxConstraints(
-                                                        minWidth: 12,
-                                                        minHeight: 12,
-                                                      ),
-                                                      child: Text(
-                                                        '${snapshot.data?.length}',
-                                                        style: const TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 8,
-                                                        ),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                      ),
+                                      onPressed: () {
+                                        _navegaEAtualiza(context);
+                                      },
+                                      icon: Stack(
+                                        children: [
+                                          const Icon(
+                                            Icons.notifications,
+                                            color: Colors.white,
+                                          ),
+                                          tamanho > 0
+                                              ? Positioned(
+                                                  right: 0,
+                                                  child: Container(
+                                                    padding:
+                                                        const EdgeInsets.all(1),
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.red,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              6),
                                                     ),
-                                                  )
-                                                : const Padding(
-                                                    padding: EdgeInsets.all(0)),
-                                          ],
-                                        ),);
+                                                    constraints:
+                                                        const BoxConstraints(
+                                                      minWidth: 12,
+                                                      minHeight: 12,
+                                                    ),
+                                                    child: Text(
+                                                      '${snapshot.data?.length}',
+                                                      style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 8,
+                                                      ),
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                    ),
+                                                  ),
+                                                )
+                                              : const Padding(
+                                                  padding: EdgeInsets.all(0)),
+                                        ],
+                                      ),
+                                    );
                                   }),
                             ]
                           : null
@@ -248,8 +260,8 @@ class _AgendaPageState extends State<AgendaPage> {
                                             outsideDaysVisible: false,
                                             defaultTextStyle: const TextStyle(
                                                 color: Colors.deepPurple),
-                                            weekendTextStyle:
-                                                const TextStyle(color: Colors.red),
+                                            weekendTextStyle: const TextStyle(
+                                                color: Colors.red),
                                             selectedDecoration: BoxDecoration(
                                                 color: Colors.deepPurple,
                                                 shape: BoxShape.circle,
@@ -257,10 +269,11 @@ class _AgendaPageState extends State<AgendaPage> {
                                                     color: const Color.fromARGB(
                                                         255, 147, 118, 226),
                                                     width: 1.5)),
-                                            todayDecoration: const BoxDecoration(
-                                                color: Color.fromARGB(
-                                                    255, 190, 172, 221),
-                                                shape: BoxShape.circle),
+                                            todayDecoration:
+                                                const BoxDecoration(
+                                                    color: Color.fromARGB(
+                                                        255, 190, 172, 221),
+                                                    shape: BoxShape.circle),
                                           ),
                                           locale: 'pt_BR',
                                           firstDay: firstDay(hoje),
@@ -531,8 +544,8 @@ class _AgendaPageState extends State<AgendaPage> {
                               child: Container(
                                 decoration: BoxDecoration(
                                     border: Border.all(
-                                        color:
-                                            const Color.fromARGB(255, 147, 118, 226),
+                                        color: const Color.fromARGB(
+                                            255, 147, 118, 226),
                                         width: 2),
                                     borderRadius: BorderRadius.circular(200)),
                                 child: FloatingActionButton.extended(
@@ -883,8 +896,26 @@ class _AgendaPageState extends State<AgendaPage> {
                                                               ),
                                                             )) {
                                                               var horarioC = HorarioAgendado(
-                                                                  emailProfessor: widget.usuario.email ?? '',
-                                                                  horarioAgendamento: formatDate(DateTime.now(), [dd, ' de ', MM, ' às ', HH, ':', nn, ':', ss], locale: PortugueseDateLocale()),
+                                                                  emailProfessor: widget
+                                                                          .usuario
+                                                                          .email ??
+                                                                      '',
+                                                                  horarioAgendamento: formatDate(
+                                                                      DateTime
+                                                                          .now(),
+                                                                      [
+                                                                        dd,
+                                                                        ' de ',
+                                                                        MM,
+                                                                        ' às ',
+                                                                        HH,
+                                                                        ':',
+                                                                        nn,
+                                                                        ':',
+                                                                        ss
+                                                                      ],
+                                                                      locale:
+                                                                          const PortugueseDateLocale()),
                                                                   nomeProfessor:
                                                                       _horariosAController
                                                                           .nomeProfessor
@@ -906,8 +937,12 @@ class _AgendaPageState extends State<AgendaPage> {
                                                                   data: diaSelecionado
                                                                       .toString(),
                                                                   isTemp: 1);
-                                                              String? valida = _horariosAController.horarioIsValid(horarioC);
-                                                              if (valida != null) {
+                                                              String? valida =
+                                                                  _horariosAController
+                                                                      .horarioIsValid(
+                                                                          horarioC);
+                                                              if (valida !=
+                                                                  null) {
                                                                 MotionToast
                                                                     .error(
                                                                   title:
@@ -1007,7 +1042,7 @@ class _AgendaPageState extends State<AgendaPage> {
                                                                   ),
                                                                 ));
                                                                 setState(() {
-                                                                getHorarios();
+                                                                  getHorarios();
                                                                   _horariosAController
                                                                       .nomeProfessor
                                                                       .clear();
@@ -1019,7 +1054,10 @@ class _AgendaPageState extends State<AgendaPage> {
                                                                       .clear();
                                                                   dropdownValue =
                                                                       '304';
-                                                                  _horariosAController.lab.text = dropdownValue;
+                                                                  _horariosAController
+                                                                          .lab
+                                                                          .text =
+                                                                      dropdownValue;
                                                                 });
                                                               }
                                                             }
@@ -1028,7 +1066,30 @@ class _AgendaPageState extends State<AgendaPage> {
                                                           child: const Text(
                                                               'Agendar')),
                                                     ),
-                                                  )
+                                                  ),
+                                                  const Center(
+                                                    child: Text.rich(
+                                                      TextSpan(
+                                                          text:
+                                                              'Em caso de dúvida entre em contato pelo e-mail ',
+                                                          children: <
+                                                              InlineSpan>[
+                                                            TextSpan(
+                                                                text:
+                                                                    'raulivan@cefetmg.br',
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold)),
+                                                          ]),
+                                                      style: TextStyle(
+                                                          color:
+                                                              Colors.deepPurple,
+                                                          fontSize: 12),
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                    ),
+                                                  ),
                                                 ],
                                               ),
                                             ),
@@ -1092,8 +1153,6 @@ class _AgendaPageState extends State<AgendaPage> {
 
   DateTime lastDay(DateTime dateTime) {
     if (dateTime.subtract(const Duration(days: -30)).weekday == 7) {
-      print(dateTime);
-      print(DateTime.now());
       return dateTime.subtract(const Duration(days: -28));
     } else if (dateTime.subtract(const Duration(days: -30)).weekday == 6) {
       return dateTime.subtract(const Duration(days: -29));

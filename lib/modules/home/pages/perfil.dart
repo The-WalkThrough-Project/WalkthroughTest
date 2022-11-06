@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:confirm_dialog/confirm_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:motion_toast/motion_toast.dart';
@@ -115,6 +116,10 @@ class _PerfilPageState extends State<PerfilPage> {
                             Padding(
                               padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
                               child: TextFormField(
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.deny(RegExp(
+                                      '(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])'))
+                                ],
                                 focusNode: node1,
                                 controller: _controller2.nome,
                                 style:
@@ -171,6 +176,10 @@ class _PerfilPageState extends State<PerfilPage> {
                             Padding(
                               padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
                               child: TextFormField(
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.deny(RegExp(
+                                      '(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])'))
+                                ],
                                 focusNode: node2,
                                 controller: _controller2.email,
                                 style:

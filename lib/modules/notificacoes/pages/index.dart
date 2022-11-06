@@ -202,6 +202,7 @@ class _NotificacaoPageState extends State<NotificacaoPage> {
                                                                   'Desculpe, mas sua solicitação foi recusada! Entre em contato com o gerenciador responsável ou tente agendar em outro horário.',
                                                                   widget.usuario
                                                                       .nome,
+                                                                      widget.usuario.email,
                                                                   'Recusada');
                                                           _horariosAController
                                                               .excluirHorarioTemp(
@@ -295,6 +296,7 @@ class _NotificacaoPageState extends State<NotificacaoPage> {
                                                                   'Sua solicitação foi agendada no dia e horários indicados!',
                                                                   widget.usuario
                                                                       .nome,
+                                                                      widget.usuario.email,
                                                                   'Confirmada');
                                                           _horariosAController
                                                               .atualizarHorarioTemp(

@@ -19,8 +19,8 @@ class HorariosPage extends StatefulWidget {
 
 class _HorariosPageState extends State<HorariosPage> {
   String dropdownValue = 'Lab 304';
+  String? attTabelasHorarios = '';
   late List<HorarioFixo>? horarios = [];
-  //late List<HorarioFixo>? horariosOff = [];
   bool isLoading = false;
   final _controller = HorarioController();
 
@@ -35,14 +35,12 @@ class _HorariosPageState extends State<HorariosPage> {
       isLoading = true;
     });
 
+    attTabelasHorarios = await _controller.getAttTabelasHorarios();
     horarios = await _controller.getHorariosF(dropdownValue.substring(4));
-    //horariosOff = await BancoHorarios.instance.readTodosHorariosFixosLab(dropdownValue.substring(4));
     setState(() {
       horarios;
-      //horariosOff;
     });
     print(horarios.toString());
-    //print(horariosOff.toString());
 
     setState(() {
       isLoading = false;
@@ -161,12 +159,21 @@ class _HorariosPageState extends State<HorariosPage> {
                             ],
                           )
                         : null),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 9, 0, 12),
+                  child: Text(
+                    'Atualizado em: $attTabelasHorarios',
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.deepPurple),
+                    textAlign: TextAlign.center,
+                  ),
+                ),        
                 const Padding(
                   padding: EdgeInsets.fromLTRB(0, 9, 0, 12),
                   child: Text(
-                    'Clique nas tabelas para ampliá-las:',
+                    'Clique nas tabelas para ampliá-las com o gesto de pinça:',
                     style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.deepPurple),
+                        color: Colors.deepPurple),
                     textAlign: TextAlign.center,
                   ),
                 ),

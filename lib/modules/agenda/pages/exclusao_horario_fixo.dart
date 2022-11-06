@@ -223,6 +223,7 @@ class _ExcluiHFState extends State<ExcluiHF> {
                     ),
                   )) {
                     _controller.excluirHorario(sucesso: () {
+                      _controller.attTabelasHorarios();
                       Navigator.pop(context, true);
                       MotionToast.success(
                         title: const Text(

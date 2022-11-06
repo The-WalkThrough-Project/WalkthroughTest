@@ -231,6 +231,7 @@ class _CadastroHFState extends State<CadastroHF> {
                       ),
                     )) {
                       _controller.salvarHorario(sucesso: () {
+                        _controller.attTabelasHorarios();
                         Navigator.pop(context, true);
                         MotionToast.success(
                           title: const Text(

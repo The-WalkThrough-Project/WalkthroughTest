@@ -79,12 +79,7 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/images/guilherme.png
-    - assets/images/thulio.png
-    - assets/images/pedro.png
-    - assets/images/rafael.png
     - assets/images/WT.png
-    - assets/images/WT2.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

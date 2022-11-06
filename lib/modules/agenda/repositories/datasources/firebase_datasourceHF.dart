@@ -153,4 +153,20 @@ class FirebaseDataSource extends DataSourceBaseF {
   Future<Query<Map<String, dynamic>>> selecionarTodosPLab(String lab) async {
     return await _firebasefirestore.collection("horáriosFixos").where('lab', isEqualTo: lab);
   }
+  
+  @override
+  Future<String?> getAttTabelasHorarios() async{
+    var ds = await _firebasefirestore.collection('attTabelasHorarios').doc('8GmeRFSzhN4X8wqTQeeg').get();
+    if (ds.exists) {
+      return ds.data()?['data'];
+    }
+  }
+  
+  @override
+  Future<void> attTabelasHorarios(String data) async{
+    Map<String, dynamic> attTabelasHorariosF = {
+      'data': data
+    };
+    await _firebasefirestore.collection('attTabelasHorarios').doc('8GmeRFSzhN4X8wqTQeeg').update(attTabelasHorariosF);
+  }
 }

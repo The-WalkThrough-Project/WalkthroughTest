@@ -88,7 +88,7 @@ class HorariosAgendadosController extends ChangeNotifier {
     );
   }
 
-  Future<void> respostaAgendamento(HorarioAgendado horarioAgendado, String mensagem, String? gerenciador, String avaliacao) async{
+  Future<void> respostaAgendamento(HorarioAgendado horarioAgendado, String mensagem, String? nomeGerenciador, String? emailGerenciador, String avaliacao) async{
     String data = horarioAgendado.data;
     data = data.substring(0, 10);
     await
@@ -100,7 +100,9 @@ class HorariosAgendadosController extends ChangeNotifier {
       dataAgendamento: data.split('-')[2] + '/' + data.split('-')[1] + '/' + data.split('-')[0],
       horarioInicialAgendamento: horarioAgendado.horarioInicial,
       horarioFinalAgendamento: horarioAgendado.horarioFinal,
-      nomeGerenciador: gerenciador ?? '',
+      nomeGerenciador: nomeGerenciador ?? '',
+      emailGerenciador: emailGerenciador ?? '',
+
       mensagem: mensagem
     );
   }

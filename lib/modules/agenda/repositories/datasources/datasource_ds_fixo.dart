@@ -2,6 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 abstract class DataSourceBaseF{
 
+  Future<void> attTabelasHorarios(String data);
+
+  Future<String?> getAttTabelasHorarios();
+
   Future<void> incluir(Map<String, dynamic> horarioFixo);
 
   Future<void> excluir(Map<String, dynamic> horarioFixo);

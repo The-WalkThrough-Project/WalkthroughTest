@@ -49,6 +49,7 @@ class EmailProvider {
   Future enviaEmailResposta({
     required String nomeProf,
     required String nomeGerenciador,
+    required String emailGerenciador,
     required String emailProf,
     required String assunto,
     required String dataAgendamento,
@@ -74,6 +75,7 @@ class EmailProvider {
         'user_id': userId,
         'template_params': {
           'nome_gerenciador': nomeGerenciador,
+          'email_gerenciador': emailGerenciador,
           'nome_prof': nomeProf,
           'assunto': assunto,
           'email_prof': emailProf,

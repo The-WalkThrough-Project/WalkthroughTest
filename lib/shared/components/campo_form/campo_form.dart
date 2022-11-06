@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
@@ -18,6 +19,10 @@ class _CampoFormState extends State<CampoForm> {
     return Padding(
               padding: const EdgeInsets.all(5.0),
               child: TextFormField(
+                inputFormatters: [
+                FilteringTextInputFormatter.deny(RegExp(
+                    '(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])'))
+              ],
                 style: TextStyle(color: Colors.deepPurple),
                   decoration: InputDecoration(
                     floatingLabelStyle: TextStyle(color: Colors.deepPurple),

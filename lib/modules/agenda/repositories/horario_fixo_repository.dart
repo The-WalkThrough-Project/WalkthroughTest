@@ -8,6 +8,14 @@ class HorarioFixoRepository{
 
   final DataSourceBaseF? _db = FirebaseDataSource();
 
+  Future<void> attTabelasHorarios(String data) async{
+    await _db!.attTabelasHorarios(data);
+  }
+
+  Future<String?> getAttTabelasHorarios() async{
+    return await _db!.getAttTabelasHorarios();
+  }
+
   Future<bool?> existeHorario(HorarioAgendado horario, String dia) async{
     return await _db!.existeHorario(horario.toMap(), dia);
   }
