@@ -264,7 +264,12 @@ class _PerfilPageState extends State<PerfilPage> {
                                                       widget.usuario.nome ||
                                                   _controller2.email.text !=
                                                       widget.usuario.email ||
-                                                  _controller2.hasSenha) ||
+                                                  _controller2.hasSenha) &&
+                                              (_controller2.nome.text.trim() !=
+                                                      '' ||
+                                                  _controller2.email.text
+                                                          .trim() !=
+                                                      '') ||
                                           (_controller2.hasSenha)) {
                                         if (await confirm(
                                           context,
@@ -411,13 +416,16 @@ class _PerfilPageState extends State<PerfilPage> {
                                       backgroundColor: (_controller2
                                                       .nome.text.isNotEmpty ||
                                                   _controller2
-                                                      .email.text.isNotEmpty ||
-                                                  _controller2.hasSenha) &&
+                                                      .email.text.isNotEmpty) &&
                                               (_controller2.nome.text !=
                                                       widget.usuario.nome ||
                                                   _controller2.email.text !=
-                                                      widget.usuario.email ||
-                                                  _controller2.hasSenha)
+                                                      widget.usuario.email) && (_controller2.nome.text.trim() !=
+                                                      '' ||
+                                                  _controller2.email.text
+                                                          .trim() !=
+                                                      '') ||
+                                                  (_controller2.hasSenha)
                                           ? Colors.deepPurple
                                           : const Color.fromARGB(
                                               255, 166, 140, 211),

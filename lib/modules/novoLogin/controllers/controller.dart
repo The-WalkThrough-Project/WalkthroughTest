@@ -24,6 +24,8 @@ class NovoLoginController extends ChangeNotifier {
           email: email.text.trim(),
           codigo: usuario.codigo,
           id: usuario.id);
+      
+      print('[' + user.email! + ']');
 
       User? currentUser = await _firebase_auth.getCurrentUser();
       user.tipoUsuario = usuario.tipoUsuario;
@@ -31,16 +33,18 @@ class NovoLoginController extends ChangeNotifier {
       if (email.text.trim() != '') {
         await _firebase_auth.atualizarEmail(currentUser, user.email);
       } else {
-        if (!primeiroLogin) {
+        if (email.text.contains(' ')) {
+          user.isValidUser();
+        } else if (!primeiroLogin) {
           user.email = usuario.email;
-        } 
+        }
       }
 
       if (user.email != '' || user.nome != '') {
+        await _repository.alterar(user);
         if (!primeiroLogin) {
           user.codigo = '';
         }
-        await _repository.alterar(user);
       }
 
       hasSenha ? await _firebase_auth.atualizarSenha(user.email ?? '') : null;

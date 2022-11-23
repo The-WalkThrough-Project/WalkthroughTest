@@ -203,6 +203,7 @@ class FirebaseDataSourceHA extends DataSourceBaseA {
                 horarioAgendamento: e.data()['horarioAgendamento'])
             .toMap())
         .toList();
+    
   }
 
   @override
